@@ -1,4 +1,5 @@
 import { Attempt, PrismaClient, Question, Quiz } from "@prisma/client";
+import AppError from "../utils/app-errors";
 import { QuizStatus } from "../utils/types";
 
 const prisma = new PrismaClient();
@@ -80,6 +81,14 @@ const addQuestion = async (
   quizId: string,
   questionData: QuestionData
 ): Promise<Question> => {
+  const quiz = await prisma.quiz.findFirst({
+    where: { id: quizId },
+  });
+
+  if (!quiz) {
+    throw AppError.notFound("Quiz not found with quizId:" + quizId);
+  }
+
   return await prisma.question.create({
     data: {
       ...questionData,
@@ -108,21 +117,34 @@ const addBulkQuestions = async (
 };
 
 const getQuiz = async (quizId: string): Promise<Quiz | null> => {
-  return await prisma.quiz.findFirst({
+  const quiz = await prisma.quiz.findFirst({
     where: { id: quizId },
     include: { questions: true },
   });
+
+  if (!quiz) throw AppError.notFound("Quiz not found with quizId:" + quizId);
+
+  if (quiz?.questions) {
+    quiz.questions = quiz.questions.map((question) => {
+      return {
+        ...question,
+        options: JSON.parse(question.options),
+      };
+    });
+  }
+
+  return quiz;
 };
 
 interface Answer {
-  question_id: string;
+  [question_id: string]: string;
   answer: string;
 }
 
 const submitQuizAttempt = async (
   userId: string,
   quizId: string,
-  answers: Answer[]
+  answers: Answer
 ): Promise<Attempt> => {
   const quiz = await prisma.quiz.findFirst({
     where: { id: quizId },
@@ -130,7 +152,26 @@ const submitQuizAttempt = async (
   });
 
   if (!quiz) {
-    throw new Error("Quiz not found");
+    throw AppError.notFound("Quiz not found with quizId:" + quizId);
+  }
+
+  // if already attempted
+  const existingAttempt = await prisma.attempt.findFirst({
+    where: { userId, quizId },
+  });
+
+  if (existingAttempt) {
+    throw AppError.badRequest("Quiz already attempted");
+  }
+
+  const questionIds = quiz.questions.map((question) => question.id);
+  const answerIds = Object.keys(answers);
+
+  //  if invalid question id is present in answers
+  const invalidQuestion = answerIds.find((id) => !questionIds.includes(id));
+
+  if (invalidQuestion) {
+    throw AppError.badRequest("Invalid question id:" + invalidQuestion);
   }
 
   const correctAnswers = quiz?.questions.map((question) => {
@@ -144,10 +185,11 @@ const submitQuizAttempt = async (
   // answers = [{id: 1, answer: "A"}, {id: 2, answer: "B"}]
   // correctAnswers = [{id: 1, correctAnswer: "A"}, {id: 2, correctAnswer: "B"}]
 
-  const correctAndScore = answers.reduce(
-    (acc, answer) => {
-      const question = correctAnswers.find((q) => q.id === answer.question_id);
-      if (question?.correctAnswer === answer.answer) {
+  // Calculate correct answers and score
+  const correctAndScore = Object.entries(answers).reduce(
+    (acc, [question_id, answer]) => {
+      const question = correctAnswers.find((q) => q.id === question_id);
+      if (question?.correctAnswer === answer) {
         return {
           correct: acc.correct + 1,
           score: acc.score + question.marks,
@@ -174,8 +216,8 @@ const submitQuizAttempt = async (
       submittedAnswers: JSON.stringify(answers),
       correct: correctAndScore.correct,
       score: correctAndScore.score,
-      wrong: answers.length - correctAndScore.correct,
-      skipped: quiz.questions.length - answers.length,
+      wrong: Object.keys(answers).length - correctAndScore.correct,
+      skipped: quiz.questions.length - Object.keys(answers).length,
       percentage,
       completed: true,
     },
@@ -231,6 +273,7 @@ const editQuestion = async (
     data: {
       ...questionData,
       options: JSON.stringify(questionData.options),
+      updatedAt: new Date(),
     },
   });
 };

@@ -20,7 +20,7 @@ model User {
   quizzes      Quiz[]
   attempts     Attempt[]
   createdAt    DateTime  @default(now()) @map("created_at")
-  updatedAt    DateTime? @map("updated_at")
+  updatedAt    DateTime  @default(now()) @map("updated_at")
 
   @@map("users")
 }
@@ -29,46 +29,46 @@ model Quiz {
   id          String     @id @default(uuid())
   title       String
   description String
-  status      String     @default("DRAFT") // DRAFT | PUBLISHED
+  status      String     @default("draft") // DRAFT | PUBLISHED
   userId      String     @map("user_id")
   user        User       @relation(fields: [userId], references: [id])
   questions   Question[]
   attempts    Attempt[]
   createdAt   DateTime   @default(now()) @map("created_at")
-  updatedAt   DateTime?  @map("updated_at")
+  updatedAt   DateTime   @default(now()) @map("updated_at")
 
   @@map("quizzes")
 }
 
 model Question {
-  id            String    @id @default(uuid())
-  quizId        String    @map("quiz_id")
-  quiz          Quiz      @relation(fields: [quizId], references: [id])
+  id            String   @id @default(uuid())
+  quizId        String   @map("quiz_id")
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   question      String
   options       String // Store JSON as a string ["option1", "option2", "option3", "option4"]
-  correctAnswer String    @map("correct_answer")
-  marks         Int       @default(5)
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime? @map("updated_at")
+  correctAnswer String   @map("correct_answer")
+  marks         Int      @default(5)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @map("updated_at")
 
   @@map("questions")
 }
 
 model Attempt {
-  id               String    @id @default(uuid())
-  userId           String    @map("user_id")
-  user             User      @relation(fields: [userId], references: [id])
-  quizId           String    @map("quiz_id")
-  quiz             Quiz      @relation(fields: [quizId], references: [id])
-  score            Int       @default(0)
-  submittedAnswers String    @map("submitted_answers") // Store JSON as a string
-  completed        Boolean   @default(true)
-  percentage       Float     @default(0)
-  correct          Int       @default(0)
-  wrong            Int       @default(0)
-  skipped          Int       @default(0)
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime? @map("updated_at")
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  user             User     @relation(fields: [userId], references: [id])
+  quizId           String   @map("quiz_id")
+  quiz             Quiz     @relation(fields: [quizId], references: [id])
+  score            Int      @default(0)
+  submittedAnswers String   @map("submitted_answers") // Store JSON as a string
+  completed        Boolean  @default(true)
+  percentage       Float    @default(0)
+  correct          Int      @default(0)
+  wrong            Int      @default(0)
+  skipped          Int      @default(0)
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @default(now()) @map("updated_at")
 
   @@map("attempts")
 }

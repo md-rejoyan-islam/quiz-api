@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { QuestionSchema } from "../schema/question.schema";
 import { QuizSchema } from "../schema/quiz.schema";
+import { QuizStatus } from "../utils/types";
 
 /**
  * @schema List Quiz Schema
@@ -21,6 +22,9 @@ export const createQuizSchema = z.object({
   body: QuizSchema.pick({
     title: true,
     description: true,
+    status: true,
+  }).extend({
+    status: z.nativeEnum(QuizStatus).optional(),
   }),
 });
 
@@ -50,9 +54,11 @@ export const createBulkQuestionsSchema = z.object({
  * @description This schema validates the update of an existing quiz
  */
 export const updateQuizSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
-  status: z.enum(["draft", "published"]).optional(),
+  body: z.object({
+    title: z.string().min(1).optional(),
+    description: z.string().min(1).optional(),
+    status: z.enum([QuizStatus.DRAFT, QuizStatus.PUBLISHED]).optional(),
+  }),
 });
 
 /**
@@ -73,7 +79,5 @@ export const createQuestionSchema = z.object({
  * @description This schema validates the submission of quiz answers
  */
 export const submitAttemptSchema = z.object({
-  answers: z
-    .array(z.string())
-    .min(1, { message: "At least one answer is required" }),
+  body: z.object({ answers: z.record(z.string(), z.string()) }),
 });
