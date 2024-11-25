@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// user Role = "ADMIN" | "USER"
+// quiz Status = "DRAFT" | "PUBLISHED"
+
+model User {
+  id           String    @id @default(uuid())
+  fullName     String    @map("full_name")
+  email        String    @unique
+  password     String
+  role         String    @default("USER")
+  refreshToken String?   @unique @map("refresh_token")
+  quizzes      Quiz[]
+  attempts     Attempt[]
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime? @map("updated_at")
+
+  @@map("users")
+}
+
+model Quiz {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  status      String     @default("DRAFT") // DRAFT | PUBLISHED
+  userId      String     @map("user_id")
+  user        User       @relation(fields: [userId], references: [id])
+  questions   Question[]
+  attempts    Attempt[]
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime?  @map("updated_at")
+
+  @@map("quizzes")
+}
+
+model Question {
+  id            String    @id @default(uuid())
+  quizId        String    @map("quiz_id")
+  quiz          Quiz      @relation(fields: [quizId], references: [id])
+  question      String
+  options       String // Store JSON as a string ["option1", "option2", "option3", "option4"]
+  correctAnswer String    @map("correct_answer")
+  marks         Int       @default(5)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @map("updated_at")
+
+  @@map("questions")
+}
+
+model Attempt {
+  id               String    @id @default(uuid())
+  userId           String    @map("user_id")
+  user             User      @relation(fields: [userId], references: [id])
+  quizId           String    @map("quiz_id")
+  quiz             Quiz      @relation(fields: [quizId], references: [id])
+  score            Int       @default(0)
+  submittedAnswers String    @map("submitted_answers") // Store JSON as a string
+  completed        Boolean   @default(true)
+  percentage       Float     @default(0)
+  correct          Int       @default(0)
+  wrong            Int       @default(0)
+  skipped          Int       @default(0)
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime? @map("updated_at")
+
+  @@map("attempts")
+}
