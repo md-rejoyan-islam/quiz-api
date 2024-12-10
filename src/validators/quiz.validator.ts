@@ -23,6 +23,7 @@ export const createQuizSchema = z.object({
     title: true,
     description: true,
     status: true,
+    label: true,
   }).extend({
     status: z.nativeEnum(QuizStatus).optional(),
   }),
@@ -79,5 +80,5 @@ export const createQuestionSchema = z.object({
  * @description This schema validates the submission of quiz answers
  */
 export const submitAttemptSchema = z.object({
-  body: z.object({ answers: z.record(z.string(), z.string()) }),
+  body: z.object({ answers: z.array(z.record(z.string(), z.string())) }), // {answers: [{[questionId]: answer}]}
 });

@@ -8,6 +8,7 @@ interface CreateQuizData {
   title: string;
   description: string;
   status: string;
+  label: string;
 }
 
 interface QuestionData {
@@ -223,6 +224,17 @@ const submitQuizAttempt = async (
     },
   });
 };
+
+interface QuizAttemptsResponse {
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
+  data: Attempt[];
+}
+
 const getUserAttempts = async (userId: string): Promise<Attempt[]> => {
   return await prisma.attempt.findMany({
     where: { userId },
@@ -232,14 +244,29 @@ const getUserAttempts = async (userId: string): Promise<Attempt[]> => {
 const getQuizAttemptsById = async (
   quizId: string,
   queryParams: LeaderboardQuery
-): Promise<Attempt[]> => {
-  const { page = 1, limit = 10 } = queryParams;
-  return await prisma.attempt.findMany({
+): Promise<QuizAttemptsResponse> => {
+  const { page, limit } = queryParams;
+
+  const attempts = await prisma.attempt.findMany({
     where: { quizId },
     skip: (page - 1) * limit,
     take: limit,
     include: { user: true },
   });
+
+  const pagination = {
+    page,
+    limit,
+    totalPage: Math.ceil(
+      (await prisma.attempt.count({ where: { quizId } })) / limit
+    ),
+    total: await prisma.attempt.count({ where: { quizId } }),
+  };
+
+  return {
+    pagination,
+    data: attempts,
+  };
 };
 
 const getQuizLeaderboardById = async (
@@ -247,6 +274,9 @@ const getQuizLeaderboardById = async (
   queryParams: LeaderboardQuery
 ): Promise<Attempt[]> => {
   const { page = 1, limit = 10 } = queryParams;
+
+  console.log(page, limit);
+
   return await prisma.attempt.findMany({
     where: { quizId },
     skip: (page - 1) * limit,

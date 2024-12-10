@@ -16,3 +16,8 @@ export enum QuizStatus {
   DRAFT = "draft",
   PUBLISHED = "published",
 }
+export enum QuizLabel {
+  EASY = "easy",
+  HARD = "hard",
+  MEDIUM = "medium",
+}

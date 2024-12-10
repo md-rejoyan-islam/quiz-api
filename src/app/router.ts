@@ -34,7 +34,7 @@ router.get(
 // API routes
 router.use("/api/v1/auth", authRouter);
 router.use("/api/v1/quizzes", quizRouter);
-router.use("/api/v1/admin", adminQuizRouter);
+router.use("/api/v1/admin/quizzes", adminQuizRouter);
 
 // 404 route
 router.all(

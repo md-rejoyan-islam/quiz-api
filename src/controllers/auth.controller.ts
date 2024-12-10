@@ -71,8 +71,6 @@ const refreshToken = asyncHandler(async (req: Request, res: Response) => {
  */
 
 const logout = asyncHandler(async (req: RequestWithUser, res: Response) => {
-  console.log(req.user);
-
   await authService.logout(req.user?.id as string);
 
   successResponse(res, {

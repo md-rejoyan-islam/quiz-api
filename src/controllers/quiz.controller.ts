@@ -229,8 +229,8 @@ interface QuizAttemptQuery {
 const getQuizAttemptsByQuizId = asyncHandler(
   async (req: Request, res: Response) => {
     const result = await quizService.getQuizAttemptsById(req.params.quizId, {
-      page: parseInt(req.query.page as string, 10),
-      limit: parseInt(req.query.limit as string, 10),
+      page: parseInt(req.query?.page ? (req.query.page as string) : "1"),
+      limit: parseInt(req.query.limit ? (req.query.limit as string) : "10"),
     } as QuizAttemptQuery);
     successResponse(res, {
       statusCode: 200,
@@ -259,8 +259,8 @@ interface LeaderboardQuery {
 const getQuizLeaderboardByQuizId = asyncHandler(
   async (req: Request, res: Response) => {
     const result = await quizService.getQuizLeaderboardById(req.params.quizId, {
-      page: parseInt(req.query.page as string, 10),
-      limit: parseInt(req.query.limit as string, 10),
+      page: parseInt(req.query.page as string) || 1,
+      limit: parseInt(req.query.limit as string) || 10,
     } as LeaderboardQuery);
     successResponse(res, {
       statusCode: 200,

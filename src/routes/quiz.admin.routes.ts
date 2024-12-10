@@ -18,42 +18,38 @@ adminQuizRouter.use(verify.isLoggedIn);
 
 // Admin routes
 adminQuizRouter.get(
-  "/quizzes",
+  "/",
   authorize([UserRole.ADMIN]),
   quizController.listQuizzesForAdmin
 );
 
 adminQuizRouter.post(
-  "/quizzes",
+  "/",
   [validate(createQuizSchema)],
   quizController.createQuiz
 );
 
 adminQuizRouter.patch(
-  "/quizzes/:id",
+  "/:id",
   [verifyQuizOwnership, validate(updateQuizSchema)],
   quizController.updateQuiz
 );
 
-adminQuizRouter.delete("/quizzes/:quizId", quizController.deleteQuizSet);
+adminQuizRouter.delete("/:quizId", quizController.deleteQuizSet);
 
 adminQuizRouter.post(
-  "/quizzes/:quizId/questions",
+  "/:quizId/questions",
   [validate(createQuestionSchema)],
   quizController.addQuestion
 );
 
 adminQuizRouter.post(
-  "/quizzes/:quizId/questions/bulk",
+  "/:quizId/questions/bulk",
   [validate(createBulkQuestionsSchema)],
   quizController.addBulkQuestions
 );
 
-adminQuizRouter.delete(
-  "/questions/:questionId",
-
-  quizController.deleteQuestion
-);
+adminQuizRouter.delete("/questions/:questionId", quizController.deleteQuestion);
 
 adminQuizRouter.patch("/questions/:questionId", quizController.editQuestion);
 

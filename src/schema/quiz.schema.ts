@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { QuizStatus } from "../utils/types";
+import { QuizLabel, QuizStatus } from "../utils/types";
 import { AttemptSchema } from "./attempt.schema";
 import { QuestionSchema } from "./question.schema";
 import { UserSchema } from "./user.schema";
@@ -16,6 +16,7 @@ export const QuizSchema = z.object({
     .string({ required_error: "Description is required" })
     .min(1, { message: "Description cannot be empty" }),
   status: z.nativeEnum(QuizStatus),
+  label: z.nativeEnum(QuizLabel),
   userId: z
     .string({ required_error: "User ID is required" })
     .min(1, { message: "User ID cannot be empty" }),

@@ -30,8 +30,9 @@ model Quiz {
   title       String
   description String
   status      String     @default("draft") // DRAFT | PUBLISHED
+  label       String // easy, medium, hard
   userId      String     @map("user_id")
-  user        User       @relation(fields: [userId], references: [id])
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   questions   Question[]
   attempts    Attempt[]
   createdAt   DateTime   @default(now()) @map("created_at")
@@ -57,9 +58,9 @@ model Question {
 model Attempt {
   id               String   @id @default(uuid())
   userId           String   @map("user_id")
-  user             User     @relation(fields: [userId], references: [id])
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   quizId           String   @map("quiz_id")
-  quiz             Quiz     @relation(fields: [quizId], references: [id])
+  quiz             Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   score            Int      @default(0)
   submittedAnswers String   @map("submitted_answers") // Store JSON as a string
   completed        Boolean  @default(true)
