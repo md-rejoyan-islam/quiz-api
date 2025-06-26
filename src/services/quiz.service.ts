@@ -1,6 +1,6 @@
-import { Attempt, PrismaClient, Question, Quiz } from "@prisma/client";
-import AppError from "../utils/app-errors";
-import { QuizStatus } from "../utils/types";
+import { PrismaClient, QUIZ_LABEL, QUIZ_STATUS } from "@prisma/client";
+import createError from "http-errors";
+import { QUIZ_SET } from "../types";
 
 const prisma = new PrismaClient();
 
@@ -29,101 +29,48 @@ interface LeaderboardQuery {
   limit: number;
 }
 
-const listQuizzes = async ({
-  search,
-}: {
-  search?: string;
-}): Promise<Quiz[]> => {
-  return await prisma.quiz.findMany({
-    where: {
-      status: QuizStatus.PUBLISHED,
-      ...(search && { title: { contains: search } }),
-    },
-    include: {
-      questions: true,
-    },
-  });
-};
-
-const listQuizSetForAdmin = async (id: string): Promise<Quiz[]> => {
-  return await prisma.quiz.findMany({
-    where: {
-      userId: id,
-    },
-    include: {
-      questions: true,
-    },
-  });
-};
-
-const createQuiz = async (
-  quizData: CreateQuizData,
-  userId: string
-): Promise<Quiz> => {
-  return await prisma.quiz.create({
+// create quiz
+const createQuizSet = async (
+  payload: Pick<
+    QUIZ_SET,
+    "title" | "description" | "status" | "label" | "tags" | "userId"
+  >
+) => {
+  return await prisma.quizSet.create({
     data: {
-      ...quizData,
-      userId,
+      ...payload,
+      tags: JSON.stringify(payload.tags),
+      status:
+        QUIZ_STATUS[payload.status.toUpperCase() as keyof typeof QUIZ_STATUS],
+      label: QUIZ_LABEL[payload.label.toUpperCase() as keyof typeof QUIZ_LABEL],
     },
   });
 };
 
-const updateQuiz = async (
-  quizId: string,
-  quizData: CreateQuizData
-): Promise<Quiz> => {
-  return await prisma.quiz.update({
-    where: { id: quizId },
-    data: quizData,
-  });
-};
-
-const addQuestion = async (
-  quizId: string,
-  questionData: QuestionData
-): Promise<Question> => {
-  const quiz = await prisma.quiz.findFirst({
-    where: { id: quizId },
-  });
-
-  if (!quiz) {
-    throw AppError.notFound("Quiz not found with quizId:" + quizId);
+// get all quizzes
+const getAllQuizSet = async () => {
+  const quizSets = await prisma.quizSet.findMany();
+  if (!quizSets || quizSets.length === 0) {
+    throw createError.NotFound("No quiz sets found");
   }
-
-  return await prisma.question.create({
-    data: {
-      ...questionData,
-      quizId,
-      options: JSON.stringify(questionData.options),
-    },
+  return quizSets.map((quizSet) => {
+    return {
+      ...quizSet,
+      tags: JSON.parse(quizSet.tags),
+    };
   });
 };
 
-const addBulkQuestions = async (
-  quizId: string,
-  questionsData: QuestionData[]
-): Promise<Question[]> => {
-  const createdQuestions: Question[] = [];
-  for (const data of questionsData) {
-    const createdQuestion = await prisma.question.create({
-      data: {
-        ...data,
-        quizId,
-        options: JSON.stringify(data.options),
-      },
-    });
-    createdQuestions.push(createdQuestion);
-  }
-  return createdQuestions;
-};
-
-const getQuiz = async (quizId: string): Promise<Quiz | null> => {
-  const quiz = await prisma.quiz.findFirst({
+// get quiz by ID
+const getQuizSetById = async (quizId: string) => {
+  const quiz = await prisma.quizSet.findFirst({
     where: { id: quizId },
     include: { questions: true },
   });
 
-  if (!quiz) throw AppError.notFound("Quiz not found with quizId:" + quizId);
+  if (!quiz) {
+    throw createError.NotFound("Quiz not found with quizId:" + quizId);
+  }
 
   if (quiz?.questions) {
     quiz.questions = quiz.questions.map((question) => {
@@ -137,196 +84,172 @@ const getQuiz = async (quizId: string): Promise<Quiz | null> => {
   return quiz;
 };
 
-interface Answer {
-  [question_id: string]: string;
-  answer: string;
-}
+// update quiz set by Id
+const updateQuizSetById = async (
+  quizId: string,
+  quizData: Pick<
+    QUIZ_SET,
+    "title" | "description" | "status" | "label" | "tags"
+  >
+) => {
+  const quizSet = await prisma.quizSet.update({
+    where: { id: quizId },
+    data: {
+      ...quizData,
+      tags: JSON.stringify(quizData.tags),
+      status:
+        QUIZ_STATUS[quizData.status.toUpperCase() as keyof typeof QUIZ_STATUS],
+      label:
+        QUIZ_LABEL[quizData.label.toUpperCase() as keyof typeof QUIZ_LABEL],
+    },
+  });
+  if (!quizSet) {
+    throw createError.NotFound("Quiz not found with quizId:" + quizId);
+  }
+  return {
+    ...quizSet,
+    tags: JSON.parse(quizSet.tags),
+  };
+};
 
-const submitQuizAttempt = async (
+// delete quiz set by Id
+const deleteQuizSetById = async (quizId: string) => {
+  const quiz = await prisma.quizSet.delete({
+    where: { id: quizId },
+  });
+  if (!quiz) {
+    throw createError.NotFound("Quiz not found with quizId:" + quizId);
+  }
+  return quiz;
+};
+
+// publish quiz set by Id
+const publishQuizSetById = async (quizId: string) => {
+  const quiz = await prisma.quizSet.update({
+    where: { id: quizId },
+    data: {
+      status: QUIZ_STATUS.PUBLISHED,
+    },
+  });
+  if (!quiz) {
+    throw createError.NotFound("Quiz not found with quizId:" + quizId);
+  }
+  return quiz;
+};
+
+// attempt quiz set by Id
+const attemptQuizSetById = async (
   userId: string,
   quizId: string,
-  answers: Answer
-): Promise<Attempt> => {
-  const quiz = await prisma.quiz.findFirst({
+  answers: { [questionId: string]: number[] }
+) => {
+  const quiz = await prisma.quizSet.findFirst({
     where: { id: quizId },
     include: { questions: true },
   });
 
   if (!quiz) {
-    throw AppError.notFound("Quiz not found with quizId:" + quizId);
+    throw createError.NotFound("Quiz not found with quizId:" + quizId);
   }
 
   // if already attempted
   const existingAttempt = await prisma.attempt.findFirst({
-    where: { userId, quizId },
+    where: { userId, quizSetId: quizId },
   });
 
   if (existingAttempt) {
-    throw AppError.badRequest("Quiz already attempted");
+    throw createError.BadRequest("Quiz already attempted");
   }
 
-  const questionIds = quiz.questions.map((question) => question.id);
-  const answerIds = Object.keys(answers);
-
-  //  if invalid question id is present in answers
-  const invalidQuestion = answerIds.find((id) => !questionIds.includes(id));
-
-  if (invalidQuestion) {
-    throw AppError.badRequest("Invalid question id:" + invalidQuestion);
+  // throw error for invalid questions
+  const invalidQuestions = Object.keys(answers).filter(
+    (id) => !quiz.questions.some((q) => q.id === id)
+  );
+  if (invalidQuestions.length) {
+    throw createError.BadRequest(
+      "Invalid question ids: " + invalidQuestions.join(", ")
+    );
   }
 
-  const correctAnswers = quiz?.questions.map((question) => {
-    return {
-      id: question.id,
-      correctAnswer: question.correctAnswer,
-      marks: question.marks,
-    };
+  // calculate marks array
+  const markResults = Object.entries(answers).map(([questionId, answer]) => {
+    const question = quiz.questions.find((q) => q.id === questionId);
+    if (!question) {
+      throw createError.BadRequest("Invalid question id: " + questionId);
+    }
+    const correctAnswer = JSON.parse(question.answerIndices) as number[];
+    let isCorrect = false;
+    if (correctAnswer.length !== answer.length) {
+      isCorrect = false;
+    } else {
+      isCorrect = correctAnswer.every((index) => answer.includes(index));
+    }
+
+    return isCorrect ? question.mark : 0;
   });
 
-  // answers = [{id: 1, answer: "A"}, {id: 2, answer: "B"}]
-  // correctAnswers = [{id: 1, correctAnswer: "A"}, {id: 2, correctAnswer: "B"}]
-
-  // Calculate correct answers and score
-  const correctAndScore = Object.entries(answers).reduce(
-    (acc, [question_id, answer]) => {
-      const question = correctAnswers.find((q) => q.id === question_id);
-      if (question?.correctAnswer === answer) {
-        return {
-          correct: acc.correct + 1,
-          score: acc.score + question.marks,
-        };
-      }
-      return acc;
-    },
-    {
-      correct: 0,
-      score: 0,
-    }
-  );
-
-  const totalMarks = quiz.questions.reduce((acc, question) => {
-    return acc + question.marks;
-  }, 0);
-
-  const percentage = (correctAndScore.score / totalMarks) * 100;
+  const totalQuestions = quiz.questions.length;
+  const correct = markResults.filter((mark) => mark > 0).length;
+  const score = markResults.reduce((acc, mark) => acc + mark, 0);
+  const wrong = totalQuestions - correct;
+  const skipped = totalQuestions - markResults.length;
 
   return await prisma.attempt.create({
     data: {
       userId,
-      quizId,
+      correct,
+      score,
+      wrong,
+      skipped,
+      quizSetId: quizId,
       submittedAnswers: JSON.stringify(answers),
-      correct: correctAndScore.correct,
-      score: correctAndScore.score,
-      wrong: Object.keys(answers).length - correctAndScore.correct,
-      skipped: quiz.questions.length - Object.keys(answers).length,
-      percentage,
-      completed: true,
     },
   });
 };
 
-interface QuizAttemptsResponse {
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPage: number;
-  };
-  data: Attempt[];
-}
-
-const getUserAttempts = async (userId: string): Promise<Attempt[]> => {
-  return await prisma.attempt.findMany({
-    where: { userId },
-    include: { quiz: true },
-  });
-};
-const getQuizAttemptsById = async (
+// rate quiz set by Id
+const rateQuizSetById = async (
   quizId: string,
-  queryParams: LeaderboardQuery
-): Promise<QuizAttemptsResponse> => {
-  const { page, limit } = queryParams;
-
-  const attempts = await prisma.attempt.findMany({
-    where: { quizId },
-    skip: (page - 1) * limit,
-    take: limit,
-    include: { user: true },
-  });
-
-  const pagination = {
-    page,
-    limit,
-    totalPage: Math.ceil(
-      (await prisma.attempt.count({ where: { quizId } })) / limit
-    ),
-    total: await prisma.attempt.count({ where: { quizId } }),
-  };
-
-  return {
-    pagination,
-    data: attempts,
-  };
-};
-
-const getQuizLeaderboardById = async (
-  quizId: string,
-  queryParams: LeaderboardQuery
-): Promise<Attempt[]> => {
-  const { page = 1, limit = 10 } = queryParams;
-
-  console.log(page, limit);
-
-  return await prisma.attempt.findMany({
-    where: { quizId },
-    skip: (page - 1) * limit,
-    take: limit,
-    include: { user: true },
-    orderBy: { percentage: "desc" },
-  });
-};
-
-const deleteQuestion = async (questionId: string): Promise<Question | null> => {
-  return await prisma.question.delete({
+  userId: string,
+  rating: number
+) => {
+  const quizRating = await prisma.quizSetRating.upsert({
     where: {
-      id: questionId,
+      userId_quizSetId: {
+        userId,
+        quizSetId: quizId,
+      },
+    },
+    update: { rating },
+    create: {
+      quizSetId: quizId,
+      userId,
+      rating,
     },
   });
+  return quizRating;
 };
 
-const editQuestion = async (
-  questionId: string,
-  questionData: QuestionData
-): Promise<Question> => {
-  return await prisma.question.update({
-    where: { id: questionId },
-    data: {
-      ...questionData,
-      options: JSON.stringify(questionData.options),
-      updatedAt: new Date(),
-    },
+// getQuizAttemptsByQuizId
+const getQuizAttemptsByQuizId = async (quizId: string) => {
+  const attempts = await prisma.attempt.findMany({
+    where: { quizSetId: quizId },
+    include: { user: true },
   });
-};
-
-const deleteQuizSet = async (quizId: string): Promise<Quiz | null> => {
-  return await prisma.quiz.delete({
-    where: { id: quizId },
-  });
+  if (!attempts || attempts.length === 0) {
+    throw createError.NotFound("No attempts found for quiz with ID: " + quizId);
+  }
+  return attempts;
 };
 
 export default {
-  listQuizzes,
-  listQuizSetForAdmin,
-  createQuiz,
-  updateQuiz,
-  addQuestion,
-  addBulkQuestions,
-  getQuiz,
-  submitQuizAttempt,
-  getUserAttempts,
-  getQuizLeaderboardById,
-  getQuizAttemptsById,
-  deleteQuestion,
-  editQuestion,
-  deleteQuizSet,
+  getAllQuizSet,
+  publishQuizSetById,
+  createQuizSet,
+  updateQuizSetById,
+  getQuizSetById,
+  deleteQuizSetById,
+  attemptQuizSetById,
+  rateQuizSetById,
+  getQuizAttemptsByQuizId,
 };

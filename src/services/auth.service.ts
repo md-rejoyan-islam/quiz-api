@@ -1,35 +1,34 @@
+import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import createError from "http-errors";
 import { StatusCodes } from "http-status-codes";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import secret from "../app/secret";
 import prisma from "../config/prisma";
 import AppError from "../utils/app-errors";
-import { generateTokens } from "../utils/jwt"; // JWT generation utility
+import { generateTokens } from "../utils/jwt"; // JWT generation utilityules/./index.d
 
 /**
- * Registers a new user
- *
- * @param {registerSchema} userData - Data containing the user's email, password, and full name.
- * @returns  User object without password.
- * @throws {AppError} If the email is already registered.
+ * @description                      Registers a new user in the system.
+ * @param {registerSchema} payload - Data containing the user's email, password, and full name.
+ * @returns                          User object without password.
+ * @throws {ConfictError}            If the email is already registered.
  */
-const register = async (userData: {
-  email: string;
-  password: string;
-  fullName: string;
-}) => {
+const register = async (
+  payload: Pick<User, "email" | "password" | "fullName">
+) => {
   const existingUser = await prisma.user.findUnique({
-    where: { email: userData.email },
+    where: { email: payload.email },
   });
 
   if (existingUser) {
-    throw new AppError("Email already registered", StatusCodes.CONFLICT);
+    throw createError.Conflict("Email is already registered.");
   }
 
-  const hashedPassword = await bcrypt.hash(userData.password, 10);
+  const hashedPassword = await bcrypt.hash(payload.password, 10);
   const user = await prisma.user.create({
     data: {
-      ...userData,
+      ...payload,
       password: hashedPassword,
     },
   });
@@ -39,96 +38,76 @@ const register = async (userData: {
 };
 
 /**
- * Logs in a user and generates JWT tokens
+ * @method                    POST
+ * @route                     /auth/login
+ * @description               Logs in a user and generates JWT tokens.
+ * @param {Object} payload -  Contains email and password for authentication.
+ * @returns                   Object containing user data (without password) and tokens.
+ * @throws {UnthorizedError}  If email or password is invalid.
  *
- * @param {Object} credentials - Contains email and password for authentication.
- * @returns  Object containing user data (without password) and tokens.
- * @throws {AppError} If email or password is invalid.
  */
-const login = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
+const login = async (payload: Pick<User, "email" | "password">) => {
+  const { email, password } = payload;
   const user = await prisma.user.findUnique({
     where: { email },
   });
 
   if (!user) {
-    throw new AppError("Invalid email or password", StatusCodes.UNAUTHORIZED);
+    throw createError.Unauthorized("Invalid email or password");
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
-    throw new AppError("Invalid email or password", StatusCodes.UNAUTHORIZED);
+    throw createError.Unauthorized("Invalid email or password");
   }
 
-  const tokens = generateTokens(user);
+  const { accessToken, refreshToken } = generateTokens(user);
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { refreshToken: tokens.refreshToken },
-  });
-
-  const { password: _, ...userWithoutPassword } = user;
+  const { password: _, createdAt, updatedAt, ...userWithoutPassword } = user;
 
   return {
     user: userWithoutPassword,
-    tokens,
+    accessToken,
+    refreshToken,
   };
 };
 
 /**
- * Refreshes access token using the refresh token
- *
- * @param {string} token - Refresh token for generating new access tokens.
+ * @method POST
+ * @route /auth/refresh-token
+ * @description Refreshes access token using the refresh token.
+ * @param {string} refreshToken - Refresh token for generating new access tokens.
  * @returns  New JWT tokens (accessToken and refreshToken).
- * @throws {AppError} If refresh token is invalid.
  */
-const refreshToken = async ({
-  refreshToken,
-  id,
-}: {
-  refreshToken: string;
-  id: string;
-}) => {
-  const user = await prisma.user.findUnique({
-    where: { id },
-  });
-
-  if (!user || user.refreshToken !== refreshToken) {
-    throw new AppError("Invalid refresh token", StatusCodes.UNAUTHORIZED);
-  }
-
-  // validate refresh token
-  const decoded = await jwt.verify(
+const refreshToken = async (refreshToken: string) => {
+  const decoded = jwt.verify(
     refreshToken,
     secret.jwt.refreshTokenSecret as string
-  );
+  ) as JwtPayload as { id: string; email: string; role: User["role"] };
 
   if (!decoded) {
     throw new AppError("Invalid refresh token", StatusCodes.UNAUTHORIZED);
   }
 
-  const tokens = generateTokens(user);
+  const { email, role, id } = decoded;
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { refreshToken: tokens.refreshToken },
+  const user = await prisma.user.findUnique({
+    where: { id },
   });
 
-  return tokens;
+  if (!user) {
+    throw createError.Unauthorized("User not found");
+  }
+
+  const { accessToken } = generateTokens({ id, email, role });
+
+  return accessToken;
 };
 
 /**
- * Logs out a user and invalidates the refresh token
- *
- * @param {string} refreshToken - Refresh token to be invalidated
+ * @description User logout
+ * @param {string} userId - Refresh token to be invalidated
  * @returns Object Success message
- * @throws {AppError} If refresh token is invalid
- *
  */
 
 const logout = async (userId: string) => {

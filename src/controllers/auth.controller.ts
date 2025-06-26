@@ -10,10 +10,12 @@ import { RequestWithUser } from "../utils/types";
  * @description        Registers a new user
  * @body               { email: string, password: string, fullName: string, role?: string }
  * @returns {Object}   user object without password
- * @throws {AppError}  If email already exists
+ * @throws {ConfictError} If the email is already registered.
  */
 const register = asyncHandler(async (req: Request, res: Response) => {
-  const user = await authService.register(req.body);
+  const { email, password, fullName } = req.body;
+
+  const user = await authService.register({ email, password, fullName });
   successResponse(res, {
     statusCode: 201,
     message: "User registered successfully",
@@ -29,10 +31,11 @@ const register = asyncHandler(async (req: Request, res: Response) => {
  * @description        Logs in a user and generates JWT tokens
  * @body               { email: string, password: string }
  * @returns {Object}   Object containing user data (without password) and tokens
- * @throws {AppError}  If email or password is invalid
+ * @throws {UnthorizedError}  If email or password is invalid.
  */
 const login = asyncHandler(async (req: Request, res: Response) => {
-  const result = await authService.login(req.body);
+  const { email, password } = req.body;
+  const result = await authService.login({ email, password });
 
   successResponse(res, {
     statusCode: 200,
@@ -52,12 +55,15 @@ const login = asyncHandler(async (req: Request, res: Response) => {
  * @throws {AppError}   If refresh token is invalid
  */
 const refreshToken = asyncHandler(async (req: Request, res: Response) => {
-  const tokens = await authService.refreshToken(req.body);
+  const { refreshToken } = req.body;
+  const acccessToken = await authService.refreshToken(refreshToken);
   successResponse(res, {
     statusCode: 200,
     message: "Token refreshed successfully",
     payload: {
-      data: tokens,
+      data: {
+        acccessToken,
+      },
     },
   });
 });
@@ -67,11 +73,10 @@ const refreshToken = asyncHandler(async (req: Request, res: Response) => {
  * @route /auth/logout
  * @description Logs out a user and invalidates the refresh token
  * @returns {Object} Success message
- * @throws {AppError} If refresh token is invalid
  */
 
 const logout = asyncHandler(async (req: RequestWithUser, res: Response) => {
-  await authService.logout(req.user?.id as string);
+  await authService.logout(req.user?.id!);
 
   successResponse(res, {
     statusCode: 200,
@@ -84,7 +89,6 @@ const logout = asyncHandler(async (req: RequestWithUser, res: Response) => {
  * @route /auth/me
  * @description Fetches the user details
  * @returns {Object} User details
- * @throws {AppError} If user is not found
  * @access Private
  * @param {RequestWithUser} req - Request object containing user data
  * @param {Response} res - Response object to send the response

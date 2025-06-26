@@ -7,7 +7,7 @@ export default {
   jwt: {
     accessTokenSecret: process.env.JWT_ACCESS_SECRET,
     refreshTokenSecret: process.env.JWT_REFRESH_SECRET,
-    accessTokenExpiry: process.env.JWT_ACCESS_EXPIRY || "15m",
-    refreshTokenExpiry: process.env.JWT_REFRESH_EXPIRY || "7d",
+    accessTokenExpiresIn: +process.env.JWT_ACCESS_EXPIRES_IN!,
+    refreshTokenExpiresIn: +process.env.JWT_REFRESH_EXPIRES_IN!,
   },
 };

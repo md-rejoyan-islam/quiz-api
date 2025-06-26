@@ -31,7 +31,6 @@ const loginSchema = z.object({
 const refreshTokenSchema = z.object({
   body: UserSchema.pick({
     refreshToken: true,
-    id: true,
   }),
 });
 

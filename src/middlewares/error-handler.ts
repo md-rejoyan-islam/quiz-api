@@ -1,135 +1,126 @@
+import { Prisma } from "@prisma/client";
+import { ErrorRequestHandler } from "express";
 import {
-  PrismaClientKnownRequestError,
-  PrismaClientValidationError,
-} from "@prisma/client/runtime/library";
-import { NextFunction, Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { ZodError, ZodIssue } from "zod";
-import AppError from "../utils/app-errors";
+  BadRequest,
+  Conflict,
+  InternalServerError,
+  isHttpError,
+  NotFound,
+} from "http-errors";
+import { ZodError } from "zod";
 
-/**
- * Handle Zod validation errors
- * @param err - The Zod error object
- * @returns {AppError} - Custom error object for Zod validation errors
- */
-const handleZodError = (err: ZodError): AppError => {
-  const issues = err.issues.map((issue: ZodIssue) => ({
-    path: issue.path.join("."),
-    message: issue.message,
-  }));
-  return AppError.badRequest("Validation error", { errors: issues });
-};
+interface IErrorResponse {
+  success: boolean;
+  message: string;
+  errors: { path: string | number; message: string }[];
+  stack?: string;
+}
 
-/**
- * Handle JWT errors
- */
-const handleJWTError = (): AppError =>
-  AppError.unauthorized("Invalid token. Please log in again!");
+const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
+  let statusCode: number = InternalServerError().statusCode;
+  let message = "Something went wrong!";
+  let errors: { path: string | number; message: string }[] = [];
 
-/**
- * Handle expired JWT token errors
- */
-const handleJWTExpiredError = (): AppError =>
-  AppError.unauthorized("Your token has expired! Please log in again.");
-
-/**
- * Handle Prisma unique constraint errors
- */
-const handlePrismaUniqueConstraintError = (
-  err: PrismaClientKnownRequestError
-): AppError => {
-  const message = `Duplicate field value: ${err.meta?.target}. Please use another value!`;
-  return AppError.conflict(message);
-};
-
-/**
- * Handle Prisma validation errors
- */
-const handlePrismaValidationError = (
-  err: PrismaClientValidationError
-): AppError => {
-  const message = err.message;
-  return AppError.badRequest(`Invalid input: ${message}`);
-};
-
-/**
- * Send error response in development environment
- */
-const sendErrorDev = (err: any, res: Response): void => {
-  res.status(err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({
-    status: err.status || "error",
-    message: err.message || "An error occurred",
-    stack: err.stack || null,
-    error: {
-      name: err.name || "Error",
-      ...err, // Spread to include enumerable properties
-      errors: err.errors || undefined, // Explicitly include errors (e.g., for ZodError)
-    },
-  });
-};
-
-/**
- * Send error response in production environment
- */
-const sendErrorProd = (err: any, res: Response): void => {
-  if (err.isOperational) {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
-      errors: err.details?.errors || undefined,
-    });
-  } else {
-    console.error("ERROR 💥", err);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: "error",
-      message: "Something went wrong!",
-      errors: err.details?.errors || undefined,
-    });
+  // jwt error
+  // json web token errors
+  if (error.name === "JsonWebTokenError") {
+    statusCode = BadRequest().statusCode;
+    error.message = "Invalid token. Please log in again!";
+    errors = [{ path: "", message: "Invalid token. Please log in again!" }];
   }
-};
+  // 2. Handle JWT expired errors
+  if (error.name === "TokenExpiredError") {
+    statusCode = BadRequest().statusCode;
+    error.message = "Your token has expired! Please log in again.";
+    errors = [
+      { path: "", message: "Your token has expired! Please log in again." },
+    ];
+  }
 
-/**
- * Main error handler middleware
- */
-const errorHandler = (
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
-  err.statusCode = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
-  err.status = err.status || "error";
+  // end jwt error
 
-  let error = err; // Avoid shallow copies to preserve original structure
+  // 1. Handle Zod validation errors
+  if (error instanceof ZodError) {
+    statusCode = BadRequest().statusCode;
+    message = "Validation Error";
+    errors = error.issues.map((issue) => ({
+      path: issue.path.join("."),
+      message: issue.message,
+    }));
+  }
 
-  // Handle specific errors
-  if (error.name === "JsonWebTokenError") error = handleJWTError();
-  if (error.name === "TokenExpiredError") error = handleJWTExpiredError();
-  if (
-    error instanceof PrismaClientKnownRequestError &&
+  // 2. Handle Prisma unique constraint errors
+  else if (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
     error.code === "P2002"
   ) {
-    error = handlePrismaUniqueConstraintError(error);
-  }
-  if (
-    error instanceof PrismaClientKnownRequestError &&
-    error.code === "P2025" // Not Found Error Code for Prisma
+    statusCode = Conflict().statusCode;
+    message = "Duplicate field value";
+    errors = [
+      {
+        path: Array.isArray(error.meta?.target)
+          ? (error.meta?.target as string[]).join(", ")
+          : typeof error.meta?.target === "string"
+          ? error.meta?.target
+          : "",
+        message: `Duplicate field value: ${error.meta?.target}. Please use another value!`,
+      },
+    ];
+  } else if (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === "P2025"
   ) {
-    error = AppError.notFound("Resource not found.");
-  }
-  if (error instanceof PrismaClientValidationError) {
-    error = handlePrismaValidationError(error);
-  }
-  if (error instanceof ZodError) {
-    error = handleZodError(error);
+    statusCode = NotFound().statusCode;
+    message = "Record not found";
+    errors = [{ path: "", message: "The requested record does not exist." }];
   }
 
-  // Send appropriate response based on environment
-  if (process.env.NODE_ENV === "development") {
-    sendErrorDev(error, res);
-  } else {
-    sendErrorProd(error, res);
+  // 2. Handle Prisma validation errors
+  else if (error instanceof Prisma.PrismaClientValidationError) {
+    statusCode = BadRequest().statusCode;
+    message = "Invalid input";
+    errors = [{ path: "", message: error.message }];
   }
+
+  // 2. Handle Prisma client errors
+  else if (error instanceof Prisma.PrismaClientInitializationError) {
+    statusCode = InternalServerError().statusCode;
+    message = "Database connection failed";
+    errors = [{ path: "", message: "Failed to connect to the database." }];
+  }
+  // 2. Handle Prisma client errors
+  else if (error instanceof Prisma.PrismaClientRustPanicError) {
+    statusCode = InternalServerError().statusCode;
+    message = "Database operation failed";
+    errors = [
+      { path: "", message: "A database operation failed unexpectedly." },
+    ];
+  }
+
+  // 3. Handle errors from the http-errors library
+  else if (isHttpError(error)) {
+    statusCode = error.statusCode;
+    message = error.message;
+    errors = error.message ? [{ path: "", message: error.message }] : [];
+  }
+  // 4. Handle generic Error
+  else if (error instanceof Error) {
+    message = error.message;
+    errors = error.message ? [{ path: "", message: error.message }] : [];
+  }
+
+  const response: IErrorResponse = {
+    success: false,
+    message,
+    errors,
+  };
+
+  // In development, include the stack trace
+  if (process.env.NODE_ENV !== "production") {
+    response.stack = error.stack;
+  }
+
+  res.status(statusCode).json(response);
 };
 
 export default errorHandler;

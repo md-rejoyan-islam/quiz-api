@@ -24,7 +24,7 @@ export const UserSchema = z.object({
     })
     .min(8, "Password must be at least 8 characters long"),
   role: z.string().default("USER"),
-  refreshToken: z.string().optional(),
+  refreshToken: z.string().nullable().default(null),
   quizzes: z.array(z.object({ id: z.string() })).optional(),
   attempts: z.array(z.object({ id: z.string() })).optional(),
 });

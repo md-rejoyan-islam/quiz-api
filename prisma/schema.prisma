@@ -7,48 +7,88 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// user Role = "ADMIN" | "USER"
-// quiz Status = "DRAFT" | "PUBLISHED"
+enum ROLE {
+  ADMIN @map("admin")
+  USER  @map("user")
+}
+
+enum QUIZ_STATUS {
+  DRAFT     @map("draft")
+  PUBLISHED @map("published")
+}
+
+enum QUIZ_LABEL {
+  EASY   @map("easy")
+  MEDIUM @map("medium")
+  HARD   @map("hard")
+}
+
+enum USER_STATUS {
+  ACTIVE   @map("active")
+  INACTIVE @map("inactive")
+}
 
 model User {
-  id           String    @id @default(uuid())
-  fullName     String    @map("full_name")
-  email        String    @unique
+  id           String          @id @default(uuid())
+  fullName     String          @map("full_name")
+  email        String          @unique
+  bio          String?
   password     String
-  role         String    @default("USER")
-  refreshToken String?   @unique @map("refresh_token")
-  quizzes      Quiz[]
+  photo        String?
+  status       USER_STATUS     @default(ACTIVE) @map("status")
+  role         ROLE            @default(USER) @map("role")
+  refreshToken String?         @unique @map("refresh_token")
+  quizzes      QuizSet[]
   attempts     Attempt[]
-  createdAt    DateTime  @default(now()) @map("created_at")
-  updatedAt    DateTime  @default(now()) @map("updated_at")
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @default(now()) @map("updated_at")
+  givenRatings QuizSetRating[]
 
   @@map("users")
 }
 
-model Quiz {
-  id          String     @id @default(uuid())
-  title       String
-  description String
-  status      String     @default("draft") // DRAFT | PUBLISHED
-  label       String // easy, medium, hard
-  userId      String     @map("user_id")
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  questions   Question[]
-  attempts    Attempt[]
-  createdAt   DateTime   @default(now()) @map("created_at")
-  updatedAt   DateTime   @default(now()) @map("updated_at")
+model QuizSetRating {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizSetId String   @map("quiz_id")
+  quizSet   QuizSet  @relation(fields: [quizSetId], references: [id], onDelete: Cascade)
+  rating    Float    @default(0) // from 0 to 5
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@unique([userId, quizSetId], name: "userId_quizSetId")
+  @@map("quiz_set_ratings")
+}
+
+model QuizSet {
+  id            String          @id @default(uuid())
+  title         String
+  description   String
+  tags          String // Store JSON as a string ["tag1", "tag2"]
+  status        QUIZ_STATUS     @default(DRAFT) @map("status")
+  label         QUIZ_LABEL      @default(EASY) @map("label")
+  userId        String          @map("user_id")
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questions     Question[]
+  attempts      Attempt[]
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @default(now()) @map("updated_at")
+  QuizSetRating QuizSetRating[]
 
   @@map("quizzes")
 }
 
 model Question {
   id            String   @id @default(uuid())
-  quizId        String   @map("quiz_id")
-  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizSetId     String   @map("quiz_id")
+  quizSet       QuizSet  @relation(fields: [quizSetId], references: [id], onDelete: Cascade)
   question      String
   options       String // Store JSON as a string ["option1", "option2", "option3", "option4"]
-  correctAnswer String   @map("correct_answer")
-  marks         Int      @default(5)
+  answerIndices String   @map("answer_indices") // Store JSON as a string [0, 1] for multiple answers
+  mark          Int      @default(5)
+  time          Int      @default(30) // Time in seconds
+  explanation   String?
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @default(now()) @map("updated_at")
 
@@ -59,12 +99,10 @@ model Attempt {
   id               String   @id @default(uuid())
   userId           String   @map("user_id")
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  quizId           String   @map("quiz_id")
-  quiz             Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizSetId        String   @map("quiz_id")
+  quizSet          QuizSet  @relation(fields: [quizSetId], references: [id], onDelete: Cascade)
+  submittedAnswers String   @map("submitted_answers") // Store JSON as a string [{"questionId": [0, 1]}]
   score            Int      @default(0)
-  submittedAnswers String   @map("submitted_answers") // Store JSON as a string
-  completed        Boolean  @default(true)
-  percentage       Float    @default(0)
   correct          Int      @default(0)
   wrong            Int      @default(0)
   skipped          Int      @default(0)

@@ -1,33 +1,38 @@
+import { User } from "@prisma/client";
 import { NextFunction, Response } from "express";
 import asyncHandler from "express-async-handler";
-import jwt from "jsonwebtoken";
-import { z } from "zod";
+import createError from "http-errors";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import secret from "../app/secret";
-import { UserSchema } from "../schema/user.schema";
-import AppError from "../utils/app-errors";
+import prisma from "../config/prisma";
 import { RequestWithUser } from "../utils/types";
 
 const isLoggedIn = asyncHandler(
   async (req: RequestWithUser, _res: Response, next: NextFunction) => {
-    const authHeader = req.headers?.authorization;
+    const token =
+      req.headers?.authorization?.split("Bearer ")[1] || req.cookies?.token;
 
-    const token = authHeader?.split(" ")[1];
+    // const token = authHeader?.split(" ")[1];
 
     if (!token || token === "null") {
-      throw AppError.unauthorized("Please login to access this resource");
+      throw createError.Unauthorized("Please login to access this resource");
     }
 
-    try {
-      const decoded = jwt.verify(
-        token,
-        secret.jwt.accessTokenSecret as string
-      ) as z.infer<typeof UserSchema>;
+    const decoded = jwt.verify(
+      token,
+      secret.jwt.accessTokenSecret as string
+    ) as JwtPayload as Pick<User, "id" | "email" | "role">;
 
-      req.user = decoded; // Attach the decoded token to the request
-      next();
-    } catch (err) {
-      throw AppError.unauthorized("Invalid or expired token");
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+
+    if (!user) {
+      throw createError.Unauthorized("User not found or no longer exists!");
     }
+
+    const { password, createdAt, updatedAt, ...userWithOutPassword } = user;
+
+    req.user = userWithOutPassword;
+    next();
   }
 );
 
@@ -40,7 +45,7 @@ const isLoggedOut = asyncHandler(
     const isValid = jwt.decode(token as string);
 
     if (isValid) {
-      throw AppError.unauthorized("You are already logged in");
+      throw createError.Unauthorized("You are already logged in");
     }
 
     next();

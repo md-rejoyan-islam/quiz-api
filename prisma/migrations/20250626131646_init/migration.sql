@@ -3,11 +3,26 @@ CREATE TABLE "users" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "full_name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "bio" TEXT,
     "password" TEXT NOT NULL,
-    "role" TEXT NOT NULL DEFAULT 'USER',
+    "photo" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'active',
+    "role" TEXT NOT NULL DEFAULT 'user',
     "refresh_token" TEXT,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
+CREATE TABLE "quiz_set_ratings" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "user_id" TEXT NOT NULL,
+    "quiz_id" TEXT NOT NULL,
+    "rating" REAL NOT NULL DEFAULT 0,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "quiz_set_ratings_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "quiz_set_ratings_quiz_id_fkey" FOREIGN KEY ("quiz_id") REFERENCES "quizzes" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -15,8 +30,9 @@ CREATE TABLE "quizzes" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "tags" TEXT NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'draft',
-    "label" TEXT NOT NULL,
+    "label" TEXT NOT NULL DEFAULT 'easy',
     "user_id" TEXT NOT NULL,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -29,8 +45,10 @@ CREATE TABLE "questions" (
     "quiz_id" TEXT NOT NULL,
     "question" TEXT NOT NULL,
     "options" TEXT NOT NULL,
-    "correct_answer" TEXT NOT NULL,
-    "marks" INTEGER NOT NULL DEFAULT 5,
+    "answer_indices" TEXT NOT NULL,
+    "mark" INTEGER NOT NULL DEFAULT 5,
+    "time" INTEGER NOT NULL DEFAULT 30,
+    "explanation" TEXT,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "questions_quiz_id_fkey" FOREIGN KEY ("quiz_id") REFERENCES "quizzes" ("id") ON DELETE CASCADE ON UPDATE CASCADE
@@ -41,10 +59,8 @@ CREATE TABLE "attempts" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "user_id" TEXT NOT NULL,
     "quiz_id" TEXT NOT NULL,
-    "score" INTEGER NOT NULL DEFAULT 0,
     "submitted_answers" TEXT NOT NULL,
-    "completed" BOOLEAN NOT NULL DEFAULT true,
-    "percentage" REAL NOT NULL DEFAULT 0,
+    "score" INTEGER NOT NULL DEFAULT 0,
     "correct" INTEGER NOT NULL DEFAULT 0,
     "wrong" INTEGER NOT NULL DEFAULT 0,
     "skipped" INTEGER NOT NULL DEFAULT 0,

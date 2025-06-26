@@ -1,21 +1,42 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import quizService from "../services/quiz.service";
+import { successResponse } from "../utils/response-handler";
 import { RequestWithUser } from "../utils/types";
-import { successResponse } from "./../utils/response-handler";
+
+/**
+ * @method POST
+ * @route  /api/quiz-sets
+ * @description Create a new quiz.
+ * @access Private (Authenticated admin)
+ * @param {RequestWithUser} req - Request object containing quiz details in body.
+ * @param {Response} res - Response object to send the response.
+ * @returns {Object} Created quiz details.
+ */
+const createQuizSet = asyncHandler(
+  async (req: RequestWithUser, res: Response) => {
+    const quiz = await quizService.createQuizSet(req.body);
+
+    successResponse(res, {
+      statusCode: 201,
+      message: "Quiz created successfully",
+      payload: {
+        data: quiz,
+      },
+    });
+  }
+);
 
 /**
  * @method GET
- * @route  /api/quizzes
+ * @route  /api/quiz-sets
  * @description Get a list of all published quizzes based on query parameters for a user.
  * @access Public
  * @param {Response} res - Response object to send the response.
  * @returns {Array of Object} List of published quizzes.
  */
-const listQuizzes = asyncHandler(async (req: Request, res: Response) => {
-  const result = await quizService.listQuizzes({
-    search: req.query.search as string, // search query for quiz title and description
-  });
+const getAllQuizzSets = asyncHandler(async (req: Request, res: Response) => {
+  const result = await quizService.getAllQuizSet();
 
   successResponse(res, {
     statusCode: 200,
@@ -28,22 +49,64 @@ const listQuizzes = asyncHandler(async (req: Request, res: Response) => {
 
 /**
  * @method GET
- * @route  /api/admin/quizzes
- * @description Get a list of all quizzes for admin view (including drafts) who created them.
- * @access Admin [only creator]
- * @param {Request} req - Request object.
+ * @route  /api/quiz-sets/:id
+ * @description Fetch details of a specific quiz by its ID.
+ * @access Private
+ * @param {RequestWithUser} req - Request object containing quiz ID.
  * @param {Response} res - Response object to send the response.
- * @returns {Array of Object} List of all quizzes.
+ * @returns {JSON} Quiz details.
  */
-const listQuizzesForAdmin = asyncHandler(
+const getQuizSetById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const result = await quizService.listQuizSetForAdmin(
-      req.user?.id as string
-    );
+    const quiz = await quizService.getQuizSetById(req.params.id);
 
     successResponse(res, {
       statusCode: 200,
-      message: "Quizzes fetched successfully",
+      message: "Quiz fetched successfully",
+      payload: {
+        data: quiz,
+      },
+    });
+  }
+);
+
+/**
+ * @method PUT
+ * @route  /api/quiz-sets/:id
+ * @description Update an existing quiz.
+ * @access Private (Authenticated creator admin of the quiz)
+ * @param {Request} req - Request object containing quiz ID and updated data.
+ * @param {Response} res - Response object to send the response.
+ * @returns {JSON} Updated quiz details.
+ */
+const updateQuizSetById = asyncHandler(
+  async (req: RequestWithUser, res: Response) => {
+    const quiz = await quizService.updateQuizSetById(req.params.id, req.body);
+    successResponse(res, {
+      statusCode: 200,
+      message: "Quiz updated successfully",
+      payload: {
+        data: quiz,
+      },
+    });
+  }
+);
+
+/**
+ * @method DELETE
+ * @route  /api/quiz-sets/:quizId
+ * @description Delete a quiz by its ID.
+ * @access Private
+ * @param {Request} req - Request object containing quiz ID.
+ * @param {Response} res - Response object to send the response.
+ * @returns {JSON} Deletion result.
+ */
+const deleteQuizSetById = asyncHandler(
+  async (req: RequestWithUser, res: Response) => {
+    const result = await quizService.deleteQuizSetById(req.params.quizId);
+    successResponse(res, {
+      statusCode: 200,
+      message: "Quiz deleted successfully",
       payload: {
         data: result,
       },
@@ -51,68 +114,22 @@ const listQuizzesForAdmin = asyncHandler(
   }
 );
 
-/**
- * @method POST
- * @route  /api/quizzes
- * @description Create a new quiz.
- * @access Private (Authenticated admin)
- * @param {RequestWithUser} req - Request object containing quiz details in body.
+/** * @method GET
+ * @route  /api/quiz-sets/:id/published
+ * @description Fetch a published quiz by its ID.
+ * @access Public
+ * @param {RequestWithUser} req - Request object containing quiz ID.
  * @param {Response} res - Response object to send the response.
- * @returns {Object} Created quiz details.
- */
-const createQuiz = asyncHandler(async (req: RequestWithUser, res: Response) => {
-  const quiz = await quizService.createQuiz(req.body, req.user?.id as string);
-
-  successResponse(res, {
-    statusCode: 201,
-    message: "Quiz created successfully",
-    payload: {
-      data: quiz,
-    },
-  });
-});
-
-/**
- * @method PUT
- * @route  /api/quizzes/:id
- * @description Update an existing quiz.
- * @access Private (Authenticated creator admin of the quiz)
- * @param {Request} req - Request object containing quiz ID and updated data.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} Updated quiz details.
- */
-const updateQuiz = asyncHandler(async (req: RequestWithUser, res: Response) => {
-  const quiz = await quizService.updateQuiz(
-    req.params.id, // quiz ID
-    req.body
-  );
-  successResponse(res, {
-    statusCode: 200,
-    message: "Quiz updated successfully",
-    payload: {
-      data: quiz,
-    },
-  });
-});
-
-/**
- * @method POST
- * @route  /api/quizzes/:quizId/questions
- * @description Add a question to a specific quiz by its ID for creator admin.
- * @access Private
- * @param {Request} req - Request object containing quiz ID and question data.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} Added question details.
- */
-const addQuestion = asyncHandler(
+ * @returns {JSON} Published quiz details.
+ * */
+const publishedQuizSetById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const question = await quizService.addQuestion(req.params.quizId, req.body);
-
+    const quiz = await quizService.publishQuizSetById(req.params.id);
     successResponse(res, {
-      statusCode: 201,
-      message: "Question added successfully",
+      statusCode: 200,
+      message: "Quiz fetched successfully",
       payload: {
-        data: question,
+        data: quiz,
       },
     });
   }
@@ -120,61 +137,17 @@ const addQuestion = asyncHandler(
 
 /**
  * @method POST
- * @route  /api/quizzes/:quizId/questions/bulk
- * @description Add multiple questions to a quiz in bulk.
- * @access Private
- * @param {Request} req - Request object containing quiz ID and an array of questions.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} Bulk addition result.
- */
-const addBulkQuestions = asyncHandler(async (req: Request, res: Response) => {
-  const result = await quizService.addBulkQuestions(
-    req.params.quizId as string,
-    req.body
-  );
-  successResponse(res, {
-    statusCode: 201,
-    message: "Questions added successfully",
-    payload: {
-      data: result,
-    },
-  });
-});
-
-/**
- * @method GET
- * @route  /api/quizzes/:id
- * @description Fetch details of a specific quiz by its ID.
- * @access Private
- * @param {RequestWithUser} req - Request object containing quiz ID.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} Quiz details.
- */
-const getQuiz = asyncHandler(async (req: RequestWithUser, res: Response) => {
-  const quiz = await quizService.getQuiz(req.params.id);
-
-  successResponse(res, {
-    statusCode: 200,
-    message: "Quiz fetched successfully",
-    payload: {
-      data: quiz,
-    },
-  });
-});
-
-/**
- * @method POST
- * @route  /api/quizzes/:quizId/attempts
+ * @route  /api/quiz-sets/:quizId/attempts
  * @description Submit a quiz attempt by a user.
  * @access Private
  * @param {RequestWithUser} req - Request object containing quiz ID and answers.
  * @param {Response} res - Response object to send the response.
  * @returns {JSON} Attempt submission result.
  */
-const submitAttempt = asyncHandler(
+const attemptQuizSetById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const attempt = await quizService.submitQuizAttempt(
-      req.user?.id as string,
+    const attempt = await quizService.attemptQuizSetById(
+      req.user?.id!,
       req.params.quizId,
       req.body.answers
     );
@@ -188,22 +161,48 @@ const submitAttempt = asyncHandler(
   }
 );
 
-/**
- * @method GET
- * @route  /api/quizzes/attempts
- * @description Fetch all quiz attempts for a user.
+/** * @method POST
+ * @route  /api/quiz-sets/:quizId/rate
+ * @description Rate a quiz by its ID.
  * @access Private
- * @param {RequestWithUser} req - Request object.
+ * @param {RequestWithUser} req - Request object containing quiz ID and rating.
  * @param {Response} res - Response object to send the response.
- * @returns {JSON} List of attempts.
- */
-const getAttempts = asyncHandler(
+ * @returns {JSON} Rating result.
+ * */
+const rateQuizSetById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const attempts = await quizService.getUserAttempts(req.user?.id as string);
-
+    const result = await quizService.rateQuizSetById(
+      req.params.quizId,
+      req.user?.id as string,
+      req.body.rating
+    );
     successResponse(res, {
       statusCode: 200,
-      message: "Attempts fetched successfully",
+      message: "Quiz rated successfully",
+      payload: {
+        data: result,
+      },
+    });
+  }
+);
+
+/* * @method GET
+ * @route  /api/quiz-sets/:quizId/attempts
+ * @description Fetch all attempts for a specific quiz by its ID.
+ * @access Private
+ * @param {RequestWithUser} req - Request object containing quiz ID.
+ * @param {Response} res - Response object to send the response.
+ * @returns {Array of Object} List of attempts for the quiz.
+ */
+
+const getQuizAttemptsByQuizId = asyncHandler(
+  async (req: RequestWithUser, res: Response) => {
+    const attempts = await quizService.getQuizAttemptsByQuizId(
+      req.params.quizId
+    );
+    successResponse(res, {
+      statusCode: 200,
+      message: "Quiz attempts fetched successfully",
       payload: {
         data: attempts,
       },
@@ -211,150 +210,14 @@ const getAttempts = asyncHandler(
   }
 );
 
-/**
- * @description get quiz attempt by quiz id
- * @param {Request} req - Request object containing quiz ID.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} List of attempts.
- * @access Private
- * @method GET
- * @route  /api/quizzes/:quizId/attempts
- * @param {Request} req - Request object containing quiz ID and pagination details.
- */
-interface QuizAttemptQuery {
-  page: number;
-  limit: number;
-}
-
-const getQuizAttemptsByQuizId = asyncHandler(
-  async (req: Request, res: Response) => {
-    const result = await quizService.getQuizAttemptsById(req.params.quizId, {
-      page: parseInt(req.query?.page ? (req.query.page as string) : "1"),
-      limit: parseInt(req.query.limit ? (req.query.limit as string) : "10"),
-    } as QuizAttemptQuery);
-    successResponse(res, {
-      statusCode: 200,
-      message: "Attempts fetched successfully",
-      payload: {
-        data: result,
-      },
-    });
-  }
-);
-
-interface LeaderboardQuery {
-  page: number;
-  limit: number;
-}
-
-/**
- * @method GET
- * @route  /api/quizzes/:quizId/leaderboard
- * @description Get the leaderboard for a specific quiz.
- * @access Public
- * @param {Request} req - Request object containing quiz ID and pagination details.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} Quiz leaderboard.
- */
-const getQuizLeaderboardByQuizId = asyncHandler(
-  async (req: Request, res: Response) => {
-    const result = await quizService.getQuizLeaderboardById(req.params.quizId, {
-      page: parseInt(req.query.page as string) || 1,
-      limit: parseInt(req.query.limit as string) || 10,
-    } as LeaderboardQuery);
-    successResponse(res, {
-      statusCode: 200,
-      message: "Leaderboard fetched successfully",
-      payload: {
-        data: result,
-      },
-    });
-  }
-);
-
-/**
- * @method DELETE
- * @route  /api/quizzes/questions/:questionId
- * @description Delete a specific question from a quiz.
- * @access Private
- * @param {Request} req - Request object containing question ID.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} Deletion result.
- */
-const deleteQuestion = asyncHandler(
-  async (req: RequestWithUser, res: Response) => {
-    const result = await quizService.deleteQuestion(req.params.questionId);
-
-    successResponse(res, {
-      statusCode: 200,
-      message: "Question deleted successfully",
-      payload: {
-        data: result,
-      },
-    });
-  }
-);
-
-/**
- * @method PUT
- * @route  /api/quizzes/questions/:questionId
- * @description Edit a specific question in a quiz.
- * @access Private
- * @param {Request} req - Request object containing question ID and updated data.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} Updated question details.
- */
-const editQuestion = asyncHandler(
-  async (req: RequestWithUser, res: Response) => {
-    const result = await quizService.editQuestion(
-      req.params.questionId,
-      req.body
-    );
-    successResponse(res, {
-      statusCode: 200,
-      message: "Question updated successfully",
-      payload: {
-        data: result,
-      },
-    });
-  }
-);
-
-/**
- * @method DELETE
- * @route  /api/quizzes/:quizId
- * @description Delete a quiz by its ID.
- * @access Private
- * @param {Request} req - Request object containing quiz ID.
- * @param {Response} res - Response object to send the response.
- * @returns {JSON} Deletion result.
- */
-const deleteQuizSet = asyncHandler(
-  async (req: RequestWithUser, res: Response) => {
-    const result = await quizService.deleteQuizSet(req.params.quizId);
-    successResponse(res, {
-      statusCode: 200,
-      message: "Quiz deleted successfully",
-      payload: {
-        data: result,
-      },
-    });
-  }
-);
-
 export default {
-  listQuizzes,
-  listQuizzesForAdmin,
-  createQuiz,
-  updateQuiz,
-  addQuestion,
-  addBulkQuestions,
-  getQuiz,
-  submitAttempt,
-  getAttempts,
-  getQuizLeaderboardByQuizId,
-  deleteQuestion,
-  editQuestion,
-  deleteQuizSet,
+  createQuizSet,
+  getAllQuizzSets,
+  getQuizSetById,
+  updateQuizSetById,
+  deleteQuizSetById,
+  publishedQuizSetById,
+  attemptQuizSetById,
+  rateQuizSetById,
   getQuizAttemptsByQuizId,
 };

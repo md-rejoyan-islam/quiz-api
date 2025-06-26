@@ -1,27 +1,29 @@
+import { User } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import secret from "../app/secret";
 
 /**
- * Generates access and refresh tokens for the user.
- *
- * @param {UserSchema} user - The user object containing user data (id, email).
- * @returns  Object containing `accessToken` and `refreshToken`.
+ * @description Generates JWT tokens for user authentication.
+ * @param {Object} payload - User data containing `id`, `email`, and `role`.
+ * @returns {Object}  Object containing `accessToken` and `refreshToken`.
  */
-export const generateTokens = (user: {
-  id: string;
-  email: string;
-  role: string;
-}) => {
+export const generateTokens = (
+  payload: Pick<User, "id" | "email" | "role">
+): {
+  accessToken: string;
+  refreshToken: string;
+} => {
+  const { id, email, role } = payload;
   const accessToken = jwt.sign(
-    { id: user.id, email: user.email, role: user.role },
+    { id, email, role },
     secret.jwt.accessTokenSecret as string,
-    { expiresIn: secret.jwt.accessTokenExpiry }
+    { expiresIn: secret.jwt.accessTokenExpiresIn }
   );
 
   const refreshToken = jwt.sign(
-    { id: user.id },
+    { id },
     secret.jwt.refreshTokenSecret as string,
-    { expiresIn: secret.jwt.refreshTokenExpiry }
+    { expiresIn: secret.jwt.refreshTokenExpiresIn }
   );
 
   return { accessToken, refreshToken };
