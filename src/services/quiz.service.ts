@@ -33,15 +33,33 @@ interface LeaderboardQuery {
 const createQuizSet = async (
   payload: Pick<
     QUIZ_SET,
-    "title" | "description" | "status" | "label" | "tags" | "userId"
-  >
+    "title" | "description" | "status" | "label" | "tags"
+  >,
+  userId: string
 ) => {
+  const existUser = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+  if (!existUser) {
+    throw createError.NotFound("User not found with userId:" + userId);
+  }
+  if (existUser.role !== "ADMIN") {
+    throw createError.Forbidden("You are not authorized to create a quiz.");
+  }
+
+  if (existUser.status !== "ACTIVE") {
+    throw createError.Forbidden("User is not active.Please contact support.");
+  }
+
   return await prisma.quizSet.create({
     data: {
       ...payload,
+      userId,
       tags: JSON.stringify(payload.tags),
       status:
-        QUIZ_STATUS[payload.status.toUpperCase() as keyof typeof QUIZ_STATUS],
+        QUIZ_STATUS[
+          payload.status?.toUpperCase() as keyof typeof QUIZ_STATUS
+        ] || "DRAFT",
       label: QUIZ_LABEL[payload.label.toUpperCase() as keyof typeof QUIZ_LABEL],
     },
   });
@@ -114,13 +132,18 @@ const updateQuizSetById = async (
 
 // delete quiz set by Id
 const deleteQuizSetById = async (quizId: string) => {
-  const quiz = await prisma.quizSet.delete({
+  const existQuiz = await prisma.quizSet.findUnique({
     where: { id: quizId },
   });
-  if (!quiz) {
+  if (!existQuiz) {
     throw createError.NotFound("Quiz not found with quizId:" + quizId);
   }
-  return quiz;
+
+  await prisma.quizSet.delete({
+    where: { id: quizId },
+  });
+
+  return existQuiz;
 };
 
 // publish quiz set by Id

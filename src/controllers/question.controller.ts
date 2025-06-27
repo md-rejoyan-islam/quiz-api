@@ -44,9 +44,9 @@ const getQuestionsByQuizSetId = asyncHandler(
 
 const createQuestion = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const { quizId } = req.params;
+    const { id } = req.params;
 
-    const question = await questionService.createQuestion(quizId, req.body);
+    const question = await questionService.createQuestion(id, req.body);
     successResponse(res, {
       statusCode: 201,
       message: "Question created successfully",
@@ -96,9 +96,7 @@ const createBulkQuestions = asyncHandler(
  */
 const getQuestionById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const question = await questionService.getQuestionById(
-      req.params.questionId
-    );
+    const question = await questionService.getQuestionById(req.params.id);
 
     successResponse(res, {
       statusCode: 200,
@@ -125,7 +123,7 @@ const getQuestionById = asyncHandler(
 const updateQuestionById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
     const question = await questionService.updateQuestionById(
-      req.params.questionId,
+      req.params.id,
       req.body
     );
     successResponse(res, {
@@ -151,9 +149,7 @@ const updateQuestionById = asyncHandler(
 
 const deleteQuestionById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const question = await questionService.deleteQuestionById(
-      req.params.questionId
-    );
+    const question = await questionService.deleteQuestionById(req.params.id);
 
     successResponse(res, {
       statusCode: 200,

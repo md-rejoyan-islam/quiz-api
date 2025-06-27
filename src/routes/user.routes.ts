@@ -1,20 +1,20 @@
+import { ROLE } from "@prisma/client";
 import { Router } from "express";
 import userController from "../controllers/user.controller";
 import { authorize, authorizeOwnerOrAdmin } from "../middlewares/authorize";
 import verify from "../middlewares/verify";
-import { USER_ROLE } from "../types";
 
 const userRouter = Router();
 
 userRouter.use(verify.isLoggedIn);
 
 // get all user
-userRouter.get("/", authorize([USER_ROLE.ADMIN]), userController.getAllUsers);
+userRouter.get("/", authorize([ROLE.ADMIN]), userController.getAllUsers);
 
 // get user by his own id
 userRouter.get(
   "/:id",
-  authorize([USER_ROLE.ADMIN, USER_ROLE.USER]),
+  authorize([ROLE.ADMIN, ROLE.USER]),
   authorizeOwnerOrAdmin,
   userController.getUserById
 );
@@ -22,7 +22,7 @@ userRouter.get(
 // update user by his own id
 userRouter.put(
   "/:id",
-  authorize([USER_ROLE.ADMIN, USER_ROLE.USER]),
+  authorize([ROLE.ADMIN, ROLE.USER]),
   authorizeOwnerOrAdmin,
   userController.updateUser
 );
@@ -30,7 +30,7 @@ userRouter.put(
 // delete user
 userRouter.delete(
   "/:id",
-  authorize([USER_ROLE.ADMIN, USER_ROLE.USER]),
+  authorize([ROLE.ADMIN, ROLE.USER]),
   authorizeOwnerOrAdmin,
   userController.deleteUser
 );
@@ -38,7 +38,7 @@ userRouter.delete(
 // get all admin quizzes
 userRouter.get(
   "/:id/quizzes",
-  authorize([USER_ROLE.ADMIN, USER_ROLE.USER]),
+  authorize([ROLE.ADMIN, ROLE.USER]),
   authorizeOwnerOrAdmin,
   userController.getUserQuizzesById
 );
@@ -46,7 +46,7 @@ userRouter.get(
 // get all user attemps quizzes
 userRouter.get(
   "/:id/attempts",
-  authorize([USER_ROLE.ADMIN, USER_ROLE.USER]),
+  authorize([ROLE.ADMIN, ROLE.USER]),
   authorizeOwnerOrAdmin,
   userController.getUserAttemptsById
 );
@@ -54,7 +54,7 @@ userRouter.get(
 // get user ratings quizzes
 userRouter.get(
   "/:id/ratings",
-  authorize([USER_ROLE.ADMIN, USER_ROLE.USER]),
+  authorize([ROLE.ADMIN, ROLE.USER]),
   authorizeOwnerOrAdmin,
   userController.getUserRatingsById
 );
@@ -62,14 +62,14 @@ userRouter.get(
 // ban a user
 userRouter.post(
   "/:id/ban",
-  authorize([USER_ROLE.ADMIN]),
+  authorize([ROLE.ADMIN]),
   userController.banUserById
 );
 
 // unban a user
 userRouter.post(
   "/:id/unban",
-  authorize([USER_ROLE.ADMIN]),
+  authorize([ROLE.ADMIN]),
   userController.unbanUserById
 );
 

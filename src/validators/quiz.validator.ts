@@ -7,7 +7,7 @@ import { QuizStatus } from "../utils/types";
  * @schema List Quiz Schema
  * @description This schema validates the query parameters for listing quizzes
  */
-export const listQuizSchema = z.object({
+const listQuizSchema = z.object({
   page: z.number().min(1).default(1),
   limit: z.number().min(1).max(100).default(10),
   status: z.enum(["published", "draft"]).optional(),
@@ -18,14 +18,13 @@ export const listQuizSchema = z.object({
  * @schema Create Quiz Schema
  * @description This schema validates the creation of a new quiz
  */
-export const createQuizSchema = z.object({
+const createQuizSchema = z.object({
   body: QuizSchema.pick({
     title: true,
     description: true,
     status: true,
     label: true,
-  }).extend({
-    status: z.nativeEnum(QuizStatus).optional(),
+    tags: true,
   }),
 });
 
@@ -33,7 +32,7 @@ export const createQuizSchema = z.object({
  * @schema Create Bulk Questions Schema
  * @description This schema validates the bulk creation of questions for a quiz
  */
-export const createBulkQuestionsSchema = z.object({
+const createBulkQuestionsSchema = z.object({
   questions: z
     .array(
       z.object({
@@ -54,7 +53,7 @@ export const createBulkQuestionsSchema = z.object({
  * @schema Update Quiz Schema
  * @description This schema validates the update of an existing quiz
  */
-export const updateQuizSchema = z.object({
+const updateQuizSchema = z.object({
   body: z.object({
     title: z.string().min(1).optional(),
     description: z.string().min(1).optional(),
@@ -66,19 +65,76 @@ export const updateQuizSchema = z.object({
  * @schema Create Question Schema
  * @description This schema validates the creation of a new question for a quiz
  */
-export const createQuestionSchema = z.object({
-  body: QuestionSchema.pick({
-    question: true,
-    options: true,
-    correctAnswer: true,
-    mark: true,
-  }),
-});
+const createQuestionSchema = z
+  .object({
+    body: QuestionSchema.pick({
+      question: true,
+      options: true,
+      answerIndices: true,
+      mark: true,
+      time: true,
+      explanation: true,
+    }),
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.body.answerIndices.some(
+        (index) => index < 0 || index >= data.body.options.length
+      )
+    ) {
+      ctx.addIssue({
+        path: ["body", "answerIndices"],
+        code: z.ZodIssueCode.custom,
+        message: "Answer indices must be within the range of options",
+      });
+    }
+  });
+
+// update question schema
+const updateQuestionSchema = QuestionSchema.partial()
+  .extend({
+    body: z.object({
+      options: z
+        .array(z.string())
+        .min(4, { message: "At least 4 options are required" })
+        .optional(),
+      answerIndices: z
+        .array(
+          z
+            .number({ message: "Answer indices are required" })
+            .int({ message: "Answer indices must be integers" })
+        )
+        .min(1, { message: "At least one answer index is required" })
+        .optional(),
+    }),
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.body.answerIndices &&
+      data.body.options &&
+      data.body.answerIndices.some(
+        (index) => index < 0 || index >= (data.body.options || []).length
+      )
+    ) {
+      ctx.addIssue({
+        path: ["body", "answerIndices"],
+        code: z.ZodIssueCode.custom,
+        message: "Answer indices must be within the range of options",
+      });
+    }
+  });
 
 /**
  * @schema Submit Attempt Schema
  * @description This schema validates the submission of quiz answers
  */
-export const submitAttemptSchema = z.object({
+const submitAttemptSchema = z.object({
   body: z.object({ answers: z.array(z.record(z.string(), z.string())) }), // {answers: [{[questionId]: answer}]}
 });
+
+export default {
+  createQuizSchema,
+  submitAttemptSchema,
+  createQuestionSchema,
+  updateQuestionSchema,
+};

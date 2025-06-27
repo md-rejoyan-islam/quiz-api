@@ -6,6 +6,8 @@ import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import errorHandler from "../middlewares/error-handler";
 import authRouter from "../routes/auth.routes";
+import questionRouter from "../routes/question.routes";
+import quizRouter from "../routes/quiz.routes";
 import userRouter from "../routes/user.routes";
 import { successResponse } from "../utils/response-handler";
 
@@ -41,7 +43,8 @@ router.get(
 // API routes
 router.use("/api/v1/auth", authRouter);
 router.use("/api/v1/users", userRouter);
-// router.use("/api/v1/quizzes", quizRouter);
+router.use("/api/v1/quiz-sets", quizRouter);
+router.use("/api/v1/questions", questionRouter);
 // router.use("/api/v1/admin/quizzes", adminQuizRouter);
 
 // Setup the Swagger UI route

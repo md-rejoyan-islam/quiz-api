@@ -56,13 +56,13 @@ const login = asyncHandler(async (req: Request, res: Response) => {
  */
 const refreshToken = asyncHandler(async (req: Request, res: Response) => {
   const { refreshToken } = req.body;
-  const acccessToken = await authService.refreshToken(refreshToken);
+  const accessToken = await authService.refreshToken(refreshToken);
   successResponse(res, {
     statusCode: 200,
     message: "Token refreshed successfully",
     payload: {
       data: {
-        acccessToken,
+        accessToken,
       },
     },
   });

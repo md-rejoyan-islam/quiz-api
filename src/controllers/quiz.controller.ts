@@ -15,7 +15,7 @@ import { RequestWithUser } from "../utils/types";
  */
 const createQuizSet = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const quiz = await quizService.createQuizSet(req.body);
+    const quiz = await quizService.createQuizSet(req.body, req.user?.id!);
 
     successResponse(res, {
       statusCode: 201,
@@ -103,7 +103,7 @@ const updateQuizSetById = asyncHandler(
  */
 const deleteQuizSetById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const result = await quizService.deleteQuizSetById(req.params.quizId);
+    const result = await quizService.deleteQuizSetById(req.params.id);
     successResponse(res, {
       statusCode: 200,
       message: "Quiz deleted successfully",

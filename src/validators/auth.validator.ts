@@ -29,8 +29,14 @@ const loginSchema = z.object({
  * @description This schema validates the refresh token input data
  */
 const refreshTokenSchema = z.object({
-  body: UserSchema.pick({
-    refreshToken: true,
+  body: z.object({
+    refreshToken: z
+      .string({
+        message: "Refresh token is required",
+        invalid_type_error: "Refresh token must be a string",
+        required_error: "Refresh token is required",
+      })
+      .min(1, "Refresh token cannot be empty"),
   }),
 });
 

@@ -22,23 +22,33 @@ const createQuestion = async (
   quizSetId: string,
   payload: Pick<
     Question,
-    | "question"
-    | "options"
-    | "explanation"
-    | "answerIndices"
-    | "mark"
-    | "quizSetId"
-    | "time"
+    "question" | "options" | "explanation" | "answerIndices" | "mark" | "time"
   >
 ) => {
+  // Check if quizSetId is valid
+  const quizSet = await prisma.quizSet.findUnique({
+    where: {
+      id: quizSetId,
+    },
+  });
+
+  if (!quizSet) {
+    throw createError.NotFound("Quiz set not found with ID: " + quizSetId);
+  }
+
   const createdQuestion = await prisma.question.create({
     data: {
       ...payload,
+      quizSetId,
       options: JSON.stringify(payload.options),
       answerIndices: JSON.stringify(payload.answerIndices),
     },
   });
-  return createdQuestion;
+  return {
+    ...createdQuestion,
+    options: JSON.parse(createdQuestion.options),
+    answerIndices: JSON.parse(createdQuestion.answerIndices),
+  };
 };
 
 // create bulk questions for a quiz set
@@ -86,32 +96,53 @@ const updateQuestionById = async (
     "question" | "options" | "explanation" | "answerIndices" | "mark" | "time"
   >
 ) => {
+  const question = await prisma.question.findUnique({
+    where: {
+      id: questionId,
+    },
+  });
+  if (!question) {
+    throw createError.NotFound("Question not found with ID: " + questionId);
+  }
+
+  // convert options and answerIndices to JSON strings if they are arrays
+  if (payload?.options) payload.options = JSON.stringify(payload.options);
+  if (payload?.answerIndices)
+    payload.answerIndices = JSON.stringify(payload.answerIndices);
+
   const updatedQuestion = await prisma.question.update({
     where: {
       id: questionId,
     },
     data: {
       ...payload,
-      options: JSON.stringify(payload.options),
-      answerIndices: JSON.stringify(payload.answerIndices),
     },
   });
-  if (!updatedQuestion) {
-    throw createError.NotFound("Question not found with ID: " + questionId);
-  }
-  return updatedQuestion;
+
+  return {
+    ...updatedQuestion,
+    options: JSON.parse(updatedQuestion.options),
+    answerIndices: JSON.parse(updatedQuestion.answerIndices),
+  };
 };
 
 // delete question by ID
 const deleteQuestionById = async (questionId: string) => {
+  const question = await prisma.question.findUnique({
+    where: {
+      id: questionId,
+    },
+  });
+  if (!question) {
+    throw createError.NotFound("Question not found with ID: " + questionId);
+  }
+
   const deletedQuestion = await prisma.question.delete({
     where: {
       id: questionId,
     },
   });
-  if (!deletedQuestion) {
-    throw createError.NotFound("Question not found with ID: " + questionId);
-  }
+
   return deletedQuestion;
 };
 

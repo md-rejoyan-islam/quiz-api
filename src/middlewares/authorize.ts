@@ -1,16 +1,15 @@
 import { NextFunction, Response } from "express";
 import createError from "http-errors";
-import { USER_ROLE } from "../types";
-import AppError from "../utils/app-errors";
+
+import { ROLE } from "@prisma/client";
 import { RequestWithUser } from "../utils/types";
 
-export const authorize = (roles: USER_ROLE[]) => {
+export const authorize = (roles: ROLE[]) => {
   return (req: RequestWithUser, _res: Response, next: NextFunction) => {
-    if (
-      !req.user ||
-      !roles.includes(req.user.role.toLowerCase() as USER_ROLE)
-    ) {
-      throw AppError.forbidden(
+    if (!req.user || !roles.includes(req.user.role as ROLE)) {
+      console.log("Unauthorized access attempt by user:", req.user);
+
+      throw createError.Forbidden(
         "You do not have permission to access this resource"
       );
     }

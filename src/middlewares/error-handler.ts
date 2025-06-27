@@ -6,6 +6,7 @@ import {
   InternalServerError,
   isHttpError,
   NotFound,
+  UnprocessableEntity,
 } from "http-errors";
 import { ZodError } from "zod";
 
@@ -41,7 +42,7 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
 
   // 1. Handle Zod validation errors
   if (error instanceof ZodError) {
-    statusCode = BadRequest().statusCode;
+    statusCode = UnprocessableEntity().statusCode;
     message = "Validation Error";
     errors = error.issues.map((issue) => ({
       path: issue.path.join("."),
@@ -78,6 +79,8 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
   // 2. Handle Prisma validation errors
   else if (error instanceof Prisma.PrismaClientValidationError) {
     statusCode = BadRequest().statusCode;
+    console.log(error);
+
     message = "Invalid input";
     errors = [{ path: "", message: error.message }];
   }

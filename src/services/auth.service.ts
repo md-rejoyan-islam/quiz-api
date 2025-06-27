@@ -48,6 +48,9 @@ const register = async (
  */
 const login = async (payload: Pick<User, "email" | "password">) => {
   const { email, password } = payload;
+  if (!email || !password) {
+    throw createError.BadRequest("Email and password are required");
+  }
   const user = await prisma.user.findUnique({
     where: { email },
   });
