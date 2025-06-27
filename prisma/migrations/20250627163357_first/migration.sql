@@ -63,6 +63,7 @@ CREATE TABLE "attempts" (
     "score" INTEGER NOT NULL DEFAULT 0,
     "correct" INTEGER NOT NULL DEFAULT 0,
     "wrong" INTEGER NOT NULL DEFAULT 0,
+    "time" INTEGER NOT NULL,
     "skipped" INTEGER NOT NULL DEFAULT 0,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -75,3 +76,6 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_refresh_token_key" ON "users"("refresh_token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "quiz_set_ratings_user_id_quiz_id_key" ON "quiz_set_ratings"("user_id", "quiz_id");

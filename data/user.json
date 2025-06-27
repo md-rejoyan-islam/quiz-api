@@ -1,0 +1,302 @@
+[
+  {
+    "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "fullName": "Alice Johnson",
+    "email": "alice.j@example.com",
+    "bio": "Lover of coffee and code. Exploring the world one line at a time.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "admin"
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+    "fullName": "Bob Smith",
+    "email": "bob.smith@example.com",
+    "bio": "Frontend developer with a passion for beautiful and intuitive user interfaces.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef1",
+    "fullName": "Charlie Brown",
+    "email": "charlie.b@example.com",
+    "bio": null,
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "admin"
+  },
+  {
+    "id": "c3d4e5f6-a7b8-9012-3456-7890abcdef12",
+    "fullName": "Diana Prince",
+    "email": "diana.p@example.com",
+    "bio": "History enthusiast and part-time hero.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "inactive",
+    "role": "user"
+  },
+  {
+    "id": "d4e5f6a7-b8c9-0123-4567-890abcdef123",
+    "fullName": "Ethan Hunt",
+    "email": "ethan.h@example.com",
+    "bio": "Impossible missions are my specialty.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "e5f6a7b8-c9d0-1234-5678-90abcdef1234",
+    "fullName": "Fiona Gallagher",
+    "email": "fiona.g@example.com",
+    "bio": "Just trying to keep it all together.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "f6a7b8c9-d0e1-2345-6789-0abcdef12345",
+    "fullName": "George Costanza",
+    "email": "george.c@example.com",
+    "bio": "Architect and marine biologist.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "a7b8c9d0-e1f2-3456-7890-abcdef123456",
+    "fullName": "Hannah Montana",
+    "email": "hannah.m@example.com",
+    "bio": "Living the best of both worlds.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "inactive",
+    "role": "user"
+  },
+  {
+    "id": "b8c9d0e1-f2a3-4567-8901-bcdef1234567",
+    "fullName": "Isaac Newton",
+    "email": "isaac.n@example.com",
+    "bio": "Standing on the shoulders of giants.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "c9d0e1f2-a3b4-5678-9012-cdef12345678",
+    "fullName": "Jessica Jones",
+    "email": "jessica.j@example.com",
+    "bio": "Private investigator. Sarcasm is my only defense.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "d0e1f2a3-b4c5-6789-0123-def123456789",
+    "fullName": "Kevin McCallister",
+    "email": "kevin.m@example.com",
+    "bio": "Expert in home defense systems.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "e1f2a3b4-c5d6-7890-1234-ef1234567890",
+    "fullName": "Laura Palmer",
+    "email": "laura.p@example.com",
+    "bio": null,
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "f2a3b4c5-d6e7-8901-2345-f12345678901",
+    "fullName": "Michael Scott",
+    "email": "michael.s@example.com",
+    "bio": "World's Best Boss.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "admin"
+  },
+  {
+    "id": "a3b4c5d6-e7f8-9012-3456-123456789012",
+    "fullName": "Nancy Drew",
+    "email": "nancy.d@example.com",
+    "bio": "Sleuth for hire. No mystery too small.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "b4c5d6e7-f8a9-0123-4567-234567890123",
+    "fullName": "Oscar Martinez",
+    "email": "oscar.m@example.com",
+    "bio": "Actually...",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "c5d6e7f8-a9b0-1234-5678-345678901234",
+    "fullName": "Pam Beesly",
+    "email": "pam.b@example.com",
+    "bio": "Artist and former receptionist.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "d6e7f8a9-b0c1-2345-6789-456789012345",
+    "fullName": "Quentin Coldwater",
+    "email": "quentin.c@example.com",
+    "bio": "Trying to find my way back to Fillory.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "admin"
+  },
+  {
+    "id": "e7f8a9b0-c1d2-3456-7890-567890123456",
+    "fullName": "Rachel Green",
+    "email": "rachel.g@example.com",
+    "bio": "Fashion executive.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "admin"
+  },
+  {
+    "id": "f8a9b0c1-d2e3-4567-8901-678901234567",
+    "fullName": "Steve Rogers",
+    "email": "steve.r@example.com",
+    "bio": "I can do this all day.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "inactive",
+    "role": "user"
+  },
+  {
+    "id": "a9b0c1d2-e3f4-5678-9012-789012345678",
+    "fullName": "Tony Stark",
+    "email": "tony.s@example.com",
+    "bio": "Genius, billionaire, playboy, philanthropist.",
+    "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
+    "photo": null,
+    "status": "active",
+    "role": "admin"
+  },
+  {
+    "id": "01a2b3c4-d5e6-7890-1234-abcdef123456",
+    "fullName": "Uma Thurman",
+    "email": "uma.t@example.com",
+    "bio": "Lover of indie films and swordplay.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "12b3c4d5-e6f7-8901-2345-bcdef1234567",
+    "fullName": "Victor Stone",
+    "email": "victor.s@example.com",
+    "bio": "Half machine, all heart.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "inactive",
+    "role": "user"
+  },
+  {
+    "id": "23c4d5e6-f7a8-9012-3456-cdef12345678",
+    "fullName": "Wanda Maximoff",
+    "email": "wanda.m@example.com",
+    "bio": "Reality is what I make of it.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "34d5e6f7-a8b9-0123-4567-def123456789",
+    "fullName": "Xander Harris",
+    "email": "xander.h@example.com",
+    "bio": "Regular guy saving the world.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "45e6f7a8-b9c0-1234-5678-ef1234567890",
+    "fullName": "Yvonne Strahovski",
+    "email": "yvonne.s@example.com",
+    "bio": "Tech agent undercover.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "inactive",
+    "role": "user"
+  },
+  {
+    "id": "56f7a8b9-c0d1-2345-6789-f12345678901",
+    "fullName": "Zack Fair",
+    "email": "zack.f@example.com",
+    "bio": "Embrace your dreams.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "67a8b9c0-d1e2-3456-7890-012345678901",
+    "fullName": "Ada Wong",
+    "email": "ada.w@example.com",
+    "bio": "Always playing both sides.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "78b9c0d1-e2f3-4567-8901-123456789012",
+    "fullName": "Barry Allen",
+    "email": "barry.a@example.com",
+    "bio": "The fastest man alive.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "inactive",
+    "role": "user"
+  },
+  {
+    "id": "89c0d1e2-f3a4-5678-9012-234567890123",
+    "fullName": "Ciri of Cintra",
+    "email": "ciri.c@example.com",
+    "bio": "Lion cub of Cintra.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  },
+  {
+    "id": "90d1e2f3-a4b5-6789-0123-345678901234",
+    "fullName": "Daryl Dixon",
+    "email": "daryl.d@example.com",
+    "bio": "Crossbow, bike, and survival.",
+    "password": "$2b$10$examplepasswordhashhere",
+    "photo": null,
+    "status": "active",
+    "role": "user"
+  }
+]

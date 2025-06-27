@@ -149,6 +149,7 @@ const attemptQuizSetById = asyncHandler(
     const attempt = await quizService.attemptQuizSetById(
       req.user?.id!,
       req.params.quizId,
+      req.body.time,
       req.body.answers
     );
     successResponse(res, {

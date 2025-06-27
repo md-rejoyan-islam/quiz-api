@@ -101,10 +101,11 @@ model Attempt {
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   quizSetId        String   @map("quiz_id")
   quizSet          QuizSet  @relation(fields: [quizSetId], references: [id], onDelete: Cascade)
-  submittedAnswers String   @map("submitted_answers") // Store JSON as a string [{"questionId": [0, 1]}]
+  submittedAnswers String   @map("submitted_answers") // Store JSON as a string {{"questionId": [0, 1]}}
   score            Int      @default(0)
   correct          Int      @default(0)
   wrong            Int      @default(0)
+  time             Int
   skipped          Int      @default(0)
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @default(now()) @map("updated_at")

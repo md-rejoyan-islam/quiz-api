@@ -1,0 +1,2055 @@
+[
+  {
+    "id": "e0c8b6a3-7b1e-4d5c-9a1b-3c4d5e6f7a8b",
+    "quizSetId": "6a8b1c9d-4e2f-4a6b-8c7d-9e0f1a2b3c4d",
+    "question": "What is the capital of Japan?",
+    "options": ["Kyoto", "Osaka", "Tokyo", "Hiroshima"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Tokyo has been the capital of Japan since 1868.",
+    "createdAt": "2024-09-02T10:00:00.000Z",
+    "updatedAt": "2024-09-02T10:00:00.000Z"
+  },
+  {
+    "id": "f1d9c7b4-8c2f-5e6d-0b2c-4d5e6f7a8b9c",
+    "quizSetId": "6a8b1c9d-4e2f-4a6b-8c7d-9e0f1a2b3c4d",
+    "question": "What is the capital of Canada?",
+    "options": ["Toronto", "Vancouver", "Montreal", "Ottawa"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Ottawa was chosen as the capital of Canada in 1857 by Queen Victoria.",
+    "createdAt": "2024-09-02T10:05:00.000Z",
+    "updatedAt": "2024-09-02T10:05:00.000Z"
+  },
+  {
+    "id": "a2e0d8c5-9d3a-6f7e-1c3d-5e6f7a8b9c0d",
+    "quizSetId": "6a8b1c9d-4e2f-4a6b-8c7d-9e0f1a2b3c4d",
+    "question": "What is the capital of Brazil?",
+    "options": ["Rio de Janeiro", "São Paulo", "Brasília", "Salvador"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Brasília, a purpose-built city, became the capital of Brazil in 1960.",
+    "createdAt": "2024-09-02T10:10:00.000Z",
+    "updatedAt": "2024-09-02T10:10:00.000Z"
+  },
+  {
+    "id": "b3f1e9d6-0e4b-7a8f-2d4e-6f7a8b9c0d1e",
+    "quizSetId": "6a8b1c9d-4e2f-4a6b-8c7d-9e0f1a2b3c4d",
+    "question": "What is the capital of Egypt?",
+    "options": ["Alexandria", "Cairo", "Giza", "Luxor"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Cairo is the capital of Egypt and the largest city in the Arab world.",
+    "createdAt": "2024-09-02T10:15:00.000Z",
+    "updatedAt": "2024-09-02T10:15:00.000Z"
+  },
+  {
+    "id": "c4a2fae7-1f5c-8b9a-3e5f-7a8b9c0d1e2f",
+    "quizSetId": "6a8b1c9d-4e2f-4a6b-8c7d-9e0f1a2b3c4d",
+    "question": "What is the capital of New Zealand?",
+    "options": ["Auckland", "Christchurch", "Wellington", "Queenstown"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Wellington is the capital city of New Zealand, located at the southwestern tip of the North Island.",
+    "createdAt": "2024-09-02T10:20:00.000Z",
+    "updatedAt": "2024-09-02T10:20:00.000Z"
+  },
+  {
+    "id": "c0a8b1d9-e5f6-7890-1234-567890abcdef",
+    "quizSetId": "7b9c2d0e-5f3a-5b7c-9d8e-0f1a2b3c4d5e",
+    "question": "Which of the following is the correct way to declare a variable in Python?",
+    "options": ["var x = 5", "int x = 5", "x = 5", "let x = 5"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "In Python, variables are declared by simply assigning a value to a name without any specific keywords like 'var' or 'int'.",
+    "createdAt": "2025-01-21T10:00:00.000Z",
+    "updatedAt": "2025-01-21T10:00:00.000Z"
+  },
+  {
+    "id": "d1b9c2ea-f6a7-8901-2345-67890abcdef1",
+    "quizSetId": "7b9c2d0e-5f3a-5b7c-9d8e-0f1a2b3c4d5e",
+    "question": "What is the output of `print(2 ** 3)`?",
+    "options": ["6", "8", "9", "5"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The `**` operator in Python is used for exponentiation. `2 ** 3` means 2 to the power of 3, which is 8.",
+    "createdAt": "2025-01-21T10:05:00.000Z",
+    "updatedAt": "2025-01-21T10:05:00.000Z"
+  },
+  {
+    "id": "e2c0d3fb-a7b8-9012-3456-7890abcdef12",
+    "quizSetId": "7b9c2d0e-5f3a-5b7c-9d8e-0f1a2b3c4d5e",
+    "question": "How do you write a single-line comment in Python?",
+    "options": [
+      "// This is a comment",
+      "# This is a comment",
+      "/* This is a comment */",
+      "-- This is a comment"
+    ],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Single-line comments in Python start with the hash character (`#`).",
+    "createdAt": "2025-01-21T10:10:00.000Z",
+    "updatedAt": "2025-01-21T10:10:00.000Z"
+  },
+  {
+    "id": "f3d1e4ac-b8c9-0123-4567-890abcdef123",
+    "quizSetId": "7b9c2d0e-5f3a-5b7c-9d8e-0f1a2b3c4d5e",
+    "question": "Which function can be used to get the length of a string or list?",
+    "options": ["size()", "length()", "len()", "count()"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The built-in `len()` function returns the number of items in an object.",
+    "createdAt": "2025-01-21T10:15:00.000Z",
+    "updatedAt": "2025-01-21T10:15:00.000Z"
+  },
+  {
+    "id": "a4e2f5bd-c9d0-1234-5678-90abcdef1234",
+    "quizSetId": "7b9c2d0e-5f3a-5b7c-9d8e-0f1a2b3c4d5e",
+    "question": "What is the correct file extension for Python files?",
+    "options": [".pyth", ".pt", ".p", ".py"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Python files are saved with the `.py` extension.",
+    "createdAt": "2025-01-21T10:20:00.000Z",
+    "updatedAt": "2025-01-21T10:20:00.000Z"
+  },
+  {
+    "id": "b5f3a6ce-d0e1-2345-6789-0abcdef12345",
+    "quizSetId": "7b9c2d0e-5f3a-5b7c-9d8e-0f1a2b3c4d5e",
+    "question": "How do you create a list in Python?",
+    "options": [
+      "list = (1, 2, 3)",
+      "list = {1, 2, 3}",
+      "list = [1, 2, 3]",
+      "list = <1, 2, 3>"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Lists are created using square brackets `[]`.",
+    "createdAt": "2025-01-21T10:25:00.000Z",
+    "updatedAt": "2025-01-21T10:25:00.000Z"
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7890-aaaa-bbbbccccdddd",
+    "quizSetId": "8c0d3e1f-6a4b-6c8d-0e9f-1a2b3c4d5e6f",
+    "question": "In 'The Matrix' (1999), what color pill does Neo take?",
+    "options": ["Blue", "Red", "Green", "Yellow"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Morpheus offers Neo a choice: the blue pill to remain in the Matrix or the red pill to see the truth.",
+    "createdAt": "2024-11-06T12:00:00.000Z",
+    "updatedAt": "2024-11-06T12:00:00.000Z"
+  },
+  {
+    "id": "b2c3d4e5-f6a7-8901-bbbb-ccccddddeeee",
+    "quizSetId": "8c0d3e1f-6a4b-6c8d-0e9f-1a2b3c4d5e6f",
+    "question": "Who directed the 1993 blockbuster 'Jurassic Park'?",
+    "options": [
+      "James Cameron",
+      "George Lucas",
+      "Steven Spielberg",
+      "Tim Burton"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Steven Spielberg directed the critically and commercially successful film 'Jurassic Park'.",
+    "createdAt": "2024-11-06T12:05:00.000Z",
+    "updatedAt": "2024-11-06T12:05:00.000Z"
+  },
+  {
+    "id": "c3d4e5f6-a7b8-9012-cccc-ddddeeeeffff",
+    "quizSetId": "8c0d3e1f-6a4b-6c8d-0e9f-1a2b3c4d5e6f",
+    "question": "Which movie features the iconic quote, 'You can't handle the truth!'?",
+    "options": [
+      "A Few Good Men",
+      "Good Will Hunting",
+      "The Usual Suspects",
+      "Braveheart"
+    ],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The line is famously delivered by Jack Nicholson's character, Colonel Jessup, in 'A Few Good Men' (1992).",
+    "createdAt": "2024-11-06T12:10:00.000Z",
+    "updatedAt": "2024-11-06T12:10:00.000Z"
+  },
+  {
+    "id": "d4e5f6a7-b8c9-0123-dddd-eeeeffffgggg",
+    "quizSetId": "8c0d3e1f-6a4b-6c8d-0e9f-1a2b3c4d5e6f",
+    "question": "What is the name of the toy cowboy in the 'Toy Story' films?",
+    "options": ["Buzz Lightyear", "Mr. Potato Head", "Slinky Dog", "Woody"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Woody is the beloved pull-string cowboy doll and protagonist of the 'Toy Story' franchise, which began in 1995.",
+    "createdAt": "2024-11-06T12:15:00.000Z",
+    "updatedAt": "2024-11-06T12:15:00.000Z"
+  },
+  {
+    "id": "e5f6a7b8-c9d0-1234-eeee-ffffggggiiii",
+    "quizSetId": "8c0d3e1f-6a4b-6c8d-0e9f-1a2b3c4d5e6f",
+    "question": "Which 1997 film is about the sinking of a famous ship?",
+    "options": [
+      "The Perfect Storm",
+      "Titanic",
+      "Waterworld",
+      "Poseidon Adventure"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "'Titanic', directed by James Cameron, was a massive box office success and won 11 Academy Awards.",
+    "createdAt": "2024-11-06T12:20:00.000Z",
+    "updatedAt": "2024-11-06T12:20:00.000Z"
+  },
+  {
+    "id": "f6a7b8c9-d0e1-2345-ffff-ggggiiiihhhh",
+    "quizSetId": "8c0d3e1f-6a4b-6c8d-0e9f-1a2b3c4d5e6f",
+    "question": "In 'Pulp Fiction' (1994), what is in the mysterious briefcase?",
+    "options": [
+      "Diamonds",
+      "Gold",
+      "Marcellus Wallace's soul",
+      "It is never revealed"
+    ],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The contents of the briefcase are a famous MacGuffin in film history; the audience never sees what is inside.",
+    "createdAt": "2024-11-06T12:25:00.000Z",
+    "updatedAt": "2024-11-06T12:25:00.000Z"
+  },
+  {
+    "id": "a7b8c9d0-e1f2-3456-gggg-iiiihhhhjjjj",
+    "quizSetId": "8c0d3e1f-6a4b-6c8d-0e9f-1a2b3c4d5e6f",
+    "question": "Who played the titular role in 'Edward Scissorhands' (1990)?",
+    "options": ["Tom Cruise", "Johnny Depp", "Keanu Reeves", "Brad Pitt"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Johnny Depp starred as Edward in this classic Tim Burton film.",
+    "createdAt": "2024-11-06T12:30:00.000Z",
+    "updatedAt": "2024-11-06T12:30:00.000Z"
+  },
+  {
+    "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+    "quizSetId": "9d1e4f2a-7b5c-7d9e-1f0a-2b3c4d5e6f7a",
+    "question": "What is the largest organ in the human body?",
+    "options": ["Liver", "Brain", "Skin", "Heart"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The skin is the body's largest organ, providing a protective barrier against the environment.",
+    "createdAt": "2025-04-13T10:00:00.000Z",
+    "updatedAt": "2025-04-13T10:00:00.000Z"
+  },
+  {
+    "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+    "quizSetId": "9d1e4f2a-7b5c-7d9e-1f0a-2b3c4d5e6f7a",
+    "question": "Which of these are parts of the central nervous system? (Select all that apply)",
+    "options": ["Brain", "Nerves in the arms", "Spinal Cord", "Stomach"],
+    "answerIndices": [0, 2],
+    "mark": 10,
+    "time": 40,
+    "explanation": "The central nervous system (CNS) is composed of the brain and the spinal cord. Peripheral nerves are not part of the CNS.",
+    "createdAt": "2025-04-13T10:05:00.000Z",
+    "updatedAt": "2025-04-13T10:05:00.000Z"
+  },
+  {
+    "id": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "quizSetId": "9d1e4f2a-7b5c-7d9e-1f0a-2b3c4d5e6f7a",
+    "question": "Where in the body are red blood cells primarily made?",
+    "options": [
+      "In the liver",
+      "In the spleen",
+      "In the bone marrow",
+      "In the kidneys"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Red blood cells, white blood cells, and platelets are produced in the bone marrow.",
+    "createdAt": "2025-04-13T10:10:00.000Z",
+    "updatedAt": "2025-04-13T10:10:00.000Z"
+  },
+  {
+    "id": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "quizSetId": "9d1e4f2a-7b5c-7d9e-1f0a-2b3c4d5e6f7a",
+    "question": "How many chambers does the human heart have?",
+    "options": ["Two", "Three", "Four", "Five"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The human heart has four chambers: two atria and two ventricles.",
+    "createdAt": "2025-04-13T10:15:00.000Z",
+    "updatedAt": "2025-04-13T10:15:00.000Z"
+  },
+  {
+    "id": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "quizSetId": "9d1e4f2a-7b5c-7d9e-1f0a-2b3c4d5e6f7a",
+    "question": "What is the function of the kidneys?",
+    "options": [
+      "To pump blood",
+      "To digest food",
+      "To filter waste from the blood",
+      "To produce hormones"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The primary function of the kidneys is to filter waste products from the blood and produce urine.",
+    "createdAt": "2025-04-13T10:20:00.000Z",
+    "updatedAt": "2025-04-13T10:20:00.000Z"
+  },
+  {
+    "id": "1a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+    "quizSetId": "0e2f5a3b-8c6d-8e0f-2a1b-3c4d5e6f7a8b",
+    "question": "The Eiffel Tower is located in which city?",
+    "options": ["London", "Rome", "Berlin", "Paris"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 25,
+    "explanation": "The Eiffel Tower is a famous landmark in Paris, France.",
+    "createdAt": "2024-07-31T10:00:00.000Z",
+    "updatedAt": "2024-07-31T10:00:00.000Z"
+  },
+  {
+    "id": "2b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+    "quizSetId": "0e2f5a3b-8c6d-8e0f-2a1b-3c4d5e6f7a8b",
+    "question": "In which country would you find the ancient city of Petra?",
+    "options": ["Egypt", "Greece", "Jordan", "Turkey"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Petra is a famous archaeological site in Jordan's southwestern desert, famous for its rock-cut architecture.",
+    "createdAt": "2024-07-31T10:05:00.000Z",
+    "updatedAt": "2024-07-31T10:05:00.000Z"
+  },
+  {
+    "id": "3c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+    "quizSetId": "0e2f5a3b-8c6d-8e0f-2a1b-3c4d5e6f7a8b",
+    "question": "Which of these landmarks are located in the United States? (Select all that apply)",
+    "options": [
+      "The Colosseum",
+      "The Statue of Liberty",
+      "Mount Rushmore",
+      "The Great Wall"
+    ],
+    "answerIndices": [1, 2],
+    "mark": 10,
+    "time": 40,
+    "explanation": "The Statue of Liberty is in New York Harbor and Mount Rushmore is in South Dakota. The Colosseum is in Rome, and the Great Wall is in China.",
+    "createdAt": "2024-07-31T10:10:00.000Z",
+    "updatedAt": "2024-07-31T10:10:00.000Z"
+  },
+  {
+    "id": "4d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
+    "quizSetId": "0e2f5a3b-8c6d-8e0f-2a1b-3c4d5e6f7a8b",
+    "question": "Machu Picchu is a famous Incan citadel located in which mountain range?",
+    "options": ["The Himalayas", "The Rockies", "The Alps", "The Andes"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Machu Picchu is set high in the Andes Mountains in Peru.",
+    "createdAt": "2024-07-31T10:15:00.000Z",
+    "updatedAt": "2024-07-31T10:15:00.000Z"
+  },
+  {
+    "id": "5e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b",
+    "quizSetId": "0e2f5a3b-8c6d-8e0f-2a1b-3c4d5e6f7a8b",
+    "question": "The Taj Mahal is an ivory-white marble mausoleum on the south bank of the Yamuna river in which Indian city?",
+    "options": ["New Delhi", "Mumbai", "Agra", "Kolkata"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The Taj Mahal is located in the city of Agra.",
+    "createdAt": "2024-07-31T10:20:00.000Z",
+    "updatedAt": "2024-07-31T10:20:00.000Z"
+  },
+  {
+    "id": "6f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c",
+    "quizSetId": "0e2f5a3b-8c6d-8e0f-2a1b-3c4d5e6f7a8b",
+    "question": "Which landmark is a large sandstone rock formation in central Australia?",
+    "options": [
+      "Sydney Opera House",
+      "Uluru (Ayers Rock)",
+      "The Twelve Apostles",
+      "Stonehenge"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Uluru, also known as Ayers Rock, is a massive sandstone monolith in the heart of the Northern Territory’s arid 'Red Centre'.",
+    "createdAt": "2024-07-31T10:25:00.000Z",
+    "updatedAt": "2024-07-31T10:25:00.000Z"
+  },
+  {
+    "id": "1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+    "quizSetId": "1f3a6b4c-9d7e-9f1a-3b2c-4d5e6f7a8b9c",
+    "question": "Who wrote the novel 'Pride and Prejudice'?",
+    "options": [
+      "Charlotte Brontë",
+      "Mary Shelley",
+      "George Eliot",
+      "Jane Austen"
+    ],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "'Pride and Prejudice' was written by the English novelist Jane Austen, published in 1813.",
+    "createdAt": "2025-06-02T10:00:00.000Z",
+    "updatedAt": "2025-06-02T10:00:00.000Z"
+  },
+  {
+    "id": "2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+    "quizSetId": "1f3a6b4c-9d7e-9f1a-3b2c-4d5e6f7a8b9c",
+    "question": "Which of these novels were written by Charles Dickens? (Select all that apply)",
+    "options": [
+      "Moby Dick",
+      "A Tale of Two Cities",
+      "Great Expectations",
+      "Jane Eyre"
+    ],
+    "answerIndices": [1, 2],
+    "mark": 10,
+    "time": 45,
+    "explanation": "'A Tale of Two Cities' and 'Great Expectations' are famous works by Charles Dickens. 'Moby Dick' was written by Herman Melville and 'Jane Eyre' by Charlotte Brontë.",
+    "createdAt": "2025-06-02T10:05:00.000Z",
+    "updatedAt": "2025-06-02T10:05:00.000Z"
+  },
+  {
+    "id": "3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
+    "quizSetId": "1f3a6b4c-9d7e-9f1a-3b2c-4d5e6f7a8b9c",
+    "question": "The line 'It was the best of times, it was the worst of times' is the opening of which novel?",
+    "options": [
+      "War and Peace",
+      "The Great Gatsby",
+      "A Tale of Two Cities",
+      "To Kill a Mockingbird"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "This is the famous opening line of Charles Dickens's 'A Tale of Two Cities'.",
+    "createdAt": "2025-06-02T10:10:00.000Z",
+    "updatedAt": "2025-06-02T10:10:00.000Z"
+  },
+  {
+    "id": "4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b",
+    "quizSetId": "1f3a6b4c-9d7e-9f1a-3b2c-4d5e6f7a8b9c",
+    "question": "In 'Moby-Dick', what is the name of the obsessed captain of the Pequod?",
+    "options": ["Ishmael", "Starbuck", "Ahab", "Queequeg"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Captain Ahab is the monomaniacal captain who is obsessed with finding and killing the white whale, Moby Dick.",
+    "createdAt": "2025-06-02T10:15:00.000Z",
+    "updatedAt": "2025-06-02T10:15:00.000Z"
+  },
+  {
+    "id": "5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c",
+    "quizSetId": "1f3a6b4c-9d7e-9f1a-3b2c-4d5e6f7a8b9c",
+    "question": "Who is the author of 'The Catcher in the Rye'?",
+    "options": [
+      "F. Scott Fitzgerald",
+      "Ernest Hemingway",
+      "J.D. Salinger",
+      "William Faulkner"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "'The Catcher in the Rye' is a novel by J. D. Salinger, published in 1951.",
+    "createdAt": "2025-06-02T10:20:00.000Z",
+    "updatedAt": "2025-06-02T10:20:00.000Z"
+  },
+  {
+    "id": "6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d",
+    "quizSetId": "1f3a6b4c-9d7e-9f1a-3b2c-4d5e6f7a8b9c",
+    "question": "Which novel tells the story of a young girl named Scout Finch in the American South?",
+    "options": [
+      "The Color Purple",
+      "Gone with the Wind",
+      "Their Eyes Were Watching God",
+      "To Kill a Mockingbird"
+    ],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "'To Kill a Mockingbird' by Harper Lee is narrated by Jean Louise 'Scout' Finch.",
+    "createdAt": "2025-06-02T10:25:00.000Z",
+    "updatedAt": "2025-06-02T10:25:00.000Z"
+  },
+  {
+    "id": "d1e2f3a4-5b6c-7d8e-9f0a-1b2c3d4e5f6a",
+    "quizSetId": "2a4b7c5d-0e8f-0a2b-4c3d-5e6f7a8b9c0d",
+    "question": "Which planet is known as the 'Red Planet'?",
+    "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 25,
+    "explanation": "Mars is often called the Red Planet due to the iron oxide prevalent on its surface, which gives it a reddish appearance.",
+    "createdAt": "2024-10-19T10:00:00.000Z",
+    "updatedAt": "2024-10-19T10:00:00.000Z"
+  },
+  {
+    "id": "e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b",
+    "quizSetId": "2a4b7c5d-0e8f-0a2b-4c3d-5e6f7a8b9c0d",
+    "question": "What is the largest planet in our solar system?",
+    "options": ["Earth", "Jupiter", "Uranus", "Neptune"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Jupiter is the largest planet, more than twice as massive as all the other planets combined.",
+    "createdAt": "2024-10-19T10:05:00.000Z",
+    "updatedAt": "2024-10-19T10:05:00.000Z"
+  },
+  {
+    "id": "f3a4b5c6-7d8e-9f0a-1b2c-3d4e5f6a7b8c",
+    "quizSetId": "2a4b7c5d-0e8f-0a2b-4c3d-5e6f7a8b9c0d",
+    "question": "Which of the following are considered 'gas giants'? (Select all that apply)",
+    "options": ["Mars", "Jupiter", "Saturn", "Venus"],
+    "answerIndices": [1, 2],
+    "mark": 10,
+    "time": 40,
+    "explanation": "Jupiter and Saturn are gas giants. Mars and Venus are terrestrial (rocky) planets.",
+    "createdAt": "2024-10-19T10:10:00.000Z",
+    "updatedAt": "2024-10-19T10:10:00.000Z"
+  },
+  {
+    "id": "a4b5c6d7-8e9f-0a1b-2c3d-4e5f6a7b8c9d",
+    "quizSetId": "2a4b7c5d-0e8f-0a2b-4c3d-5e6f7a8b9c0d",
+    "question": "What is the name of the NASA rover that landed on Mars in February 2021?",
+    "options": ["Curiosity", "Spirit", "Opportunity", "Perseverance"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 35,
+    "explanation": "The Perseverance rover successfully landed on Mars on February 18, 2021.",
+    "createdAt": "2024-10-19T10:15:00.000Z",
+    "updatedAt": "2024-10-19T10:15:00.000Z"
+  },
+  {
+    "id": "b5c6d7e8-9f0a-1b2c-3d4e-5f6a7b8c9d0e",
+    "quizSetId": "2a4b7c5d-0e8f-0a2b-4c3d-5e6f7a8b9c0d",
+    "question": "Which planet is famous for its extensive ring system?",
+    "options": ["Uranus", "Jupiter", "Neptune", "Saturn"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "While other gas giants have rings, Saturn's are by far the most prominent and well-known.",
+    "createdAt": "2024-10-19T10:20:00.000Z",
+    "updatedAt": "2024-10-19T10:20:00.000Z"
+  },
+  {
+    "id": "c6d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
+    "quizSetId": "2a4b7c5d-0e8f-0a2b-4c3d-5e6f7a8b9c0d",
+    "question": "The asteroid belt is located between which two planets?",
+    "options": [
+      "Earth and Mars",
+      "Mars and Jupiter",
+      "Jupiter and Saturn",
+      "Saturn and Uranus"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "The main asteroid belt lies in the gap between the orbits of Mars and Jupiter.",
+    "createdAt": "2024-10-19T10:25:00.000Z",
+    "updatedAt": "2024-10-19T10:25:00.000Z"
+  },
+  {
+    "id": "1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f",
+    "quizSetId": "3b5c8d6e-1f9a-1b3c-5d4e-6f7a8b9c0d1e",
+    "question": "What is the culinary term for quickly frying ingredients in a small amount of fat over high heat?",
+    "options": ["Braising", "Sautéing", "Roasting", "Poaching"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Sautéing is a method of cooking that uses a relatively small amount of oil or fat in a shallow pan over relatively high heat.",
+    "createdAt": "2025-03-04T10:00:00.000Z",
+    "updatedAt": "2025-03-04T10:00:00.000Z"
+  },
+  {
+    "id": "2d3e4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a",
+    "quizSetId": "3b5c8d6e-1f9a-1b3c-5d4e-6f7a8b9c0d1e",
+    "question": "Which of these are 'mother sauces' in classical French cuisine? (Select all that apply)",
+    "options": ["Pesto", "Béchamel", "Hollandaise", "Marinara"],
+    "answerIndices": [1, 2],
+    "mark": 10,
+    "time": 45,
+    "explanation": "The five French mother sauces are Béchamel, Espagnole, Hollandaise, Tomato, and Velouté. Pesto and Marinara are Italian sauces.",
+    "createdAt": "2025-03-04T10:05:00.000Z",
+    "updatedAt": "2025-03-04T10:05:00.000Z"
+  },
+  {
+    "id": "3e4f5a6b-7c8d-9e0f-1a2b-3c4d5e6f7a8b",
+    "quizSetId": "3b5c8d6e-1f9a-1b3c-5d4e-6f7a8b9c0d1e",
+    "question": "What is the purpose of 'proofing' yeast dough?",
+    "options": [
+      "To cool it down",
+      "To allow it to rise",
+      "To add flavor",
+      "To kill the yeast"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Proofing (or proving) is the final rise of shaped bread dough before baking. It allows the yeast to ferment and create bubbles, which leavens the dough.",
+    "createdAt": "2025-03-04T10:10:00.000Z",
+    "updatedAt": "2025-03-04T10:10:00.000Z"
+  },
+  {
+    "id": "4f5a6b7c-8d9e-0f1a-2b3c-4d5e6f7a8b9c",
+    "quizSetId": "3b5c8d6e-1f9a-1b3c-5d4e-6f7a8b9c0d1e",
+    "question": "Blanching involves briefly cooking food in boiling water and then plunging it into what?",
+    "options": ["More hot water", "A warm oven", "Ice water", "A deep fryer"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "After a brief time in boiling water, the food is plunged into an ice bath to rapidly stop the cooking process.",
+    "createdAt": "2025-03-04T10:15:00.000Z",
+    "updatedAt": "2025-03-04T10:15:00.000Z"
+  },
+  {
+    "id": "5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d",
+    "quizSetId": "3b5c8d6e-1f9a-1b3c-5d4e-6f7a8b9c0d1e",
+    "question": "What does it mean to 'deglaze' a pan?",
+    "options": [
+      "To clean it with soap",
+      "To add liquid to a hot pan to lift flavorful browned bits",
+      "To cool the pan quickly",
+      "To coat the pan with oil"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Deglazing involves adding a liquid such as stock or wine to a pan to loosen and dissolve the food particles (fond) stuck to the bottom.",
+    "createdAt": "2025-03-04T10:20:00.000Z",
+    "updatedAt": "2025-03-04T10:20:00.000Z"
+  },
+  {
+    "id": "1d2e3f4a-5b6c-7d8e-9f0a-b1c2d3e4f5a6",
+    "quizSetId": "4c6d9e7f-2a0b-2c4d-6e5f-7a8b9c0d1e2f",
+    "question": "What is Captain America's shield made of?",
+    "options": ["Adamantium", "Uru Metal", "Vibranium", "Titanium"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Captain America's shield is made of Vibranium, a rare, near-indestructible metal from Wakanda.",
+    "createdAt": "2025-05-16T11:00:00.000Z",
+    "updatedAt": "2025-05-16T11:00:00.000Z"
+  },
+  {
+    "id": "2e3f4a5b-6c7d-8e9f-0a1b-2c3d4e5f6a7b",
+    "quizSetId": "4c6d9e7f-2a0b-2c4d-6e5f-7a8b9c0d1e2f",
+    "question": "Which of these characters are founding members of the Avengers in the MCU? (Select all that apply)",
+    "options": ["Iron Man", "Spider-Man", "Black Widow", "Captain Marvel"],
+    "answerIndices": [0, 2],
+    "mark": 10,
+    "time": 40,
+    "explanation": "The founding members in the first 'Avengers' film were Iron Man, Captain America, Hulk, Thor, Black Widow, and Hawkeye. Spider-Man and Captain Marvel joined later.",
+    "createdAt": "2025-05-16T11:05:00.000Z",
+    "updatedAt": "2025-05-16T11:05:00.000Z"
+  },
+  {
+    "id": "3f4a5b6c-7d8e-9f0a-1b2c-3d4e5f6a7b8c",
+    "quizSetId": "4c6d9e7f-2a0b-2c4d-6e5f-7a8b9c0d1e2f",
+    "question": "What is the name of Thor's enchanted hammer?",
+    "options": ["Stormbreaker", "Gungnir", "Mjolnir", "Hofund"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Thor's hammer is named Mjolnir. Stormbreaker is the axe he forges later.",
+    "createdAt": "2025-05-16T11:10:00.000Z",
+    "updatedAt": "2025-05-16T11:10:00.000Z"
+  },
+  {
+    "id": "4a5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d",
+    "quizSetId": "4c6d9e7f-2a0b-2c4d-6e5f-7a8b9c0d1e2f",
+    "question": "How many Infinity Stones are there?",
+    "options": ["Five", "Six", "Seven", "Eight"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 25,
+    "explanation": "There are six Infinity Stones: Space, Mind, Reality, Power, Time, and Soul.",
+    "createdAt": "2025-05-16T11:15:00.000Z",
+    "updatedAt": "2025-05-16T11:15:00.000Z"
+  },
+  {
+    "id": "5b6c7d8e-9f0a-1b2c-3d4e-5f6a7b8c9d0e",
+    "quizSetId": "4c6d9e7f-2a0b-2c4d-6e5f-7a8b9c0d1e2f",
+    "question": "In 'Guardians of the Galaxy', what is the name of the tree-like creature?",
+    "options": ["Drax", "Rocket", "Groot", "Ronan"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 25,
+    "explanation": "Groot is the sentient tree-like being and partner of Rocket Raccoon.",
+    "createdAt": "2025-05-16T11:20:00.000Z",
+    "updatedAt": "2025-05-16T11:20:00.000Z"
+  },
+  {
+    "id": "6c7d8e9f-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
+    "quizSetId": "4c6d9e7f-2a0b-2c4d-6e5f-7a8b9c0d1e2f",
+    "question": "Who is the main villain in 'Avengers: Infinity War'?",
+    "options": ["Loki", "Ultron", "Red Skull", "Thanos"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Thanos, the Mad Titan, is the central antagonist who seeks to collect all the Infinity Stones.",
+    "createdAt": "2025-05-16T11:25:00.000Z",
+    "updatedAt": "2025-05-16T11:25:00.000Z"
+  },
+  {
+    "id": "1e2f3a4b-5c6d-7e8f-9a0b-c1d2e3f4a5b6",
+    "quizSetId": "5d7ea08a-3b1c-3d5e-7f6a-8b9c0d1e2f3a",
+    "question": "Who painted the Mona Lisa?",
+    "options": ["Michelangelo", "Raphael", "Leonardo da Vinci", "Donatello"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The Mona Lisa is a half-length portrait painting by the Italian High Renaissance artist Leonardo da Vinci.",
+    "createdAt": "2024-08-23T10:00:00.000Z",
+    "updatedAt": "2024-08-23T10:00:00.000Z"
+  },
+  {
+    "id": "2f3a4b5c-6d7e-8f9a-0b1c-d2e3f4a5b6c7",
+    "quizSetId": "5d7ea08a-3b1c-3d5e-7f6a-8b9c0d1e2f3a",
+    "question": "Which art movement is characterized by a dream-like, bizarre, and fantastic imagery?",
+    "options": ["Impressionism", "Cubism", "Surrealism", "Baroque"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Surrealism is known for its exploration of the subconscious mind, resulting in illogical scenes and strange creatures.",
+    "createdAt": "2024-08-23T10:05:00.000Z",
+    "updatedAt": "2024-08-23T10:05:00.000Z"
+  },
+  {
+    "id": "3a4b5c6d-7e8f-9a0b-1c2d-e3f4a5b6c7d8",
+    "quizSetId": "5d7ea08a-3b1c-3d5e-7f6a-8b9c0d1e2f3a",
+    "question": "Which of these artists were key figures in the Impressionist movement? (Select all that apply)",
+    "options": [
+      "Claude Monet",
+      "Pablo Picasso",
+      "Vincent van Gogh",
+      "Pierre-Auguste Renoir"
+    ],
+    "answerIndices": [0, 3],
+    "mark": 10,
+    "time": 45,
+    "explanation": "Monet and Renoir were leading figures of Impressionism. Picasso was a pioneer of Cubism, and Van Gogh was a Post-Impressionist.",
+    "createdAt": "2024-08-23T10:10:00.000Z",
+    "updatedAt": "2024-08-23T10:10:00.000Z"
+  },
+  {
+    "id": "4b5c6d7e-8f9a-0b1c-2d3e-f4a5b6c7d8e9",
+    "quizSetId": "5d7ea08a-3b1c-3d5e-7f6a-8b9c0d1e2f3a",
+    "question": "'The Starry Night' is a famous painting by which artist?",
+    "options": [
+      "Édouard Manet",
+      "Salvador Dalí",
+      "Vincent van Gogh",
+      "Paul Cézanne"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The Dutch Post-Impressionist painter Vincent van Gogh painted 'The Starry Night' in 1889.",
+    "createdAt": "2024-08-23T10:15:00.000Z",
+    "updatedAt": "2024-08-23T10:15:00.000Z"
+  },
+  {
+    "id": "5c6d7e8f-9a0b-1c2d-3e4f-a5b6c7d8e9f0",
+    "quizSetId": "5d7ea08a-3b1c-3d5e-7f6a-8b9c0d1e2f3a",
+    "question": "The sculptor of the 'David' and the painter of the Sistine Chapel ceiling was:",
+    "options": ["Raphael", "Titian", "Bernini", "Michelangelo"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Michelangelo was a master of both sculpture and painting, creating these two iconic works of the High Renaissance.",
+    "createdAt": "2024-08-23T10:20:00.000Z",
+    "updatedAt": "2024-08-23T10:20:00.000Z"
+  },
+  {
+    "id": "6d7e8f9a-0b1c-2d3e-4f5a-b6c7d8e9f0a1",
+    "quizSetId": "5d7ea08a-3b1c-3d5e-7f6a-8b9c0d1e2f3a",
+    "question": "Which art movement, co-founded by Pablo Picasso, breaks up objects and reassembles them in an abstracted form?",
+    "options": ["Dadaism", "Futurism", "Cubism", "Symbolism"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Cubism was a revolutionary early-20th-century art movement that brought different views of subjects together in the same picture.",
+    "createdAt": "2024-08-23T10:25:00.000Z",
+    "updatedAt": "2024-08-23T10:25:00.000Z"
+  },
+  {
+    "id": "11a1b2c3-d4e5-f6a7-8901-234567890123",
+    "quizSetId": "6e8fb19b-4c2d-4e6f-8a7b-9c0d1e2f3a4b",
+    "question": "Which SQL statement is used to extract data from a database?",
+    "options": ["GET", "OPEN", "SELECT", "EXTRACT"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The SELECT statement is used to query the database and retrieve data that matches criteria that you specify.",
+    "createdAt": "2025-02-15T10:00:00.000Z",
+    "updatedAt": "2025-02-15T10:00:00.000Z"
+  },
+  {
+    "id": "22b2c3d4-e5f6-a7b8-9012-345678901234",
+    "quizSetId": "6e8fb19b-4c2d-4e6f-8a7b-9c0d1e2f3a4b",
+    "question": "Which of the following are valid SQL JOIN types? (Select all that apply)",
+    "options": ["INNER JOIN", "LEFT JOIN", "MIDDLE JOIN", "RIGHT JOIN"],
+    "answerIndices": [0, 1, 3],
+    "mark": 10,
+    "time": 45,
+    "explanation": "SQL supports INNER JOIN, LEFT JOIN (also called LEFT OUTER JOIN), RIGHT JOIN (RIGHT OUTER JOIN), and FULL OUTER JOIN. MIDDLE JOIN is not a valid SQL join type.",
+    "createdAt": "2025-02-15T10:05:00.000Z",
+    "updatedAt": "2025-02-15T10:05:00.000Z"
+  },
+  {
+    "id": "33c3d4e5-f6a7-b8c9-0123-456789012345",
+    "quizSetId": "6e8fb19b-4c2d-4e6f-8a7b-9c0d1e2f3a4b",
+    "question": "Which SQL keyword is used to sort the result-set?",
+    "options": ["SORT BY", "ORDER BY", "ARRANGE BY", "GROUP BY"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The ORDER BY keyword is used to sort the result-set in ascending (ASC) or descending (DESC) order.",
+    "createdAt": "2025-02-15T10:10:00.000Z",
+    "updatedAt": "2025-02-15T10:10:00.000Z"
+  },
+  {
+    "id": "44d4e5f6-a7b8-c9d0-1234-567890123456",
+    "quizSetId": "6e8fb19b-4c2d-4e6f-8a7b-9c0d1e2f3a4b",
+    "question": "How can you insert a new record into the 'Customers' table?",
+    "options": [
+      "ADD INTO Customers VALUES (...) ",
+      "INSERT INTO Customers VALUES (...)",
+      "NEW Customers VALUES (...)",
+      "INSERT Customers VALUES (...)"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 40,
+    "explanation": "The correct syntax for inserting a new record is `INSERT INTO table_name (column1, column2) VALUES (value1, value2);`.",
+    "createdAt": "2025-02-15T10:15:00.000Z",
+    "updatedAt": "2025-02-15T10:15:00.000Z"
+  },
+  {
+    "id": "55e5f6a7-b8c9-d0e1-2345-678901234567",
+    "quizSetId": "6e8fb19b-4c2d-4e6f-8a7b-9c0d1e2f3a4b",
+    "question": "Which clauses are mandatory for a basic SELECT statement?",
+    "options": ["SELECT", "FROM", "WHERE", "ORDER BY"],
+    "answerIndices": [0, 1],
+    "mark": 10,
+    "time": 35,
+    "explanation": "A basic SELECT statement requires the SELECT clause (to specify columns) and the FROM clause (to specify the table). WHERE and ORDER BY are optional.",
+    "createdAt": "2025-02-15T10:20:00.000Z",
+    "updatedAt": "2025-02-15T10:20:00.000Z"
+  },
+  {
+    "id": "66f6a7b8-c9d0-e1f2-3456-789012345678",
+    "quizSetId": "6e8fb19b-4c2d-4e6f-8a7b-9c0d1e2f3a4b",
+    "question": "What does SQL stand for?",
+    "options": [
+      "Strong Question Language",
+      "Structured Query Language",
+      "Simple Query Language",
+      "Server Query Language"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 25,
+    "explanation": "SQL stands for Structured Query Language, and it's the standard language for relational database management systems.",
+    "createdAt": "2025-02-15T10:25:00.000Z",
+    "updatedAt": "2025-02-15T10:25:00.000Z"
+  },
+  {
+    "id": "77a7b8c9-d0e1-f2a3-4567-890123456789",
+    "quizSetId": "7f9ac20c-5d3e-5f7a-9b8c-0d1e2f3a4b5c",
+    "question": "In which year did World War II begin?",
+    "options": ["1935", "1939", "1941", "1945"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "World War II began in 1939 with the German invasion of Poland.",
+    "createdAt": "2024-12-02T11:00:00.000Z",
+    "updatedAt": "2024-12-02T11:00:00.000Z"
+  },
+  {
+    "id": "88b8c9d0-e1f2-a3b4-5678-901234567890",
+    "quizSetId": "7f9ac20c-5d3e-5f7a-9b8c-0d1e2f3a4b5c",
+    "question": "Which of the following countries were part of the Axis powers? (Select all that apply)",
+    "options": ["Germany", "Italy", "Soviet Union", "Japan"],
+    "answerIndices": [0, 1, 3],
+    "mark": 10,
+    "time": 45,
+    "explanation": "The primary Axis powers were Germany, Italy, and Japan. The Soviet Union was initially non-belligerent but later joined the Allies.",
+    "createdAt": "2024-12-02T11:05:00.000Z",
+    "updatedAt": "2024-12-02T11:05:00.000Z"
+  },
+  {
+    "id": "99c9d0e1-f2a3-b4c5-6789-012345678901",
+    "quizSetId": "7f9ac20c-5d3e-5f7a-9b8c-0d1e2f3a4b5c",
+    "question": "The Battle of Stalingrad was a major turning point on which front?",
+    "options": [
+      "Western Front",
+      "Pacific Theater",
+      "North African Campaign",
+      "Eastern Front"
+    ],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 40,
+    "explanation": "The Battle of Stalingrad was a brutal military campaign between Russian forces and those of Nazi Germany and the Axis powers on the Eastern Front.",
+    "createdAt": "2024-12-02T11:10:00.000Z",
+    "updatedAt": "2024-12-02T11:10:00.000Z"
+  },
+  {
+    "id": "aa0d1e2f-3a4b-c5d6-7890-123456789012",
+    "quizSetId": "7f9ac20c-5d3e-5f7a-9b8c-0d1e2f3a4b5c",
+    "question": "What event prompted the United States to enter World War II?",
+    "options": [
+      "The sinking of the Lusitania",
+      "The invasion of France",
+      "The bombing of Pearl Harbor",
+      "The Battle of Britain"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "The surprise attack on Pearl Harbor by the Imperial Japanese Navy on December 7, 1941, led to the U.S. declaring war the next day.",
+    "createdAt": "2024-12-02T11:15:00.000Z",
+    "updatedAt": "2024-12-02T11:15:00.000Z"
+  },
+  {
+    "id": "bb1e2f3a-4b5c-d6e7-8901-234567890123",
+    "quizSetId": "7f9ac20c-5d3e-5f7a-9b8c-0d1e2f3a4b5c",
+    "question": "Which two cities were targeted by atomic bombs in August 1945?",
+    "options": [
+      "Tokyo and Kyoto",
+      "Osaka and Nagasaki",
+      "Hiroshima and Nagasaki",
+      "Tokyo and Hiroshima"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 40,
+    "explanation": "The United States dropped atomic bombs on Hiroshima on August 6, 1945, and on Nagasaki on August 9, 1945, leading to Japan's surrender.",
+    "createdAt": "2024-12-02T11:20:00.000Z",
+    "updatedAt": "2024-12-02T11:20:00.000Z"
+  },
+  {
+    "id": "cc2f3a4b-5c6d-e7f8-9012-345678901234",
+    "quizSetId": "7f9ac20c-5d3e-5f7a-9b8c-0d1e2f3a4b5c",
+    "question": "Who was the Prime Minister of the United Kingdom for most of World War II?",
+    "options": [
+      "Neville Chamberlain",
+      "Clement Attlee",
+      "Winston Churchill",
+      "Margaret Thatcher"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Winston Churchill served as Prime Minister from 1940 to 1945, leading Britain to victory.",
+    "createdAt": "2024-12-02T11:25:00.000Z",
+    "updatedAt": "2024-12-02T11:25:00.000Z"
+  },
+  {
+    "id": "dd3a4b5c-6d7e-f8a9-0123-456789012345",
+    "quizSetId": "7f9ac20c-5d3e-5f7a-9b8c-0d1e2f3a4b5c",
+    "question": "D-Day refers to the Allied invasion of which region?",
+    "options": [
+      "Sicily, Italy",
+      "Normandy, France",
+      "North Africa",
+      "The Philippines"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "D-Day, on June 6, 1944, marked the start of the Allied invasion of Normandy, a crucial operation to liberate Western Europe.",
+    "createdAt": "2024-12-02T11:30:00.000Z",
+    "updatedAt": "2024-12-02T11:30:00.000Z"
+  },
+  {
+    "id": "1d6e1f3a-4b5c-d6e7-8901-234567890123",
+    "quizSetId": "8a0bd31d-6e4f-6a8b-0c9d-1e2f3a4b5c6d",
+    "question": "Which of these is a brass instrument?",
+    "options": ["Violin", "Flute", "Trumpet", "Clarinet"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The trumpet is a brass instrument. The violin is a string instrument, while the flute and clarinet are woodwind instruments.",
+    "createdAt": "2025-06-11T09:00:00.000Z",
+    "updatedAt": "2025-06-11T09:00:00.000Z"
+  },
+  {
+    "id": "2e7f2a4b-5c6d-e7f8-9012-345678901234",
+    "quizSetId": "8a0bd31d-6e4f-6a8b-0c9d-1e2f3a4b5c6d",
+    "question": "How many strings does a standard violin have?",
+    "options": ["Four", "Five", "Six", "Seven"],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 25,
+    "explanation": "A standard violin has four strings, tuned in perfect fifths.",
+    "createdAt": "2025-06-11T09:05:00.000Z",
+    "updatedAt": "2025-06-11T09:05:00.000Z"
+  },
+  {
+    "id": "3f8a3b5c-6d7e-f8a9-0123-456789012345",
+    "quizSetId": "8a0bd31d-6e4f-6a8b-0c9d-1e2f3a4b5c6d",
+    "question": "Which of the following are percussion instruments? (Select all that apply)",
+    "options": ["Piano", "Drums", "Cello", "Xylophone"],
+    "answerIndices": [1, 3],
+    "mark": 10,
+    "time": 40,
+    "explanation": "Drums and the xylophone are percussion instruments. The piano is a keyboard instrument (often considered percussion-stringed), and the cello is a string instrument.",
+    "createdAt": "2025-06-11T09:10:00.000Z",
+    "updatedAt": "2025-06-11T09:10:00.000Z"
+  },
+  {
+    "id": "4a9b4c6d-7e8f-a9b0-1234-567890123456",
+    "quizSetId": "8a0bd31d-6e4f-6a8b-0c9d-1e2f3a4b5c6d",
+    "question": "The guitar is part of which instrument family?",
+    "options": ["Woodwind", "Brass", "String", "Percussion"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The guitar is a fretted musical instrument that typically has six strings, making it part of the string family.",
+    "createdAt": "2025-06-11T09:15:00.000Z",
+    "updatedAt": "2025-06-11T09:15:00.000Z"
+  },
+  {
+    "id": "5b0c5d7e-8f9a-b0c1-2345-678901234567",
+    "quizSetId": "8a0bd31d-6e4f-6a8b-0c9d-1e2f3a4b5c6d",
+    "question": "Which instrument is known as the 'king of instruments'?",
+    "options": ["Harp", "Pipe Organ", "Grand Piano", "Double Bass"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "The pipe organ is often called the 'king of instruments' because of its size, power, and vast tonal range.",
+    "createdAt": "2025-06-11T09:20:00.000Z",
+    "updatedAt": "2025-06-11T09:20:00.000Z"
+  },
+  {
+    "id": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e-1",
+    "quizSetId": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e",
+    "question": "What is the primary difference between symmetric and asymmetric cryptography?",
+    "options": [
+      "Speed of encryption",
+      "The use of one key vs. two keys",
+      "The level of security",
+      "The type of algorithm used"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 40,
+    "explanation": "Symmetric cryptography uses a single shared key for both encryption and decryption, while asymmetric cryptography uses a pair of keys: a public key for encryption and a private key for decryption.",
+    "createdAt": "2024-09-26T10:00:00.000Z",
+    "updatedAt": "2024-09-26T10:00:00.000Z"
+  },
+  {
+    "id": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e-2",
+    "quizSetId": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e",
+    "question": "Which of the following are examples of symmetric encryption algorithms? (Select all that apply)",
+    "options": ["AES", "RSA", "DES", "Diffie-Hellman"],
+    "answerIndices": [0, 2],
+    "mark": 10,
+    "time": 45,
+    "explanation": "AES (Advanced Encryption Standard) and DES (Data Encryption Standard) are symmetric-key algorithms. RSA and Diffie-Hellman are asymmetric.",
+    "createdAt": "2024-09-26T10:05:00.000Z",
+    "updatedAt": "2024-09-26T10:05:00.000Z"
+  },
+  {
+    "id": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e-3",
+    "quizSetId": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e",
+    "question": "In public-key cryptography, which key should be kept secret?",
+    "options": [
+      "The public key",
+      "The private key",
+      "Both keys",
+      "Neither key"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The private key must be kept secret by the owner. The public key is designed to be shared openly.",
+    "createdAt": "2024-09-26T10:10:00.000Z",
+    "updatedAt": "2024-09-26T10:10:00.000Z"
+  },
+  {
+    "id": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e-4",
+    "quizSetId": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e",
+    "question": "What is a Caesar cipher?",
+    "options": [
+      "A modern encryption standard",
+      "A type of substitution cipher",
+      "An asymmetric algorithm",
+      "A type of hash function"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "A Caesar cipher is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet.",
+    "createdAt": "2024-09-26T10:15:00.000Z",
+    "updatedAt": "2024-09-26T10:15:00.000Z"
+  },
+  {
+    "id": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e-5",
+    "quizSetId": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e",
+    "question": "Hashing is a one-way function. What does this mean?",
+    "options": [
+      "It's easy to reverse",
+      "It's computationally infeasible to reverse",
+      "It uses only one key",
+      "It can only be used for text"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 40,
+    "explanation": "A one-way function means that it is easy to compute the output (hash) from an input, but extremely difficult to compute the input from the output.",
+    "createdAt": "2024-09-26T10:20:00.000Z",
+    "updatedAt": "2024-09-26T10:20:00.000Z"
+  },
+  {
+    "id": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e-6",
+    "quizSetId": "9b1ce42e-7f5a-7b9c-1d0e-2f3a4b5c6d7e",
+    "question": "What is the main purpose of a digital signature?",
+    "options": [
+      "To encrypt a message",
+      "To ensure the author's identity and message integrity",
+      "To hide the message content",
+      "To create a shared secret"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "A digital signature provides authentication (proving the sender's identity), non-repudiation (the sender cannot deny sending it), and integrity (the message hasn't been altered).",
+    "createdAt": "2024-09-26T10:25:00.000Z",
+    "updatedAt": "2024-09-26T10:25:00.000Z"
+  },
+  {
+    "id": "7e8f9a0b-1c2d-3e4f-5a6b-c7d8e9f0a1b2",
+    "quizSetId": "0c2df53f-8a6b-8ca0-2e1f-3a4b5c6d7e8f",
+    "question": "Which Hook is used to add state to a functional component?",
+    "options": ["useEffect", "useState", "useContext", "useReducer"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "`useState` is a Hook that lets you add React state to function components.",
+    "createdAt": "2025-04-06T10:00:00.000Z",
+    "updatedAt": "2025-04-06T10:00:00.000Z"
+  },
+  {
+    "id": "8f9a0b1c-2d3e-4f5a-6b7c-d8e9f0a1b2c3",
+    "quizSetId": "0c2df53f-8a6b-8ca0-2e1f-3a4b5c6d7e8f",
+    "question": "What does the second argument of the `useEffect` Hook (the dependency array) do?",
+    "options": [
+      "It specifies the state variables to watch for changes",
+      "It determines how many times the effect runs",
+      "It is a list of props passed to the component",
+      "It defines the cleanup function"
+    ],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 45,
+    "explanation": "The dependency array tells `useEffect` to re-run the effect only if one of the values in the array has changed between re-renders. An empty array `[]` means the effect runs only once.",
+    "createdAt": "2025-04-06T10:05:00.000Z",
+    "updatedAt": "2025-04-06T10:05:00.000Z"
+  },
+  {
+    "id": "9a0b1c2d-3e4f-5a6b-7c8d-e9f0a1b2c3d4",
+    "quizSetId": "0c2df53f-8a6b-8ca0-2e1f-3a4b5c6d7e8f",
+    "question": "Which Hooks can be used for state management in React? (Select all that apply)",
+    "options": ["useState", "useMemo", "useReducer", "useContext"],
+    "answerIndices": [0, 2, 3],
+    "mark": 10,
+    "time": 45,
+    "explanation": "`useState` is for basic state, `useReducer` is for complex state logic, and `useContext` is used to share state across components without prop drilling. `useMemo` is for memoization, not state management.",
+    "createdAt": "2025-04-06T10:10:00.000Z",
+    "updatedAt": "2025-04-06T10:10:00.000Z"
+  },
+  {
+    "id": "0b1c2d3e-4f5a-6b7c-8d9e-f0a1b2c3d4e5",
+    "quizSetId": "0c2df53f-8a6b-8ca0-2e1f-3a4b5c6d7e8f",
+    "question": "To get a mutable reference to a DOM element, which Hook would you use?",
+    "options": ["useRef", "useState", "useImperativeHandle", "useLayoutEffect"],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 35,
+    "explanation": "`useRef` returns a mutable ref object whose `.current` property can be initialized to a value and persists across renders. It's commonly used to access DOM nodes.",
+    "createdAt": "2025-04-06T10:15:00.000Z",
+    "updatedAt": "2025-04-06T10:15:00.000Z"
+  },
+  {
+    "id": "1c2d3e4f-5a6b-7c8d-9e0f-a1b2c3d4e5f6",
+    "quizSetId": "0c2df53f-8a6b-8ca0-2e1f-3a4b5c6d7e8f",
+    "question": "Which statement about React Hooks is true?",
+    "options": [
+      "Hooks can be called inside loops or conditions",
+      "Hooks can only be called at the top level of a functional component",
+      "Hooks can be used in class components",
+      "Hooks must return a JSX element"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 40,
+    "explanation": "The Rules of Hooks state that you must only call Hooks at the top level. Don't call Hooks inside loops, conditions, or nested functions.",
+    "createdAt": "2025-04-06T10:20:00.000Z",
+    "updatedAt": "2025-04-06T10:20:00.000Z"
+  },
+  {
+    "id": "e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7a8b9",
+    "quizSetId": "0c2df53f-8a6b-8ca0-2e1f-3a4b5c6d7e8f",
+    "question": "What is the primary purpose of the `useCallback` Hook?",
+    "options": [
+      "To cache a complex calculation",
+      "To perform side effects",
+      "To memoize a callback function",
+      "To access context"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 40,
+    "explanation": "`useCallback` returns a memoized version of the callback that only changes if one of the dependencies has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.",
+    "createdAt": "2025-04-06T10:25:00.000Z",
+    "updatedAt": "2025-04-06T10:25:00.000Z"
+  },
+  {
+    "id": "2d3e4f5a-6b7c-8d9e-0f1a-b2c3d4e5f6a7",
+    "quizSetId": "1d3ea64a-9b7c-9db1-3f2a-4b5c6d7e8f9a",
+    "question": "Who is famous for the phrase 'I think, therefore I am' (Cogito, ergo sum)?",
+    "options": ["Socrates", "Plato", "Aristotle", "René Descartes"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "This philosophical proposition was made by René Descartes and is a foundational element of Western philosophy.",
+    "createdAt": "2024-11-12T12:00:00.000Z",
+    "updatedAt": "2024-11-12T12:00:00.000Z"
+  },
+  {
+    "id": "3e4f5a6b-7c8d-9e0f-1a2b-c3d4e5f6a7b8",
+    "quizSetId": "1d3ea64a-9b7c-9db1-3f2a-4b5c6d7e8f9a",
+    "question": "Which of these philosophers were part of ancient Greek philosophy? (Select all that apply)",
+    "options": ["Socrates", "Immanuel Kant", "Plato", "Friedrich Nietzsche"],
+    "answerIndices": [0, 2],
+    "mark": 10,
+    "time": 40,
+    "explanation": "Socrates and his student Plato are key figures in ancient Greek philosophy. Kant and Nietzsche are modern European philosophers.",
+    "createdAt": "2024-11-12T12:05:00.000Z",
+    "updatedAt": "2024-11-12T12:05:00.000Z"
+  },
+  {
+    "id": "4f5a6b7c-8d9e-0f1a-2b3c-d4e5f6a7b8c9",
+    "quizSetId": "1d3ea64a-9b7c-9db1-3f2a-4b5c6d7e8f9a",
+    "question": "The concept of the 'Übermensch' (Overman) is central to the work of which philosopher?",
+    "options": [
+      "Karl Marx",
+      "Jean-Paul Sartre",
+      "Friedrich Nietzsche",
+      "Simone de Beauvoir"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Nietzsche's concept of the Übermensch is a goal for humanity to set for itself in his book 'Thus Spoke Zarathustra'.",
+    "createdAt": "2024-11-12T12:10:00.000Z",
+    "updatedAt": "2024-11-12T12:10:00.000Z"
+  },
+  {
+    "id": "5a6b7c8d-9e0f-1a2b-3c4d-e5f6a7b8c9d0",
+    "quizSetId": "1d3ea64a-9b7c-9db1-3f2a-4b5c6d7e8f9a",
+    "question": "Which philosopher wrote 'The Republic'?",
+    "options": ["Aristotle", "Plato", "Heraclitus", "Zeno"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "'The Republic' is a Socratic dialogue, authored by Plato around 375 BC, concerning justice, the order and character of the just city-state, and the just man.",
+    "createdAt": "2024-11-12T12:15:00.000Z",
+    "updatedAt": "2024-11-12T12:15:00.000Z"
+  },
+  {
+    "id": "6b7c8d9e-0f1a-2b3c-4d5e-f6a7b8c9d0e1",
+    "quizSetId": "1d3ea64a-9b7c-9db1-3f2a-4b5c6d7e8f9a",
+    "question": "Existentialism is a philosophical movement most associated with which thinker?",
+    "options": ["John Locke", "Thomas Hobbes", "Voltaire", "Jean-Paul Sartre"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Jean-Paul Sartre was a key figure in the philosophy of existentialism and phenomenology, and one of the leading figures in 20th-century French philosophy and Marxism.",
+    "createdAt": "2024-11-12T12:20:00.000Z",
+    "updatedAt": "2024-11-12T12:20:00.000Z"
+  },
+  {
+    "id": "0c8d0ec2-4a3b-5c6d-7e8f-9a0b1a2b3c4d",
+    "quizSetId": "2e4fb75b-0c8d-0ec2-4a3b-5c6d7e8f9a0b",
+    "question": "What is the largest animal on Earth?",
+    "options": ["African Elephant", "Blue Whale", "Sperm Whale", "Giant Squid"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The blue whale is the largest animal on the planet, weighing as much as 200 tons (approximately 33 elephants).",
+    "createdAt": "2025-01-08T10:00:00.000Z",
+    "updatedAt": "2025-01-08T10:00:00.000Z"
+  },
+  {
+    "id": "0c8d0ec2-4a3b-5c6d-7e8f-9a0b2b3c4d5e",
+    "quizSetId": "2e4fb75b-0c8d-0ec2-4a3b-5c6d7e8f9a0b",
+    "question": "Which of these marine animals are mammals? (Select all that apply)",
+    "options": ["Shark", "Dolphin", "Sea Turtle", "Manatee"],
+    "answerIndices": [1, 3],
+    "mark": 10,
+    "time": 40,
+    "explanation": "Dolphins and manatees are marine mammals. Sharks are fish, and sea turtles are reptiles.",
+    "createdAt": "2025-01-08T10:05:00.000Z",
+    "updatedAt": "2025-01-08T10:05:00.000Z"
+  },
+  {
+    "id": "0c8d0ec2-4a3b-5c6d-7e8f-9a0b3c4d5e6f",
+    "quizSetId": "2e4fb75b-0c8d-0ec2-4a3b-5c6d7e8f9a0b",
+    "question": "What is the name of the process where corals expel the algae living in their tissues, causing them to turn completely white?",
+    "options": [
+      "Coral Exfoliation",
+      "Coral Fading",
+      "Coral Bleaching",
+      "Coral Erosion"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Coral bleaching occurs when corals are stressed by changes in conditions such as temperature, light, or nutrients.",
+    "createdAt": "2025-01-08T10:10:00.000Z",
+    "updatedAt": "2025-01-08T10:10:00.000Z"
+  },
+  {
+    "id": "0c8d0ec2-4a3b-5c6d-7e8f-9a0b4d5e6f7a",
+    "quizSetId": "2e4fb75b-0c8d-0ec2-4a3b-5c6d7e8f9a0b",
+    "question": "How many hearts does an octopus have?",
+    "options": ["One", "Two", "Three", "Four"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "An octopus has three hearts: two pump blood through the gills, and the third pumps it to the rest of the body.",
+    "createdAt": "2025-01-08T10:15:00.000Z",
+    "updatedAt": "2025-01-08T10:15:00.000Z"
+  },
+  {
+    "id": "0c8d0ec2-4a3b-5c6d-7e8f-9a0b5e6f7a8b",
+    "quizSetId": "2e4fb75b-0c8d-0ec2-4a3b-5c6d7e8f9a0b",
+    "question": "The Great Barrier Reef is located off the coast of which country?",
+    "options": ["South Africa", "Brazil", "Australia", "Mexico"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The Great Barrier Reef, the world's largest coral reef system, is located in the Coral Sea, off the coast of Queensland, Australia.",
+    "createdAt": "2025-01-08T10:20:00.000Z",
+    "updatedAt": "2025-01-08T10:20:00.000Z"
+  },
+  {
+    "id": "6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+    "quizSetId": "2e4fb75b-0c8d-0ec2-4a3b-5c6d7e8f9a0b",
+    "question": "What is bioluminescence in marine life?",
+    "options": [
+      "A form of camouflage",
+      "The production and emission of light by a living organism",
+      "A method of hunting",
+      "A type of deep-sea plant"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Bioluminescence is the light produced by a chemical reaction within a living organism, common in many marine creatures, especially in the deep sea.",
+    "createdAt": "2025-01-08T10:25:00.000Z",
+    "updatedAt": "2025-01-08T10:25:00.000Z"
+  },
+  {
+    "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+    "quizSetId": "2e4fb75b-0c8d-0ec2-4a3b-5c6d7e8f9a0b",
+    "question": "Which of these creatures are known for their long migrations? (Select all that apply)",
+    "options": ["Humpback Whales", "Clownfish", "Sea Turtles", "Starfish"],
+    "answerIndices": [0, 2],
+    "mark": 10,
+    "time": 40,
+    "explanation": "Humpback whales and many species of sea turtles undertake some of the longest migrations in the animal kingdom. Clownfish and starfish are generally sedentary.",
+    "createdAt": "2025-01-08T10:30:00.000Z",
+    "updatedAt": "2025-01-08T10:30:00.000Z"
+  },
+  {
+    "id": "1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6f",
+    "quizSetId": "3f5ac86c-1d9e-1fd3-5b4c-6d7e8f9a0b1c",
+    "question": "Who is the king of the gods in Greek mythology?",
+    "options": ["Hades", "Poseidon", "Zeus", "Apollo"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Zeus is the god of the sky and thunder and the ruler of the Olympian gods.",
+    "createdAt": "2024-11-01T10:00:00.000Z",
+    "updatedAt": "2024-11-01T10:00:00.000Z"
+  },
+  {
+    "id": "2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7g",
+    "quizSetId": "3f5ac86c-1d9e-1fd3-5b4c-6d7e8f9a0b1c",
+    "question": "Which of these are children of Odin in Norse mythology? (Select all that apply)",
+    "options": ["Thor", "Loki", "Baldr", "Freya"],
+    "answerIndices": [0, 2],
+    "mark": 10,
+    "time": 45,
+    "explanation": "Thor and Baldr are sons of Odin. Loki is Odin's blood brother, not his son. Freya is a Vanir goddess.",
+    "createdAt": "2024-11-01T10:05:00.000Z",
+    "updatedAt": "2024-11-01T10:05:00.000Z"
+  },
+  {
+    "id": "3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8h",
+    "quizSetId": "3f5ac86c-1d9e-1fd3-5b4c-6d7e8f9a0b1c",
+    "question": "Aphrodite is the Greek goddess of what?",
+    "options": ["War", "Wisdom", "The Hunt", "Love and Beauty"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Aphrodite is the ancient Greek goddess associated with love, beauty, pleasure, passion and procreation.",
+    "createdAt": "2024-11-01T10:10:00.000Z",
+    "updatedAt": "2024-11-01T10:10:00.000Z"
+  },
+  {
+    "id": "4e5f6a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9i",
+    "quizSetId": "3f5ac86c-1d9e-1fd3-5b4c-6d7e8f9a0b1c",
+    "question": "Who is the Egyptian god of the afterlife?",
+    "options": ["Ra", "Horus", "Anubis", "Osiris"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Osiris is the god of fertility, alcohol, agriculture, the afterlife, the dead, resurrection, life, and vegetation in ancient Egyptian religion.",
+    "createdAt": "2024-11-01T10:15:00.000Z",
+    "updatedAt": "2024-11-01T10:15:00.000Z"
+  },
+  {
+    "id": "5f6a7b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0j",
+    "quizSetId": "3f5ac86c-1d9e-1fd3-5b4c-6d7e8f9a0b1c",
+    "question": "What is the Roman equivalent of the Greek god Zeus?",
+    "options": ["Mars", "Jupiter", "Neptune", "Pluto"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Jupiter is the Roman king of the gods, equivalent to the Greek Zeus.",
+    "createdAt": "2024-11-01T10:20:00.000Z",
+    "updatedAt": "2024-11-01T10:20:00.000Z"
+  },
+  {
+    "id": "1e2f3a4b-5c6d-7e8f-9a0b-c1d2e3f4a5b7",
+    "quizSetId": "4a6bd97d-2e0f-2a4e-6c5d-7e8f9a0b1c2d",
+    "question": "In photography, what does 'aperture' refer to?",
+    "options": [
+      "The speed of the shutter",
+      "The sensitivity of the sensor to light",
+      "The opening in the lens that light passes through",
+      "The focal length of the lens"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 40,
+    "explanation": "Aperture refers to the opening of a lens's diaphragm through which light passes. It is calibrated in f/stops.",
+    "createdAt": "2025-03-01T11:00:00.000Z",
+    "updatedAt": "2025-03-01T11:00:00.000Z"
+  },
+  {
+    "id": "2f3a4b5c-6d7e-8f9a-0b1c-d2e3f4a5b6c8",
+    "quizSetId": "4a6bd97d-2e0f-2a4e-6c5d-7e8f9a0b1c2d",
+    "question": "Which of these f-stops represents the largest aperture opening? (Select all that apply)",
+    "options": ["f/1.8", "f/4", "f/8", "f/16"],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 45,
+    "explanation": "A smaller f-stop number corresponds to a larger aperture opening, allowing more light to enter the lens.",
+    "createdAt": "2025-03-01T11:05:00.000Z",
+    "updatedAt": "2025-03-01T11:05:00.000Z"
+  },
+  {
+    "id": "3a4b5c6d-7e8f-9a0b-1c2d-e3f4a5b6c7d9",
+    "quizSetId": "4a6bd97d-2e0f-2a4e-6c5d-7e8f9a0b1c2d",
+    "question": "What is 'shutter speed'?",
+    "options": [
+      "The time the lens stays open",
+      "The time the shutter stays open",
+      "The speed the camera processes the image",
+      "The speed of the autofocus"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Shutter speed is the length of time the camera's shutter is open, exposing light onto the camera sensor. It affects motion blur.",
+    "createdAt": "2025-03-01T11:10:00.000Z",
+    "updatedAt": "2025-03-01T11:10:00.000Z"
+  },
+  {
+    "id": "4b5c6d7e-8f9a-0b1c-2d3e-f4a5b6c7d8e0",
+    "quizSetId": "4a6bd97d-2e0f-2a4e-6c5d-7e8f9a0b1c2d",
+    "question": "A higher ISO setting (e.g., 3200) is best for which conditions?",
+    "options": [
+      "Bright sunny days",
+      "Low-light conditions",
+      "Studio portraits",
+      "Landscape photography"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 40,
+    "explanation": "A higher ISO increases the sensor's sensitivity to light, which is useful in dark environments but can introduce more noise or 'grain' into the image.",
+    "createdAt": "2025-03-01T11:15:00.000Z",
+    "updatedAt": "2025-03-01T11:15:00.000Z"
+  },
+  {
+    "id": "5c6d7e8f-9a0b-1c2d-3e4f-a5b6c7d8e9f1",
+    "quizSetId": "4a6bd97d-2e0f-2a4e-6c5d-7e8f9a0b1c2d",
+    "question": "What is 'depth of field'?",
+    "options": [
+      "The distance to the subject",
+      "The thickness of the lens",
+      "The area of the image that appears sharp",
+      "The brightness of the image"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "Depth of field is the distance between the nearest and the furthest objects that are in acceptably sharp focus in an image. It is controlled by aperture.",
+    "createdAt": "2025-03-01T11:20:00.000Z",
+    "updatedAt": "2025-03-01T11:20:00.000Z"
+  },
+  {
+    "id": "6a7b8c9d-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
+    "quizSetId": "5b7cea8e-3f1a-3b5f-7d6e-8f9a0b1c2d3e",
+    "question": "What is the motto of House Stark?",
+    "options": [
+      "Ours is the Fury",
+      "Winter is Coming",
+      "Hear Me Roar!",
+      "Family, Duty, Honor"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The official motto of House Stark is 'Winter Is Coming'.",
+    "createdAt": "2025-05-21T10:00:00.000Z",
+    "updatedAt": "2025-05-21T10:00:00.000Z"
+  },
+  {
+    "id": "7b8c9d0e-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
+    "quizSetId": "5b7cea8e-3f1a-3b5f-7d6e-8f9a0b1c2d3e",
+    "question": "Which of these characters are children of Tywin Lannister? (Select all that apply)",
+    "options": ["Jaime", "Tyrion", "Sansa", "Cersei"],
+    "answerIndices": [0, 1, 3],
+    "mark": 10,
+    "time": 40,
+    "explanation": "Tywin Lannister's children are Cersei, Jaime, and Tyrion. Sansa is a Stark.",
+    "createdAt": "2025-05-21T10:05:00.000Z",
+    "updatedAt": "2025-05-21T10:05:00.000Z"
+  },
+  {
+    "id": "8c9d0e1f-3b4c-5d6e-7f8a-9b0c1d2e3f4a",
+    "quizSetId": "5b7cea8e-3f1a-3b5f-7d6e-8f9a0b1c2d3e",
+    "question": "What is the name of Daenerys Targaryen's largest dragon?",
+    "options": ["Viserion", "Rhaegal", "Drogon", "Balerion"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Drogon, named after her late husband Khal Drogo, is the largest and most aggressive of her three dragons.",
+    "createdAt": "2025-05-21T10:10:00.000Z",
+    "updatedAt": "2025-05-21T10:10:00.000Z"
+  },
+  {
+    "id": "9d0e1f2a-4c5d-6e7f-8a9b-0c1d2e3f4a5b",
+    "quizSetId": "5b7cea8e-3f1a-3b5f-7d6e-8f9a0b1c2d3e",
+    "question": "The Night King is the leader of which group?",
+    "options": [
+      "The Dothraki",
+      "The Unsullied",
+      "The White Walkers",
+      "The Golden Company"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The Night King is the master and the first of the White Walkers.",
+    "createdAt": "2025-05-21T10:15:00.000Z",
+    "updatedAt": "2025-05-21T10:15:00.000Z"
+  },
+  {
+    "id": "0e1f2a3b-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+    "quizSetId": "5b7cea8e-3f1a-3b5f-7d6e-8f9a0b1c2d3e",
+    "question": "What is the name of Jon Snow's direwolf?",
+    "options": ["Grey Wind", "Ghost", "Nymeria", "Shaggydog"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Jon Snow's direwolf, an albino, is named Ghost.",
+    "createdAt": "2025-05-21T10:20:00.000Z",
+    "updatedAt": "2025-05-21T10:20:00.000Z"
+  },
+  {
+    "id": "1f2a3b4c-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+    "quizSetId": "5b7cea8e-3f1a-3b5f-7d6e-8f9a0b1c2d3e",
+    "question": "'Valar Morghulis' is a High Valyrian phrase meaning what?",
+    "options": [
+      "All men must die",
+      "All men must serve",
+      "All men must live",
+      "All men must fight"
+    ],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 35,
+    "explanation": "The phrase 'Valar Morghulis' means 'All men must die'. The traditional response is 'Valar Dohaeris' — 'All men must serve'.",
+    "createdAt": "2025-05-21T10:25:00.000Z",
+    "updatedAt": "2025-05-21T10:25:00.000Z"
+  },
+  {
+    "id": "7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
+    "quizSetId": "5b7cea8e-3f1a-3b5f-7d6e-8f9a0b1c2d3e",
+    "question": "Which material can kill a White Walker? (Select all that apply)",
+    "options": ["Steel", "Fire", "Dragonglass", "Valyrian steel"],
+    "answerIndices": [2, 3],
+    "mark": 10,
+    "time": 40,
+    "explanation": "White Walkers are vulnerable to weapons made of Dragonglass (obsidian) and Valyrian steel. Regular fire can deter wights but not White Walkers themselves.",
+    "createdAt": "2025-05-21T10:30:00.000Z",
+    "updatedAt": "2025-05-21T10:30:00.000Z"
+  },
+  {
+    "id": "1c1d2e3f-4a5b-6c7d-8e9f-0a1b2c3d4e5f",
+    "quizSetId": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "question": "What is the name of the Dundie award that Michael Scott wins every year?",
+    "options": [
+      "Best Boss",
+      "Hottest in the Office",
+      "The 'Don't Go in There After Me' Award",
+      "Best Salesman"
+    ],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Michael Scott consistently awards himself the 'Best Boss' Dundie.",
+    "createdAt": "2025-05-26T10:00:00.000Z",
+    "updatedAt": "2025-05-26T10:00:00.000Z"
+  },
+  {
+    "id": "2d2e3f4a-5b6c-7d8e-9f0a-1b2c3d4e5f6a",
+    "quizSetId": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "question": "Which of these are Schrute Farms traditions? (Select all that apply)",
+    "options": [
+      "Table-making demonstrations",
+      "Mose's terrifying scarecrow",
+      "Beet wine tasting",
+      "Manure-based fertilizer sales"
+    ],
+    "answerIndices": [0, 2, 3],
+    "mark": 10,
+    "time": 45,
+    "explanation": "Schrute Farms offers various agro-tourism experiences, including table-making, beet wine, and selling manure. The scarecrow is just terrifying.",
+    "createdAt": "2025-05-26T10:05:00.000Z",
+    "updatedAt": "2025-05-26T10:05:00.000Z"
+  },
+  {
+    "id": "3e3f4a5b-6c7d-8e9f-0a1b-2c3d4e5f6a7b",
+    "quizSetId": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "question": "What is the name of the cat Angela has a poster of in her cubicle?",
+    "options": [
+      "Bandit",
+      "Sprinkles",
+      "Garbage",
+      "A poster of babies dressed as adults"
+    ],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Angela has a famous poster of two babies dressed as adults playing saxophones.",
+    "createdAt": "2025-05-26T10:10:00.000Z",
+    "updatedAt": "2025-05-26T10:10:00.000Z"
+  },
+  {
+    "id": "4f4a5b6c-7d8e-9f0a-1b2c-3d4e5f6a7b8c",
+    "quizSetId": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "question": "Kevin Malone's band, Scrantonicity, is a tribute to which band?",
+    "options": ["The Beatles", "The Police", "U2", "Bon Jovi"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Scrantonicity is a Police tribute band, and they are available for weddings and parties.",
+    "createdAt": "2025-05-26T10:15:00.000Z",
+    "updatedAt": "2025-05-26T10:15:00.000Z"
+  },
+  {
+    "id": "5a5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d",
+    "quizSetId": "3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f",
+    "question": "What does Michael Scott burn his foot on?",
+    "options": [
+      "A hot coal from a fire walk",
+      "A George Foreman Grill",
+      "A space heater",
+      "Spilled coffee"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Michael burns his foot on a George Foreman Grill that he keeps next to his bed to wake up to the smell of cooking bacon.",
+    "createdAt": "2025-05-26T10:20:00.000Z",
+    "updatedAt": "2025-05-26T10:20:00.000Z"
+  },
+  {
+    "id": "9f0a1b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+    "quizSetId": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "question": "Who is the famous detective created by Sir Arthur Conan Doyle?",
+    "options": [
+      "Hercule Poirot",
+      "Sherlock Holmes",
+      "Philip Marlowe",
+      "Sam Spade"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Sherlock Holmes, the brilliant consulting detective of 221B Baker Street, was created by Sir Arthur Conan Doyle.",
+    "createdAt": "2024-07-28T10:00:00.000Z",
+    "updatedAt": "2024-07-28T10:00:00.000Z"
+  },
+  {
+    "id": "0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+    "quizSetId": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "question": "Which Agatha Christie detective is known for their 'little grey cells'?",
+    "options": [
+      "Miss Marple",
+      "Tommy and Tuppence",
+      "Hercule Poirot",
+      "Parker Pyne"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The Belgian detective Hercule Poirot often refers to his powerful intellect as his 'little grey cells'.",
+    "createdAt": "2024-07-28T10:05:00.000Z",
+    "updatedAt": "2024-07-28T10:05:00.000Z"
+  },
+  {
+    "id": "1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6a",
+    "quizSetId": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "question": "Which of these are famous hardboiled detectives from American literature? (Select all that apply)",
+    "options": ["Sherlock Holmes", "Sam Spade", "Philip Marlowe", "Nancy Drew"],
+    "answerIndices": [1, 2],
+    "mark": 10,
+    "time": 40,
+    "explanation": "Sam Spade (created by Dashiell Hammett) and Philip Marlowe (created by Raymond Chandler) are archetypal 'hardboiled' private eyes. Sherlock Holmes is a British consulting detective and Nancy Drew is an amateur sleuth.",
+    "createdAt": "2024-07-28T10:10:00.000Z",
+    "updatedAt": "2024-07-28T10:10:00.000Z"
+  },
+  {
+    "id": "2c3d4e5f-6a7b-8c9d-0e1f-2a3b4c5d6a7b",
+    "quizSetId": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "question": "In 'Murder on the Orient Express', how is the victim killed?",
+    "options": [
+      "Poisoned",
+      "Shot",
+      "Stabbed multiple times by multiple people",
+      "Strangled"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 35,
+    "explanation": "The resolution reveals that all of the passengers on the coach were complicit in stabbing the victim, seeking collective revenge.",
+    "createdAt": "2024-07-28T10:15:00.000Z",
+    "updatedAt": "2024-07-28T10:15:00.000Z"
+  },
+  {
+    "id": "3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6a7b8c",
+    "quizSetId": "4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a",
+    "question": "Who is Sherlock Holmes's arch-nemesis?",
+    "options": [
+      "Inspector Lestrade",
+      "Mycroft Holmes",
+      "Irene Adler",
+      "Professor Moriarty"
+    ],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Professor James Moriarty is a criminal mastermind whom Holmes describes as the 'Napoleon of crime'.",
+    "createdAt": "2024-07-28T10:20:00.000Z",
+    "updatedAt": "2024-07-28T10:20:00.000Z"
+  },
+  {
+    "id": "9c0d1e2f-3a4b-5c6d-7e8f-9a0b1c2d3e4f",
+    "quizSetId": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "question": "What are the four fundamental forces of nature?",
+    "options": [
+      "Gravity, Electromagnetism, Friction, Tension",
+      "Strong Nuclear, Weak Nuclear, Gravity, Electromagnetism",
+      "Kinetic, Potential, Nuclear, Magnetic",
+      "Gravity, Magnetism, Electricity, Force"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 45,
+    "explanation": "The four fundamental forces are the strong nuclear force, the weak nuclear force, electromagnetism, and gravity.",
+    "createdAt": "2025-06-14T10:00:00.000Z",
+    "updatedAt": "2025-06-14T10:00:00.000Z"
+  },
+  {
+    "id": "0d1e2f3a-4b5c-6d7e-8f9a-0b1c2d3e4f5a",
+    "quizSetId": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "question": "Which of these concepts belong to the field of quantum mechanics? (Select all that apply)",
+    "options": [
+      "Wave-particle duality",
+      "Newton's Laws of Motion",
+      "Superposition",
+      "General Relativity"
+    ],
+    "answerIndices": [0, 2],
+    "mark": 10,
+    "time": 50,
+    "explanation": "Wave-particle duality and superposition are core principles of quantum mechanics. Newton's Laws and General Relativity belong to classical and relativistic physics, respectively.",
+    "createdAt": "2025-06-14T10:05:00.000Z",
+    "updatedAt": "2025-06-14T10:05:00.000Z"
+  },
+  {
+    "id": "1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5a6b",
+    "quizSetId": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "question": "What does the Second Law of Thermodynamics state about entropy?",
+    "options": [
+      "Entropy in an isolated system always decreases",
+      "Entropy is always conserved",
+      "The entropy of any isolated system always increases",
+      "Entropy is unrelated to heat"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 45,
+    "explanation": "The Second Law of Thermodynamics states that the total entropy of an isolated system can only increase over time. It can remain constant in ideal cases where the system is in a steady state or undergoing a reversible process.",
+    "createdAt": "2025-06-14T10:10:00.000Z",
+    "updatedAt": "2025-06-14T10:10:00.000Z"
+  },
+  {
+    "id": "2f3a4b5c-6d7e-8f9a-0b1c-2d3e4f5a6b7c",
+    "quizSetId": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "question": "In materials science, what is 'tensile strength'?",
+    "options": [
+      "A material's resistance to being compressed",
+      "A material's resistance to being stretched or pulled apart",
+      "A material's density",
+      "A material's electrical conductivity"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 40,
+    "explanation": "Tensile strength is the maximum stress a material can withstand while being stretched or pulled before necking, which is when the specimen's cross-section starts to significantly contract.",
+    "createdAt": "2025-06-14T10:15:00.000Z",
+    "updatedAt": "2025-06-14T10:15:00.000Z"
+  },
+  {
+    "id": "3a4b5c6d-7e8f-9a0b-1c2d-3e4f5a6b7c8d",
+    "quizSetId": "5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b",
+    "question": "E = mc² is an equation from which theory?",
+    "options": [
+      "Quantum Mechanics",
+      "String Theory",
+      "Special Relativity",
+      "Thermodynamics"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "This famous equation, representing mass-energy equivalence, is from Albert Einstein's theory of Special Relativity.",
+    "createdAt": "2025-06-14T10:20:00.000Z",
+    "updatedAt": "2025-06-14T10:20:00.000Z"
+  },
+  {
+    "id": "mn3456op-qr78-90st-uv12-wxyzabcdefgh-1",
+    "quizSetId": "mn3456op-qr78-90st-uv12-wxyzabcdefgh",
+    "question": "Who is Luke Skywalker's father?",
+    "options": [
+      "Obi-Wan Kenobi",
+      "Emperor Palpatine",
+      "Darth Vader",
+      "Boba Fett"
+    ],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 25,
+    "explanation": "In a famous cinematic twist, Darth Vader reveals to Luke, 'I am your father.'",
+    "createdAt": "2025-05-05T10:00:00.000Z",
+    "updatedAt": "2025-05-05T10:00:00.000Z"
+  },
+  {
+    "id": "mn3456op-qr78-90st-uv12-wxyzabcdefgh-2",
+    "quizSetId": "mn3456op-qr78-90st-uv12-wxyzabcdefgh",
+    "question": "What is the name of Han Solo's ship?",
+    "options": ["Star Destroyer", "X-Wing", "TIE Fighter", "Millennium Falcon"],
+    "answerIndices": [3],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The Millennium Falcon is the iconic Corellian light freighter famously captained by Han Solo and Chewbacca.",
+    "createdAt": "2025-05-05T10:05:00.000Z",
+    "updatedAt": "2025-05-05T10:05:00.000Z"
+  },
+  {
+    "id": "mn3456op-qr78-90st-uv12-wxyzabcdefgh-3",
+    "quizSetId": "mn3456op-qr78-90st-uv12-wxyzabcdefgh",
+    "question": "Which characters are siblings? (Select all that apply)",
+    "options": ["Luke Skywalker", "Han Solo", "Leia Organa", "Chewbacca"],
+    "answerIndices": [0, 2],
+    "mark": 10,
+    "time": 35,
+    "explanation": "It is revealed in 'Return of the Jedi' that Luke Skywalker and Leia Organa are twin siblings, children of Anakin Skywalker and Padmé Amidala.",
+    "createdAt": "2025-05-05T10:10:00.000Z",
+    "updatedAt": "2025-05-05T10:10:00.000Z"
+  },
+  {
+    "id": "mn3456op-qr78-90st-uv12-wxyzabcdefgh-4",
+    "quizSetId": "mn3456op-qr78-90st-uv12-wxyzabcdefgh",
+    "question": "Which planet is the home of the Wookiees?",
+    "options": ["Tatooine", "Hoth", "Kashyyyk", "Endor"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Kashyyyk is the Wookiee homeworld, covered in giant wroshyr trees.",
+    "createdAt": "2025-05-05T10:15:00.000Z",
+    "updatedAt": "2025-05-05T10:15:00.000Z"
+  },
+  {
+    "id": "mn3456op-qr78-90st-uv12-wxyzabcdefgh-5",
+    "quizSetId": "mn3456op-qr78-90st-uv12-wxyzabcdefgh",
+    "question": "What is the Empire's ultimate weapon in 'A New Hope'?",
+    "options": [
+      "A Super Star Destroyer",
+      "The Death Star",
+      "Starkiller Base",
+      "The Sun Crusher"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The Death Star is the moon-sized battle station with the ability to destroy an entire planet.",
+    "createdAt": "2025-05-05T10:20:00.000Z",
+    "updatedAt": "2025-05-05T10:20:00.000Z"
+  },
+  {
+    "id": "mn3456op-qr78-90st-uv12-wxyzabcdefgh-6",
+    "quizSetId": "mn3456op-qr78-90st-uv12-wxyzabcdefgh",
+    "question": "Who trains Luke Skywalker to be a Jedi in 'The Empire Strikes Back'?",
+    "options": ["Obi-Wan Kenobi", "Mace Windu", "Yoda", "Qui-Gon Jinn"],
+    "answerIndices": [2],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Luke travels to the swamp planet of Dagobah to be trained by the ancient and powerful Jedi Master, Yoda.",
+    "createdAt": "2025-05-05T10:25:00.000Z",
+    "updatedAt": "2025-05-05T10:25:00.000Z"
+  },
+  {
+    "id": "cc2f3a4b-5c6d-e7f8-9012-345678901235",
+    "quizSetId": "op5678qr-st90-12uv-wx34-yzabcdefghij",
+    "question": "Which object in a Node.js Express app is used to handle a request and send a response?",
+    "options": [
+      "request, response",
+      "req, res",
+      "in, out",
+      "http.request, http.response"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "In Express, the request and response objects are conventionally abbreviated as `req` and `res` in the callback functions for routes.",
+    "createdAt": "2025-03-02T10:00:00.000Z",
+    "updatedAt": "2025-03-02T10:00:00.000Z"
+  },
+  {
+    "id": "dd3a4b5c-6d7e-f8a9-0123-456789012346",
+    "quizSetId": "op5678qr-st90-12uv-wx34-yzabcdefghij",
+    "question": "How do you install Express.js in a project?",
+    "options": [
+      "npm install express",
+      "npm add express",
+      "node install express",
+      "get install express"
+    ],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 30,
+    "explanation": "You use the Node Package Manager (npm) to install packages. The command is `npm install express`.",
+    "createdAt": "2025-03-02T10:05:00.000Z",
+    "updatedAt": "2025-03-02T10:05:00.000Z"
+  },
+  {
+    "id": "ee4b5c6d-7e8f-a9b0-1234-567890123456",
+    "quizSetId": "op5678qr-st90-12uv-wx34-yzabcdefghij",
+    "question": "What is middleware in the context of Express? (Select all that apply)",
+    "options": [
+      "A function with access to req and res objects",
+      "The final handler for a route",
+      "A function that can end the request-response cycle",
+      "A function that can pass control to the next middleware"
+    ],
+    "answerIndices": [0, 2, 3],
+    "mark": 10,
+    "time": 50,
+    "explanation": "Middleware functions can execute code, make changes to the request and the response objects, end the cycle, or call the next middleware in the stack.",
+    "createdAt": "2025-03-02T10:10:00.000Z",
+    "updatedAt": "2025-03-02T10:10:00.000Z"
+  },
+  {
+    "id": "ff5c6d7e-8f9a-b0c1-2345-678901234567",
+    "quizSetId": "op5678qr-st90-12uv-wx34-yzabcdefghij",
+    "question": "Which method on the response object (`res`) is used to send a JSON response?",
+    "options": ["res.send()", "res.json()", "res.render()", "res.end()"],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 35,
+    "explanation": "`res.json()` sends a JSON response. It automatically sets the `Content-Type` header to `application/json`.",
+    "createdAt": "2025-03-02T10:15:00.000Z",
+    "updatedAt": "2025-03-02T10:15:00.000Z"
+  },
+  {
+    "id": "aa6d7e8f-9a0b-c1d2-3456-789012345678",
+    "quizSetId": "op5678qr-st90-12uv-wx34-yzabcdefghij",
+    "question": "How do you define a route for a GET request to the path '/users'?",
+    "options": [
+      "app.get('/users', ...)",
+      "app.route('/users', 'GET', ...)",
+      "app.users('GET', ...)",
+      "app.request('/users', 'GET', ...)"
+    ],
+    "answerIndices": [0],
+    "mark": 5,
+    "time": 30,
+    "explanation": "Express provides methods that correspond to HTTP methods, so a GET request is defined using `app.get()`.",
+    "createdAt": "2025-03-02T10:20:00.000Z",
+    "updatedAt": "2025-03-02T10:20:00.000Z"
+  },
+  {
+    "id": "bb7e8f9a-0b1c-d2e3-4567-890123456789",
+    "quizSetId": "op5678qr-st90-12uv-wx34-yzabcdefghij",
+    "question": "What is the purpose of `app.listen()` in an Express application?",
+    "options": [
+      "To connect to a database",
+      "To start the server and listen for connections on a specified port",
+      "To listen for file changes",
+      "To import other modules"
+    ],
+    "answerIndices": [1],
+    "mark": 5,
+    "time": 30,
+    "explanation": "The `app.listen()` function binds and listens for connections on the specified host and port. It is identical to Node's `http.Server.listen()`.",
+    "createdAt": "2025-03-02T10:25:00.000Z",
+    "updatedAt": "2025-03-02T10:25:00.000Z"
+  }
+]

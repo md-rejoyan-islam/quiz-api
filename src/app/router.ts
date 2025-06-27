@@ -8,6 +8,7 @@ import errorHandler from "../middlewares/error-handler";
 import authRouter from "../routes/auth.routes";
 import questionRouter from "../routes/question.routes";
 import quizRouter from "../routes/quiz.routes";
+import seedRouter from "../routes/seed.routes";
 import userRouter from "../routes/user.routes";
 import { successResponse } from "../utils/response-handler";
 
@@ -45,7 +46,7 @@ router.use("/api/v1/auth", authRouter);
 router.use("/api/v1/users", userRouter);
 router.use("/api/v1/quiz-sets", quizRouter);
 router.use("/api/v1/questions", questionRouter);
-// router.use("/api/v1/admin/quizzes", adminQuizRouter);
+router.use("/api/v1/seeds", seedRouter);
 
 // Setup the Swagger UI route
 router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

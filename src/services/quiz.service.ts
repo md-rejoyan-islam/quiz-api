@@ -4,31 +4,6 @@ import { QUIZ_SET } from "../types";
 
 const prisma = new PrismaClient();
 
-interface CreateQuizData {
-  title: string;
-  description: string;
-  status: string;
-  label: string;
-}
-
-interface QuestionData {
-  question: string;
-  text: string;
-  options: string[];
-  correctAnswer: string;
-}
-
-interface AttemptData {
-  userId: number;
-  quizId: number;
-  answers: string[];
-}
-
-interface LeaderboardQuery {
-  page: number;
-  limit: number;
-}
-
 // create quiz
 const createQuizSet = async (
   payload: Pick<
@@ -67,7 +42,9 @@ const createQuizSet = async (
 
 // get all quizzes
 const getAllQuizSet = async () => {
-  const quizSets = await prisma.quizSet.findMany();
+  const quizSets = await prisma.quizSet.findMany({
+    include: { questions: true },
+  });
   if (!quizSets || quizSets.length === 0) {
     throw createError.NotFound("No quiz sets found");
   }
@@ -75,6 +52,14 @@ const getAllQuizSet = async () => {
     return {
       ...quizSet,
       tags: JSON.parse(quizSet.tags),
+      questions:
+        quizSet?.questions?.map((question) => {
+          return {
+            ...question,
+            options: JSON.parse(question.options),
+            answerIndices: JSON.parse(question.answerIndices),
+          };
+        }) || [],
     };
   });
 };
@@ -164,6 +149,7 @@ const publishQuizSetById = async (quizId: string) => {
 const attemptQuizSetById = async (
   userId: string,
   quizId: string,
+  time: number,
   answers: { [questionId: string]: number[] }
 ) => {
   const quiz = await prisma.quizSet.findFirst({
@@ -224,6 +210,7 @@ const attemptQuizSetById = async (
       score,
       wrong,
       skipped,
+      time,
       quizSetId: quizId,
       submittedAnswers: JSON.stringify(answers),
     },
