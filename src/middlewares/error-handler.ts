@@ -22,8 +22,7 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let message = "Something went wrong!";
   let errors: { path: string | number; message: string }[] = [];
 
-  // jwt error
-  // json web token errors
+  // start jwt error
   if (error.name === "JsonWebTokenError") {
     statusCode = BadRequest().statusCode;
     error.message = "Invalid token. Please log in again!";
@@ -37,7 +36,6 @@ const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
       { path: "", message: "Your token has expired! Please log in again." },
     ];
   }
-
   // end jwt error
 
   // 1. Handle Zod validation errors

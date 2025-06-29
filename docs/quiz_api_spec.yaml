@@ -7,41 +7,908 @@ servers:
   - url: http://localhost:5000/api/v1
     description: Development server
 tags:
-  - name: User & Auth
-    description: "Endpoints for user authentication and profile management."
+  - name: Authentication
+    description: Endpoints for user registration, login, token management, and password changes.
+  - name: User Profile
+    description: Endpoints for the currently authenticated user to manage their own profile.
   - name: User Management
-    description: "Endpoints for managing users (profiles, status, and related data)."
+    description: Endpoints for admins to manage all users (profiles, status, and related data).
   - name: Quiz Management
-    description: "Endpoints for creating, updating, and managing quizzes."
+    description: Endpoints for admins to create, update, and manage quizzes.
   - name: Question Management
-    description: "Endpoints for managing questions within quizzes."
+    description: Endpoints for managing questions within quizzes.
   - name: Quiz Interaction
-    description: "Endpoints for users to attempt quizzes, view results, and provide ratings."
+    description: Endpoints for users to discover, attempt, and rate quizzes.
 
+paths:
+  # --- AUTHENTICATION ---
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegistrationInput"
+      responses:
+        "201":
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+        "409":
+          $ref: "#/components/responses/ConflictError"
+
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLoginInput"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /auth/refresh-token:
+    post:
+      tags: [Authentication]
+      summary: Get a new access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshTokenInput"
+      responses:
+        "200":
+          description: New access token generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RefreshTokenResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /auth/logout:
+    post:
+      tags: [Authentication]
+      summary: Logout a user
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /auth/forgot-password:
+    post:
+      tags: [Authentication]
+      summary: Request a password reset link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          description: Password reset link sent if user exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  /auth/reset-password/{token}:
+    patch:
+      tags: [Authentication]
+      summary: Reset password with a token
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+      responses:
+        "200":
+          description: Password has been reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  /auth/change-password:
+    patch:
+      tags: [Authentication]
+      summary: Change current user's password
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordInput"
+      responses:
+        "200":
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  # --- USER PROFILE ---
+  /auth/me:
+    get:
+      tags: [User Profile]
+      summary: Get current user's profile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User profile retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  # --- USER MANAGEMENT ---
+  /users:
+    get:
+      tags: [User Management]
+      summary: Get all users (Admin only)
+      description: Retrieves a list of all users. Requires ADMIN role.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      users:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+
+  /users/{id}:
+    get:
+      tags: [User Management]
+      summary: Get user by ID
+      description: Retrieves a user's profile. Requires ADMIN role or for the user to be the owner of the resource.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: User profile retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+    patch:
+      tags: [User Management]
+      summary: Update user by ID
+      description: Updates a user's profile. Requires ADMIN role or for the user to be the owner of the resource.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserInput"
+      responses:
+        "200":
+          description: User profile updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+    delete:
+      tags: [User Management]
+      summary: Delete user by ID
+      description: Deletes a user. Requires ADMIN role or for the user to be the owner of the resource.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: User deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /users/{id}/quizzes:
+    get:
+      tags: [User Management]
+      summary: Get all quizzes created by a user
+      description: Retrieves all quizzes by user ID. Requires ADMIN or owner role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: A list of quizzes created by the user.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      quizzes:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/QuizSet"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /users/{id}/attempts:
+    get:
+      tags: [User Management]
+      summary: Get all quiz attempts by a user
+      description: Retrieves all quiz attempts by user ID. Requires ADMIN or owner role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: A list of attempts made by the user.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      attempts:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Attempt"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /users/{id}/ratings:
+    get:
+      tags: [User Management]
+      summary: Get all ratings submitted by a user
+      description: Retrieves all ratings by user ID. Requires ADMIN or owner role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: A list of ratings submitted by the user.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      ratings:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/QuizSetRating"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /users/{id}/ban:
+    post:
+      tags: [User Management]
+      summary: Ban a user (Admin only)
+      description: Sets a user's status to INACTIVE. Requires ADMIN role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: User banned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /users/{id}/unban:
+    post:
+      tags: [User Management]
+      summary: Unban a user (Admin only)
+      description: Sets a user's status to ACTIVE. Requires ADMIN role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: User unbanned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  # --- QUIZ MANAGEMENT & INTERACTION ---
+  /quiz-sets:
+    get:
+      tags: [Quiz Interaction]
+      summary: Get all published quizzes
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: A list of all published quizzes.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      quizzes:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/QuizSet"
+    post:
+      tags: [Quiz Management]
+      summary: Create a new quiz set (Admin only)
+      security:
+        - bearerAuth: []
+      description: Creates a new Quiz Set. Requires ADMIN role. The quiz is assigned to the authenticated admin.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQuizSetInput"
+      responses:
+        "201":
+          description: Quiz created successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      quiz:
+                        $ref: "#/components/schemas/QuizSet"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "422":
+          $ref: "#/components/responses/ValidationError"
+
+  /quiz-sets/{id}:
+    get:
+      tags: [Quiz Interaction]
+      summary: Get a specific quiz by ID
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Quiz details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      quiz:
+                        $ref: "#/components/schemas/QuizSet"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+    patch:
+      tags: [Quiz Management]
+      summary: Update a quiz by ID (Admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuizSetInput"
+      responses:
+        "200":
+          description: Quiz updated successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      quiz:
+                        $ref: "#/components/schemas/QuizSet"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+    delete:
+      tags: [Quiz Management]
+      summary: Delete a quiz by ID (Admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Quiz deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /quiz-sets/{id}/publish:
+    patch:
+      tags: [Quiz Management]
+      summary: Publish a quiz set (Admin only)
+      description: Changes the status of a quiz from DRAFT to PUBLISHED. Requires ADMIN role.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Quiz published successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      quiz:
+                        $ref: "#/components/schemas/QuizSet"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /quiz-sets/{id}/attempt:
+    post:
+      tags: [Quiz Interaction]
+      summary: Submit an attempt for a quiz
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAttemptInput"
+      responses:
+        "201":
+          description: Attempt submitted successfully. Returns the result.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      attempt:
+                        $ref: "#/components/schemas/Attempt"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /quiz-sets/{id}/attempts:
+    get:
+      tags: [Quiz Management]
+      summary: Get all attempts for a quiz (Admin only)
+      description: Requires ADMIN role to see all attempts for a quiz.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: A list of attempts for the quiz.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      attempts:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Attempt"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /quiz-sets/{id}/rate:
+    post:
+      tags: [Quiz Interaction]
+      summary: Rate a quiz set
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating]
+              properties:
+                rating:
+                  type: number
+                  format: float
+                  minimum: 0
+                  maximum: 5
+      responses:
+        "201":
+          description: Rating submitted successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      rating:
+                        $ref: "#/components/schemas/QuizSetRating"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "409":
+          $ref: "#/components/responses/ConflictError"
+
+  # --- QUESTION MANAGEMENT ---
+  /quiz-sets/{quizId}/questions:
+    get:
+      tags: [Question Management]
+      summary: Get all questions for a specific quiz
+      parameters:
+        - $ref: "#/components/parameters/QuizIdPath"
+      responses:
+        "200":
+          description: A list of questions for the quiz.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      questions:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Question"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+    post:
+      tags: [Question Management]
+      summary: Create a new question for a quiz (Admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/QuizIdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQuestionInput"
+      responses:
+        "201":
+          description: Question created and added to the quiz.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      question:
+                        $ref: "#/components/schemas/Question"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /quiz-sets/{quizId}/questions/bulk:
+    post:
+      tags: [Question Management]
+      summary: Bulk create questions for a quiz (Admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/QuizIdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/CreateQuestionInput"
+      responses:
+        "201":
+          description: Questions created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  /questions/{id}:
+    get:
+      tags: [Question Management]
+      summary: Get a single question by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Question details retrieved.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      question:
+                        $ref: "#/components/schemas/Question"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+    patch:
+      tags: [Question Management]
+      summary: Update a question by ID (Admin only)
+      description: This action is only allowed when the parent quiz set is in DRAFT status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestionInput"
+      responses:
+        "200":
+          description: Question updated successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/SuccessResponse"
+                  - type: object
+                    properties:
+                      question:
+                        $ref: "#/components/schemas/Question"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+    delete:
+      tags: [Question Management]
+      summary: Delete a question by ID (Admin only)
+      description: This action is only allowed when the parent quiz set is in DRAFT status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdPath"
+      responses:
+        "200":
+          description: Question deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+# --- Reusable Components ---
 components:
+  # --- Security ---
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: "Enter JWT token in the format: Bearer <token>"
 
+  # --- Parameters ---
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    QuizIdPath:
+      name: quizId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  # --- Schemas (Data Models) ---
   schemas:
-    # --- ENUMS ---
-    QuizSetLabel:
-      type: string
-      enum: [easy, medium, hard]
-      description: The difficulty label for a quiz set.
-    QuizSetStatus:
-      type: string
-      enum: [draft, published]
-      description: The publication status of a quiz set.
+    # --- Enums ---
     UserRole:
       type: string
       enum: [admin, user]
-      description: The role of a user in the system.
+    UserStatus:
+      type: string
+      enum: [active, inactive]
+    QuizStatus:
+      type: string
+      enum: [draft, published]
+    QuizLabel:
+      type: string
+      enum: [easy, medium, hard]
 
-    # --- CORE MODELS (Unchanged from original spec) ---
+    # --- Core Models ---
     User:
       type: object
       properties:
@@ -59,19 +926,16 @@ components:
         photo:
           type: string
           nullable: true
+        status:
+          $ref: "#/components/schemas/UserStatus"
         role:
           $ref: "#/components/schemas/UserRole"
-        isBanned:
-          type: boolean
-          description: "Indicates if the user is banned from the platform."
-          default: false
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
-
     Question:
       type: object
       properties:
@@ -86,26 +950,26 @@ components:
         options:
           type: array
           items:
-            oneOf:
-              - type: string
-              - type: number
-        correctAnswers:
+            type: string
+        answerIndices:
           type: array
           items:
             type: integer
-          description: Array of indices corresponding to the correct options.
+          description: Array of 0-based indices corresponding to the correct options.
         mark:
-          type: number
+          type: integer
         time:
           type: integer
           description: Time limit for the question in seconds.
+        explanation:
+          type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
-
     QuizSet:
       type: object
       properties:
@@ -121,9 +985,9 @@ components:
           items:
             type: string
         status:
-          $ref: "#/components/schemas/QuizSetStatus"
+          $ref: "#/components/schemas/QuizStatus"
         label:
-          $ref: "#/components/schemas/QuizSetLabel"
+          $ref: "#/components/schemas/QuizLabel"
         userId:
           type: string
           format: uuid
@@ -133,56 +997,6 @@ components:
         updatedAt:
           type: string
           format: date-time
-        user:
-          $ref: "#/components/schemas/User"
-        questions:
-          type: array
-          items:
-            $ref: "#/components/schemas/Question"
-        ratings:
-          type: array
-          items:
-            $ref: "#/components/schemas/QuizSetRating"
-        attempts:
-          type: array
-          items:
-            $ref: "#/components/schemas/Attempt"
-
-    QuizSetRating:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        userId:
-          type: string
-          format: uuid
-        quizId:
-          type: string
-          format: uuid
-        rating:
-          type: integer
-          minimum: 0
-          maximum: 5
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-
-    SubmittedAnswer:
-      type: object
-      properties:
-        questionId:
-          type: string
-          format: uuid
-        selectedAnswers:
-          type: array
-          items:
-            type: string
-          description: The indices of the answers selected by the user.
-
     Attempt:
       type: object
       properties:
@@ -192,21 +1006,49 @@ components:
         userId:
           type: string
           format: uuid
-        quizId:
+        quizSetId:
           type: string
           format: uuid
+        submittedAnswers:
+          type: object
+          description: An object where keys are question UUIDs and values are arrays of selected answer indices.
+          additionalProperties:
+            type: array
+            items:
+              type: integer
         score:
-          type: number
+          type: integer
         correct:
           type: integer
         wrong:
           type: integer
+        time:
+          type: integer
         skipped:
           type: integer
-        submittedAnswers:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubmittedAnswer"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    QuizSetRating:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        quizSetId:
+          type: string
+          format: uuid
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
         createdAt:
           type: string
           format: date-time
@@ -214,8 +1056,8 @@ components:
           type: string
           format: date-time
 
-    # --- REQUEST/RESPONSE SCHEMAS ---
-    UserRegistration:
+    # --- Request Body Schemas ---
+    UserRegistrationInput:
       type: object
       required: [fullName, email, password]
       properties:
@@ -227,20 +1069,8 @@ components:
         password:
           type: string
           format: password
-
-    UpdateUserProfile:
-      type: object
-      properties:
-        fullName:
-          type: string
-        bio:
-          type: string
-          nullable: true
-        photo:
-          type: string
-          nullable: true
-
-    UserLogin:
+          minLength: 8
+    UserLoginInput:
       type: object
       required: [email, password]
       properties:
@@ -250,881 +1080,208 @@ components:
         password:
           type: string
           format: password
-
-    LoginResponse:
-      type: object
-      properties:
-        accessToken:
-          type: string
-        refreshToken:
-          type: string
-        user:
-          $ref: "#/components/schemas/User"
-
-    RefreshToken:
+    RefreshTokenInput:
       type: object
       required: [refreshToken]
       properties:
         refreshToken:
           type: string
-
-    RefreshTokenResponse:
+    ChangePasswordInput:
+      type: object
+      required: [oldPassword, newPassword]
+      properties:
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
+    UpdateUserInput:
       type: object
       properties:
-        accessToken:
+        fullName:
           type: string
+        bio:
+          type: string
+          nullable: true
+    CreateQuizSetInput:
+      type: object
+      required: [title, description, tags, label]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        status:
+          $ref: "#/components/schemas/QuizStatus"
+        label:
+          $ref: "#/components/schemas/QuizLabel"
+    UpdateQuizSetInput:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        status:
+          $ref: "#/components/schemas/QuizStatus"
+        label:
+          $ref: "#/components/schemas/QuizLabel"
+    CreateQuestionInput:
+      type: object
+      required: [question, options, answerIndices]
+      properties:
+        question:
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+          minItems: 4
+        answerIndices:
+          type: array
+          items:
+            type: integer
+          minItems: 1
+        mark:
+          type: integer
+        time:
+          type: integer
+        explanation:
+          type: string
+          nullable: true
+    UpdateQuestionInput:
+      type: object
+      properties:
+        question:
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+        answerIndices:
+          type: array
+          items:
+            type: integer
+        mark:
+          type: integer
+        time:
+          type: integer
+        explanation:
+          type: string
+          nullable: true
+    CreateAttemptInput:
+      type: object
+      required: [submittedAnswers, time]
+      properties:
+        submittedAnswers:
+          type: object
+          description: An object where keys are question UUIDs and values are arrays of selected answer indices.
+          additionalProperties:
+            type: array
+            items:
+              type: integer
+        time:
+          type: integer
+          description: Total time taken in seconds.
+
+    # --- Response Schemas ---
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Success
     ErrorResponse:
       type: object
       properties:
-        statusCode:
-          type: integer
+        success:
+          type: boolean
+          example: false
         message:
           type: string
-        error:
-          type: string
-
-    CreateQuizSet:
-      type: object
-      required: [title, description, tags, status, label, userId]
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        userId:
-          type: string
-        tags:
+        errors:
           type: array
           items:
-            type: string
-        status:
-          $ref: "#/components/schemas/QuizSetStatus"
-        label:
-          $ref: "#/components/schemas/QuizSetLabel"
-
-    UpdateQuizSet:
-      type: object
-      properties:
-        title:
+            type: object
+            properties:
+              path:
+                type: string
+              message:
+                type: string
+        stack:
           type: string
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-        status:
-          $ref: "#/components/schemas/QuizSetStatus"
-        label:
-          $ref: "#/components/schemas/QuizSetLabel"
+          description: "Stack trace for debugging (only in development)"
+    LoginResponse:
+      allOf:
+        - $ref: "#/components/schemas/SuccessResponse"
+        - type: object
+          properties:
+            user:
+              $ref: "#/components/schemas/User"
+            accessToken:
+              type: string
+            refreshToken:
+              type: string
+    UserResponse:
+      allOf:
+        - $ref: "#/components/schemas/SuccessResponse"
+        - type: object
+          properties:
+            user:
+              $ref: "#/components/schemas/User"
+    RefreshTokenResponse:
+      allOf:
+        - $ref: "#/components/schemas/SuccessResponse"
+        - type: object
+          properties:
+            accessToken:
+              type: string
 
-    CreateQuestion:
-      type: object
-      required: [question, options, correctAnswers, mark, time]
-      properties:
-        question:
-          type: string
-        options:
-          type: array
-          items:
-            oneOf:
-              - type: string
-              - type: number
-        correctAnswers:
-          type: array
-          items:
-            type: integer
-        mark:
-          type: number
-        time:
-          type: integer
-
-    UpdateQuestion:
-      type: object
-      properties:
-        question:
-          type: string
-        options:
-          type: array
-          items:
-            oneOf:
-              - type: string
-              - type: number
-        correctAnswers:
-          type: array
-          items:
-            type: integer
-        mark:
-          type: number
-        time:
-          type: integer
-
-    SubmitAttempt:
-      type: object
-      required: [submittedAnswers]
-      properties:
-        submittedAnswers:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubmittedAnswer"
-
-    RateQuizSet:
-      type: object
-      required: [rating]
-      properties:
-        rating:
-          type: number
-          format: float
-          minimum: 0
-          maximum: 5
-          description: A rating value between 0 and 5.
-
+  # --- Reusable Responses ---
   responses:
     UnauthorizedError:
-      description: "Authentication information is missing or invalid."
+      description: Authentication information is missing, invalid, or expired.
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
     ForbiddenError:
-      description: "User is not authorized to perform this action."
+      description: User is not authorized to perform this action.
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
     NotFoundError:
-      description: "The requested resource was not found."
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
-
-# API Routes
-paths:
-  # --- User & Auth Routes (Unchanged) ---
-  /auth/register:
-    post:
-      tags: [User & Auth]
-      summary: Register a new user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UserRegistration"
-      responses:
-        "201":
-          description: User registered successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "400":
-          description: Bad request or user already exists
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  /auth/login:
-    post:
-      tags: [User & Auth]
-      summary: Login a user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UserLogin"
-      responses:
-        "200":
-          description: Login successful
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/LoginResponse"
-        "401":
-          description: Invalid credentials
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  /auth/refresh-token:
-    post:
-      tags: [User & Auth]
-      summary: Get a new access token using a refresh token
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RefreshToken"
-      responses:
-        "200":
-          description: New access token generated
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/RefreshTokenResponse"
-        "401":
-          description: Invalid refresh token
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  /auth/me:
-    get:
-      tags: [User & Auth]
-      summary: Get current user's profile
-      security:
-        - bearerAuth: []
-      responses:
-        "200":
-          description: User profile retrieved
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-
-  # --- User Management Routes ---
-  /users:
-    get:
-      tags: [User Management]
-      summary: Get all users
-      description: Retrieves a list of all users. Requires ADMIN role.
-      security:
-        - bearerAuth: []
-      responses:
-        "200":
-          description: A list of users.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-
-  /users/{id}:
-    get:
-      tags: [User Management]
-      summary: Get user by ID
-      description: Retrieves a user's profile. Requires ADMIN role or for the user to be the owner of the resource.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
+    ValidationError:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
           schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: User profile retrieved successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-    put:
-      tags: [User Management]
-      summary: Update user by ID
-      description: Updates a user's profile. Requires ADMIN role or for the user to be the owner of the resource.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
+            $ref: "#/components/schemas/ErrorResponse"
+    ConflictError:
+      description: The request could not be completed due to a conflict with the current state of the target resource (e.g., duplicate unique field).
+      content:
+        application/json:
           schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateUserProfile"
-      responses:
-        "200":
-          description: User profile updated successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-    delete:
-      tags: [User Management]
-      summary: Delete user by ID
-      description: Deletes a user. Requires ADMIN role or for the user to be the owner of the resource.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
+            $ref: "#/components/schemas/ErrorResponse"
+    BadRequestError:
+      description: The server cannot or will not process the request due to something that is perceived to be a client error.
+      content:
+        application/json:
           schema:
-            type: string
-            format: uuid
-      responses:
-        "204":
-          description: User deleted successfully.
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /users/{id}/quizzes:
-    get:
-      tags: [User Management]
-      summary: Get all quizzes created by a user
-      description: Retrieves all quizzes created by a specific user. Requires ADMIN role or for the user to be the owner of the resource.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: A list of quizzes created by the user.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/QuizSet"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /users/{id}/attempts:
-    get:
-      tags: [User Management]
-      summary: Get all quiz attempts by a user
-      description: Retrieves all quiz attempts made by a specific user. Requires ADMIN role or for the user to be the owner of the resource.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: A list of attempts made by the user.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Attempt"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /users/{id}/ratings:
-    get:
-      tags: [User Management]
-      summary: Get all ratings submitted by a user
-      description: Retrieves all ratings submitted by a specific user. Requires ADMIN role or for the user to be the owner of the resource.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: A list of ratings submitted by the user.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/QuizSetRating"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /users/{id}/ban:
-    post:
-      tags: [User Management]
-      summary: Ban a user
-      description: Marks a user as banned. Requires ADMIN role.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: User banned successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /users/{id}/unban:
-    post:
-      tags: [User Management]
-      summary: Unban a user
-      description: Re-instates a banned user. Requires ADMIN role.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: User unbanned successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "403":
-          $ref: "#/components/responses/ForbiddenError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  # --- NEW Quiz Management Routes ---
-  /quiz-sets:
-    post:
-      tags: [Quiz Management]
-      summary: Create a new quiz set
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateQuizSet"
-      responses:
-        "201":
-          description: Quiz created successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/QuizSet"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-    get:
-      tags: [Quiz Management]
-      summary: Get all published quizzes
-      responses:
-        "200":
-          description: A list of all published quizzes.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/QuizSet"
-
-  /quiz-sets/{id}:
-    get:
-      tags: [Quiz Management]
-      summary: Get a specific quiz by ID
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: Quiz details retrieved successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/QuizSet"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-    put:
-      tags: [Quiz Management]
-      summary: Update a quiz by ID
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateQuizSet"
-      responses:
-        "200":
-          description: Quiz updated successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/QuizSet"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-    delete:
-      tags: [Quiz Management]
-      summary: Delete a quiz by ID
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "204":
-          description: Quiz deleted successfully.
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /quiz-sets/{id}/publish:
-    put:
-      tags: [Quiz Management]
-      summary: Publish a quiz set
-      description: Changes the status of a quiz from DRAFT to PUBLISHED. Only the owner or an admin can perform this action.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: Quiz published successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/QuizSet"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  # --- NEW Question Management Routes ---
-  /quiz-sets/{quizId}/questions:
-    get:
-      tags: [Question Management]
-      summary: Get all questions for a specific quiz
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: quizId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: A list of questions for the quiz.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Question"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-    post:
-      tags: [Question Management]
-      summary: Create a new question for a quiz
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: quizId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateQuestion"
-      responses:
-        "201":
-          description: Question created and added to the quiz.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Question"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /quiz-sets/{quizId}/questions/bulk:
-    post:
-      tags: [Question Management]
-      summary: Bulk create new questions for a quiz
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: quizId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/CreateQuestion"
-      responses:
-        "201":
-          description: Questions created successfully.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Question"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /questions/{id}:
-    get:
-      tags: [Question Management]
-      summary: Get a single question by ID
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: Question details retrieved.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Question"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-    put:
-      tags: [Question Management]
-      summary: Update a question by ID
-      description: This action is only allowed when the parent quiz set is in DRAFT status.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateQuestion"
-      responses:
-        "200":
-          description: Question updated successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Question"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-    delete:
-      tags: [Question Management]
-      summary: Delete a question by ID
-      description: This action is only allowed when the parent quiz set is in DRAFT status.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "204":
-          description: Question deleted successfully.
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  # --- NEW Quiz Interaction Routes ---
-  /quiz-sets/{quizId}/attempts:
-    get:
-      tags: [Quiz Interaction]
-      summary: Get all attempts for a specific quiz
-      description: Requires admin role to see all attempts. Regular users may see their own.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: quizId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: A list of attempts for the quiz.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Attempt"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /quiz-sets/{quizId}/attempt:
-    post:
-      tags: [Quiz Interaction]
-      summary: Submit an attempt for a quiz
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: quizId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SubmitAttempt"
-      responses:
-        "201":
-          description: Attempt submitted successfully. Returns the result.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Attempt"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
-
-  /quiz-sets/{quizId}/rate:
-    post:
-      tags: [Quiz Interaction]
-      summary: Rate a quiz set
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: quizId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RateQuizSet"
-      responses:
-        "201":
-          description: Rating submitted successfully.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/QuizSetRating"
-        "401":
-          $ref: "#/components/responses/UnauthorizedError"
-        "404":
-          $ref: "#/components/responses/NotFoundError"
+            $ref: "#/components/schemas/ErrorResponse"

@@ -4,17 +4,6 @@ import { QuestionSchema } from "../schema/question.schema";
 import { QuizSchema } from "../schema/quiz.schema";
 
 /**
- * @schema List Quiz Schema
- * @description This schema validates the query parameters for listing quizzes
- */
-const listQuizSchema = z.object({
-  page: z.number().min(1).default(1),
-  limit: z.number().min(1).max(100).default(10),
-  status: z.enum(["published", "draft"]).optional(),
-  search: z.string().optional(),
-});
-
-/**
  * @schema Create Quiz Schema
  * @description This schema validates the creation of a new quiz
  */

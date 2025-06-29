@@ -2,12 +2,11 @@ import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import createError from "http-errors";
-import { StatusCodes } from "http-status-codes";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import secret from "../app/secret";
 import prisma from "../config/prisma";
 import { sendEmail } from "../mail/password-reset-mail";
-import AppError from "../utils/app-errors";
+
 import { generateTokens } from "../utils/jwt";
 
 /**
@@ -91,7 +90,7 @@ const refreshToken = async (refreshToken: string) => {
   ) as JwtPayload as { id: string; email: string; role: User["role"] };
 
   if (!decoded) {
-    throw new AppError("Invalid refresh token", StatusCodes.UNAUTHORIZED);
+    throw createError.Unauthorized("Invalid refresh token");
   }
 
   const { email, role, id } = decoded;
