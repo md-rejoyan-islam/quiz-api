@@ -1,15 +1,17 @@
 interface EmailOptions {
   to: string;
   subject: string;
-  text: string;
   resetLink: string;
+  name: string;
 }
 
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 dotenv.config();
 
-export async function sendEmail(options: EmailOptions): Promise<void> {
+export async function sendPasswordResetMail(
+  options: EmailOptions
+): Promise<void> {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: Number(process.env.EMAIL_PORT || 587),
@@ -24,7 +26,10 @@ export async function sendEmail(options: EmailOptions): Promise<void> {
     from: process.env.EMAIL_FROM,
     to: options.to,
     subject: options.subject,
-    html: `${options.resetLink}`,
+    html: `
+    <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#1a1a2e;display:flex;justify-content:center;align-items:center;height:100vh"><div style="padding:20px"><table role="presentation" style="width:100%;max-width:600px;margin:20px auto;border-collapse:collapse"><tr style="background-color:#2a2a3e;border-radius:12px;display:block"><td style="padding:40px"><table role="presentation" style="width:100%;border-collapse:collapse;text-align:center"><tr><td><div style="width:60px;height:60px;margin:0 auto 20px;background-color:#28a745;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div></td></tr><tr><td><h1 style="color:#fff;margin:0 0 10px;font-size:28px;font-weight:600">Reset Your Password</h1></td></tr><tr><td><p style="color:#a9a9d4;margin:0 0 30px;font-size:16px;line-height:1.5">Hello ${options.name}, we've received a request to reset the password for your account.</p></td></tr><tr><td><a href="${options.resetLink}" target="_blank" style="display:inline-block;padding:15px 35px;font-size:16px;font-weight:600;color:#fff;text-decoration:none;border-radius:8px;background-image:linear-gradient(to right,#8a2be2,#4169e1)">Reset Password</a></td></tr><tr><td><p style="color:#a9a9d4;margin:30px 0 0;font-size:14px;line-height:1.5">If you did not request a password reset, you can safely ignore this email. The link is valid for 10 minutes.</p></td></tr></table></td></tr><tr><td style="padding:20px;text-align:center;background-color:#1a1a2e"><p style="color:#a9a9d4;font-size:12px;margin:0">© 2025 Quiz App. All rights reserved.</p></td></tr></table></div></body>
+    
+    `,
   };
 
   try {

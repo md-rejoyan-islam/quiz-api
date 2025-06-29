@@ -10,4 +10,5 @@ export default {
     accessTokenExpiresIn: +process.env.JWT_ACCESS_EXPIRES_IN!,
     refreshTokenExpiresIn: +process.env.JWT_REFRESH_EXPIRES_IN!,
   },
+  clientUrl: process.env.CLIENT_URL!,
 };

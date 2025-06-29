@@ -5,8 +5,10 @@ import createError from "http-errors";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import secret from "../app/secret";
 import prisma from "../config/prisma";
-import { sendEmail } from "../mail/password-reset-mail";
 
+import { sendPasswordChangeConfirmationMail } from "../mail/password-change-confirmation-mail";
+import { sendPasswordResetMail } from "../mail/password-reset-mail";
+import { sendRegisterConfirmationEmail } from "../mail/registration-confimation-mail";
 import { generateTokens } from "../utils/jwt";
 
 /**
@@ -33,6 +35,17 @@ const register = async (
       password: hashedPassword,
     },
   });
+
+  try {
+    await sendRegisterConfirmationEmail({
+      to: user.email,
+      subject: "Welcome to Quiz App",
+      name: user.fullName,
+      clientLink: secret.clientUrl,
+    });
+  } catch (error) {
+    throw createError.InternalServerError("Error sending email");
+  }
 
   const { password, ...userWithoutPassword } = user;
   return userWithoutPassword;
@@ -158,17 +171,11 @@ const forgotPassword = async ({
   // Send reset link via email
   const resetURL = `${protocol}://${host}/api/v1/auth/reset-password/${resetToken}`;
 
-  console.log("Reset URL:", resetURL);
-
-  const message = `You are receiving this email because you (or someone else) has requested the reset of a password.\n\n
-  Please make a PUT request to: ${resetURL}\n\n
-  If you did not request this, please ignore this email.\n`;
-
   try {
-    await sendEmail({
+    await sendPasswordResetMail({
       to: email,
       subject: "Password Reset Request",
-      text: message,
+      name: user.fullName,
       resetLink: resetURL,
     });
   } catch (error) {
@@ -242,6 +249,16 @@ const changePassword = async (
     where: { id: userId },
     data: { password: hashedNewPassword },
   });
+
+  try {
+    await sendPasswordChangeConfirmationMail({
+      to: user.email,
+      subject: "Password Changed Successfully",
+      name: user.fullName,
+    });
+  } catch (error) {
+    throw createError.InternalServerError("Error sending email");
+  }
 
   return {
     message: "Password changed successfully",

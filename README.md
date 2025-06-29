@@ -123,6 +123,9 @@ JWT_REFRESH_EXPIRES_IN= 86400 # 24 hour
 # CORS Configuration
 CORS_WHITELIST=http://localhost:3000,http://localhost:5000 # Adjust as needed for your frontend
 
+# Client URL (for email links, etc.)
+CLIENT_URL=http://localhost:3000
+
 # Nodemailer Configuration (for password resets, etc.)
 EMAIL_HOST="smtp.mailtrap.io"
 EMAIL_PORT=2525
