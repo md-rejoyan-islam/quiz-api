@@ -1,15 +1,11 @@
-import { PrismaClient, QUIZ_LABEL, QUIZ_STATUS } from "@prisma/client";
+import { PrismaClient, QUIZ_LABEL, QUIZ_STATUS, QuizSet } from "@prisma/client";
 import createError from "http-errors";
-import { QUIZ_SET } from "../types";
 
 const prisma = new PrismaClient();
 
 // create quiz
 const createQuizSet = async (
-  payload: Pick<
-    QUIZ_SET,
-    "title" | "description" | "status" | "label" | "tags"
-  >,
+  payload: Pick<QuizSet, "title" | "description" | "status" | "label" | "tags">,
   userId: string
 ) => {
   const existUser = await prisma.user.findUnique({
@@ -26,7 +22,7 @@ const createQuizSet = async (
     throw createError.Forbidden("User is not active.Please contact support.");
   }
 
-  return await prisma.quizSet.create({
+  const quiz = await prisma.quizSet.create({
     data: {
       ...payload,
       userId,
@@ -38,30 +34,93 @@ const createQuizSet = async (
       label: QUIZ_LABEL[payload.label.toUpperCase() as keyof typeof QUIZ_LABEL],
     },
   });
+  return {
+    ...quiz,
+    tags: JSON.parse(quiz.tags),
+    questions: [],
+  };
 };
 
 // get all quizzes
-const getAllQuizSet = async () => {
-  const quizSets = await prisma.quizSet.findMany({
-    include: { questions: true },
-  });
-  if (!quizSets || quizSets.length === 0) {
-    throw createError.NotFound("No quiz sets found");
-  }
-  return quizSets.map((quizSet) => {
-    return {
-      ...quizSet,
-      tags: JSON.parse(quizSet.tags),
-      questions:
-        quizSet?.questions?.map((question) => {
-          return {
-            ...question,
-            options: JSON.parse(question.options),
-            answerIndices: JSON.parse(question.answerIndices),
-          };
-        }) || [],
-    };
-  });
+const getAllQuizSet = async ({
+  page,
+  skip,
+  limit,
+}: {
+  page: number;
+  skip: number;
+  limit: number;
+}) => {
+  const [quizSets, total] = await prisma.$transaction([
+    prisma.quizSet.findMany({
+      include: { questions: true },
+      skip,
+      take: limit,
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.quizSet.count(),
+  ]);
+
+  const totalPages = Math.ceil(total / limit);
+
+  return {
+    pagination: {
+      page,
+      limit,
+      totalPages,
+      totalItems: total,
+    },
+    quizSets: quizSets.map((quizSet) => {
+      return {
+        ...quizSet,
+        tags: JSON.parse(quizSet.tags),
+        questions:
+          quizSet?.questions?.map((question) => {
+            return {
+              ...question,
+              options: JSON.parse(question.options),
+              answerIndices: JSON.parse(question.answerIndices),
+            };
+          }) || [],
+        links: {
+          self: {
+            href: `/api/v1/quiz-sets/${quizSet.id}`,
+            method: "GET",
+          },
+          questions: {
+            href: `/api/v1/quiz-sets/${quizSet.id}/questions`,
+            method: "GET",
+          },
+          attempts: {
+            href: `/api/v1/quiz-sets/${quizSet.id}/attempts`,
+            method: "GET",
+          },
+          rate: {
+            href: `/api/v1/quiz-sets/${quizSet.id}/rate`,
+            method: "POST",
+          },
+          publish: {
+            href: `/api/v1/quiz-sets/${quizSet.id}/publish`,
+            method: "PUT",
+          },
+          attempt: {
+            href: `/api/v1/quiz-sets/${quizSet.id}/attempt`,
+            method: "POST",
+          },
+        },
+      };
+    }),
+    links: {
+      self: {
+        href: `/api/v1/quiz-sets?page=${page}&limit=${limit}`,
+        method: "GET",
+      },
+      create: {
+        href: `/api/v1/quiz-sets`,
+        method: "POST",
+      },
+    },
+  };
 };
 
 // get quiz by ID
@@ -90,25 +149,32 @@ const getQuizSetById = async (quizId: string) => {
 // update quiz set by Id
 const updateQuizSetById = async (
   quizId: string,
-  quizData: Pick<
-    QUIZ_SET,
-    "title" | "description" | "status" | "label" | "tags"
-  >
+  quizData: Pick<QuizSet, "title" | "description" | "status" | "label" | "tags">
 ) => {
-  const quizSet = await prisma.quizSet.update({
+  const existQuiz = await prisma.quizSet.findUnique({
     where: { id: quizId },
-    data: {
-      ...quizData,
-      tags: JSON.stringify(quizData.tags),
-      status:
-        QUIZ_STATUS[quizData.status.toUpperCase() as keyof typeof QUIZ_STATUS],
-      label:
-        QUIZ_LABEL[quizData.label.toUpperCase() as keyof typeof QUIZ_LABEL],
-    },
   });
-  if (!quizSet) {
+  if (!existQuiz) {
     throw createError.NotFound("Quiz not found with quizId:" + quizId);
   }
+
+  if (quizData?.tags) {
+    quizData.tags = JSON.stringify(quizData.tags);
+  }
+  if (quizData?.status) {
+    quizData.status =
+      QUIZ_STATUS[quizData.status.toUpperCase() as keyof typeof QUIZ_STATUS];
+  }
+  if (quizData?.label) {
+    quizData.label =
+      QUIZ_LABEL[quizData.label.toUpperCase() as keyof typeof QUIZ_LABEL];
+  }
+
+  const quizSet = await prisma.quizSet.update({
+    where: { id: quizId },
+    data: quizData,
+  });
+
   return {
     ...quizSet,
     tags: JSON.parse(quizSet.tags),
@@ -133,15 +199,22 @@ const deleteQuizSetById = async (quizId: string) => {
 
 // publish quiz set by Id
 const publishQuizSetById = async (quizId: string) => {
+  const existQuiz = await prisma.quizSet.findUnique({
+    where: { id: quizId },
+  });
+  if (!existQuiz) {
+    throw createError.NotFound("Quiz not found with quizId:" + quizId);
+  }
+
   const quiz = await prisma.quizSet.update({
     where: { id: quizId },
     data: {
       status: QUIZ_STATUS.PUBLISHED,
     },
   });
-  if (!quiz) {
-    throw createError.NotFound("Quiz not found with quizId:" + quizId);
-  }
+
+  console.log(quiz);
+
   return quiz;
 };
 
@@ -150,9 +223,9 @@ const attemptQuizSetById = async (
   userId: string,
   quizId: string,
   time: number,
-  answers: { [questionId: string]: number[] }
+  submittedAnswers: { [questionId: string]: number[] }
 ) => {
-  const quiz = await prisma.quizSet.findFirst({
+  const quiz = await prisma.quizSet.findUnique({
     where: { id: quizId },
     include: { questions: true },
   });
@@ -171,7 +244,7 @@ const attemptQuizSetById = async (
   }
 
   // throw error for invalid questions
-  const invalidQuestions = Object.keys(answers).filter(
+  const invalidQuestions = Object.keys(submittedAnswers).filter(
     (id) => !quiz.questions.some((q) => q.id === id)
   );
   if (invalidQuestions.length) {
@@ -181,21 +254,23 @@ const attemptQuizSetById = async (
   }
 
   // calculate marks array
-  const markResults = Object.entries(answers).map(([questionId, answer]) => {
-    const question = quiz.questions.find((q) => q.id === questionId);
-    if (!question) {
-      throw createError.BadRequest("Invalid question id: " + questionId);
-    }
-    const correctAnswer = JSON.parse(question.answerIndices) as number[];
-    let isCorrect = false;
-    if (correctAnswer.length !== answer.length) {
-      isCorrect = false;
-    } else {
-      isCorrect = correctAnswer.every((index) => answer.includes(index));
-    }
+  const markResults = Object.entries(submittedAnswers).map(
+    ([questionId, answer]) => {
+      const question = quiz.questions.find((q) => q.id === questionId);
+      if (!question) {
+        throw createError.BadRequest("Invalid question id: " + questionId);
+      }
+      const correctAnswer = JSON.parse(question.answerIndices) as number[];
+      let isCorrect = false;
+      if (correctAnswer.length !== answer.length) {
+        isCorrect = false;
+      } else {
+        isCorrect = correctAnswer.every((index) => answer.includes(index));
+      }
 
-    return isCorrect ? question.mark : 0;
-  });
+      return isCorrect ? question.mark : 0;
+    }
+  );
 
   const totalQuestions = quiz.questions.length;
   const correct = markResults.filter((mark) => mark > 0).length;
@@ -203,7 +278,7 @@ const attemptQuizSetById = async (
   const wrong = totalQuestions - correct;
   const skipped = totalQuestions - markResults.length;
 
-  return await prisma.attempt.create({
+  const attempt = await prisma.attempt.create({
     data: {
       userId,
       correct,
@@ -212,9 +287,14 @@ const attemptQuizSetById = async (
       skipped,
       time,
       quizSetId: quizId,
-      submittedAnswers: JSON.stringify(answers),
+      submittedAnswers: JSON.stringify(submittedAnswers),
     },
   });
+
+  return {
+    ...attempt,
+    submittedAnswers: JSON.parse(attempt.submittedAnswers),
+  };
 };
 
 // rate quiz set by Id
@@ -242,6 +322,13 @@ const rateQuizSetById = async (
 
 // getQuizAttemptsByQuizId
 const getQuizAttemptsByQuizId = async (quizId: string) => {
+  const quiz = await prisma.quizSet.findUnique({
+    where: { id: quizId },
+  });
+  if (!quiz) {
+    throw createError.NotFound("Quiz not found with quizId: " + quizId);
+  }
+
   const attempts = await prisma.attempt.findMany({
     where: { quizSetId: quizId },
     include: { user: true },
@@ -249,7 +336,15 @@ const getQuizAttemptsByQuizId = async (quizId: string) => {
   if (!attempts || attempts.length === 0) {
     throw createError.NotFound("No attempts found for quiz with ID: " + quizId);
   }
-  return attempts;
+  return attempts.map((attempt) => ({
+    ...attempt,
+    submittedAnswers: JSON.parse(attempt.submittedAnswers),
+    user: {
+      id: attempt.user.id,
+      fullName: attempt.user.fullName,
+      email: attempt.user.email,
+    },
+  }));
 };
 
 export default {

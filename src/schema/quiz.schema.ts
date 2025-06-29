@@ -33,17 +33,13 @@ export const QuizSchema = z.object({
     .string({ required_error: "Description is required" })
     .min(10, { message: "Description must be at least 10 characters long" }),
   tags: z.preprocess((val) => {
-    // Check if the value is a string
     if (typeof val === "string") {
       try {
-        // Attempt to parse the string as JSON
         return JSON.parse(val);
       } catch (error) {
-        // If parsing fails, return the original value to fail validation
         return val;
       }
     }
-    // If it's not a string (e.g., already an array), pass it through
     return val;
   }, z.array(z.string(), { message: "Tags must be an array of strings" }).min(1, { message: "At least one tag is required" })),
 

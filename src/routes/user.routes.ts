@@ -2,7 +2,9 @@ import { ROLE } from "@prisma/client";
 import { Router } from "express";
 import userController from "../controllers/user.controller";
 import { authorize, authorizeOwnerOrAdmin } from "../middlewares/authorize";
+import validate from "../middlewares/validate";
 import verify from "../middlewares/verify";
+import userValidator from "../validators/user.validator";
 
 const userRouter = Router();
 
@@ -20,10 +22,13 @@ userRouter.get(
 );
 
 // update user by his own id
-userRouter.put(
+userRouter.patch(
   "/:id",
-  authorize([ROLE.ADMIN, ROLE.USER]),
-  authorizeOwnerOrAdmin,
+  [
+    validate(userValidator.UpdateUserSchema),
+    authorize([ROLE.ADMIN, ROLE.USER]),
+    authorizeOwnerOrAdmin,
+  ],
   userController.updateUser
 );
 

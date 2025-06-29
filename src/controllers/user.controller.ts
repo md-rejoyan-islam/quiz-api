@@ -2,24 +2,39 @@ import { NextFunction, Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import userService from "../services/user.service";
 import { successResponse } from "../utils/response-handler";
+import { PAGINATION_QUERY } from "../utils/types";
 
 /**
  * @method GET
  * @route /users
  * @description Get all users
- * @returns { status: string, data: Array<User> }
+ * @query   page - The page number to retrieve (optional, default: 1)
+ * @query   limit - The number of items per page (optional, default: 10)
+ * @returns { status: string, data: Array<User>, pagination<Object> }
  * @error { status: string, message: string }
  */
-const getAllUsers = asyncHandler(async (_req: Request, res: Response) => {
-  const users = await userService.allUsers();
-  successResponse(res, {
-    statusCode: 200,
-    message: "Users fetched successfully",
-    payload: {
-      data: users,
-    },
-  });
-});
+const getAllUsers = asyncHandler(
+  async (req: Request<{}, {}, {}, PAGINATION_QUERY>, res: Response) => {
+    const page: number = +(req.query.page || "1");
+    const limit: number = +(req.query.limit || "10");
+
+    const skip = (page - 1) * limit;
+
+    const { users, pagination } = await userService.allUsers({
+      page,
+      limit,
+      skip,
+    });
+    successResponse(res, {
+      statusCode: 200,
+      message: "Users fetched successfully",
+      payload: {
+        pagination,
+        data: users,
+      },
+    });
+  }
+);
 /**
  * @route GET /users/:id
  * @description Get a user by ID
@@ -41,7 +56,7 @@ const getUserById = asyncHandler(async (req: Request, res: Response) => {
 });
 
 /**
- * @route PUT /users/:id
+ * @route PATCH /users/:id
  * @description Update a user by ID
  * @param { string } id - User ID
  * @body { fullName?: string, email?: string, password?: string }

@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { AttemptSchema } from "../schema/attempt.schema";
 import { QuestionSchema } from "../schema/question.schema";
 import { QuizSchema } from "../schema/quiz.schema";
-import { QuizStatus } from "../utils/types";
 
 /**
  * @schema List Quiz Schema
@@ -29,36 +29,11 @@ const createQuizSchema = z.object({
 });
 
 /**
- * @schema Create Bulk Questions Schema
- * @description This schema validates the bulk creation of questions for a quiz
- */
-const createBulkQuestionsSchema = z.object({
-  questions: z
-    .array(
-      z.object({
-        question: z.string().min(1, { message: "Question is required" }),
-        options: z
-          .array(z.string())
-          .min(2, { message: "At least 2 options are required" }),
-        correctAnswer: z
-          .string()
-          .min(1, { message: "Correct answer is required" }),
-        marks: z.number().default(5),
-      })
-    )
-    .min(1, { message: "At least one question is required" }),
-});
-
-/**
  * @schema Update Quiz Schema
  * @description This schema validates the update of an existing quiz
  */
 const updateQuizSchema = z.object({
-  body: z.object({
-    title: z.string().min(1).optional(),
-    description: z.string().min(1).optional(),
-    status: z.enum([QuizStatus.DRAFT, QuizStatus.PUBLISHED]).optional(),
-  }),
+  body: QuizSchema.partial(),
 });
 
 /**
@@ -89,6 +64,29 @@ const createQuestionSchema = z
       });
     }
   });
+
+/**
+ * @schema Create Bulk Questions Schema
+ * @description This schema validates the bulk creation of questions for a quiz
+ */
+const createBulkQuestionsSchema = z.object({
+  body: z
+    .array(
+      QuestionSchema.pick({
+        question: true,
+        options: true,
+        answerIndices: true,
+        mark: true,
+        time: true,
+        explanation: true,
+      }),
+      {
+        required_error: "At least one question is required",
+        invalid_type_error: "Questions must be an array",
+      }
+    )
+    .min(1, "At least one question is required"),
+});
 
 // update question schema
 const updateQuestionSchema = QuestionSchema.partial()
@@ -124,17 +122,25 @@ const updateQuestionSchema = QuestionSchema.partial()
     }
   });
 
-/**
- * @schema Submit Attempt Schema
- * @description This schema validates the submission of quiz answers
- */
-const submitAttemptSchema = z.object({
-  body: z.object({ answers: z.array(z.record(z.string(), z.string())) }), // {answers: [{[questionId]: answer}]}
+export const createAttemptSchema = z.object({
+  body: AttemptSchema.omit({
+    id: true,
+    score: true,
+    correct: true,
+    wrong: true,
+    skipped: true,
+    createdAt: true,
+    updatedAt: true,
+    quizSetId: true,
+    userId: true,
+  }),
 });
 
 export default {
   createQuizSchema,
-  submitAttemptSchema,
+  createAttemptSchema,
   createQuestionSchema,
   updateQuestionSchema,
+  updateQuizSchema,
+  createBulkQuestionsSchema,
 };

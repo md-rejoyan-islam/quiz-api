@@ -1,27 +1,49 @@
 import { User, USER_STATUS } from "@prisma/client";
+import bcrypt from "bcryptjs";
 import createError from "http-errors";
 import prisma from "../config/prisma";
 
 // get all users service
-const allUsers = async () => {
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      fullName: true,
-      email: true,
-      bio: true,
-      status: true,
-      photo: true,
-      createdAt: true,
-      updatedAt: true,
-      role: true,
-    },
-  });
-  if (!users || users.length === 0) {
-    throw createError.NotFound("No users found");
-  }
+const allUsers = async ({
+  page,
+  limit,
+  skip,
+}: {
+  page: number;
+  limit: number;
+  skip: number;
+}) => {
+  const [users, total] = await prisma.$transaction([
+    prisma.user.findMany({
+      skip,
+      take: limit,
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        bio: true,
+        status: true,
+        photo: true,
+        createdAt: true,
+        updatedAt: true,
+        role: true,
+      },
+    }),
+    prisma.user.count(),
+  ]);
 
-  return users;
+  const totalPages = Math.ceil(total / limit);
+
+  return {
+    pagination: {
+      page,
+      limit,
+      totalPages,
+      totalItems: total,
+    },
+    users,
+  };
 };
 
 // get user by ID service
@@ -41,20 +63,30 @@ export const getUserById = async (userId: string) => {
 // update user by ID service
 const updateUserById = async (
   userId: string,
-  data: Pick<
-    User,
-    "fullName" | "email" | "bio" | "status" | "photo" | "password"
-  >
+  data: Pick<User, "fullName" | "bio" | "status" | "photo" | "password">
 ) => {
+  const existingUser = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+  if (!existingUser) {
+    throw createError.NotFound(`User with ID ${userId} not found`);
+  }
+
+  if (data.password) {
+    data.password = bcrypt.hashSync(data.password, 10);
+  }
+
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: {
-      ...data,
+      fullName: data.fullName,
+      bio: data.bio,
+      status: data.status,
+      photo: data.photo,
+      password: data.password || existingUser.password,
     },
   });
-  if (!updatedUser) {
-    throw createError.NotFound(`User with ID ${userId} not found`);
-  }
+
   const { password, createdAt, updatedAt, ...userWithoutPassword } =
     updatedUser;
   return userWithoutPassword;
@@ -62,19 +94,30 @@ const updateUserById = async (
 
 // delete user by ID service
 const deleteUserById = async (userId: string) => {
-  const deletedUser = await prisma.user.delete({
+  const user = await prisma.user.findUnique({
     where: { id: userId },
   });
-  if (!deletedUser) {
+  if (!user) {
     throw createError.NotFound(`User with ID ${userId} not found`);
   }
-  const { password, createdAt, updatedAt, ...userWithoutPassword } =
-    deletedUser;
+
+  await prisma.user.delete({
+    where: { id: userId },
+  });
+
+  const { password, createdAt, updatedAt, ...userWithoutPassword } = user;
   return userWithoutPassword;
 };
 
 // get user quizzes by ID service
 const getUserQuizzesById = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+  if (!user) {
+    throw createError.NotFound(`User with ID ${userId} not found`);
+  }
+
   const quizzes = await prisma.quizSet.findMany({
     where: { userId },
     include: {
@@ -82,27 +125,44 @@ const getUserQuizzesById = async (userId: string) => {
     },
   });
 
-  if (!quizzes || quizzes.length === 0) {
-    throw createError.NotFound(`No quizzes found for user with ID ${userId}`);
-  }
-
-  return quizzes;
+  return (
+    quizzes?.map((quiz) => ({
+      ...quiz,
+      tags: JSON.parse(quiz.tags),
+    })) || []
+  );
 };
 
 // get user attempts by ID service
 const getUserAttemptsById = async (userId: string) => {
-  const attempts = await prisma.attempt.findMany({
-    where: { userId },
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
   });
-  if (!attempts || attempts.length === 0) {
-    throw createError.NotFound(`No attempts found for user with ID ${userId}`);
+
+  if (!user) {
+    throw createError.NotFound(`User with ID ${userId} not found`);
   }
 
-  return attempts;
+  const attempts = await prisma.attempt.findMany();
+
+  return (
+    attempts.map((attempt) => ({
+      ...attempt,
+      submittedAnswers: JSON.parse(attempt.submittedAnswers),
+    })) || []
+  );
 };
 
 // get user ratings by ID service
 const getUserRatingsById = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    throw createError.NotFound(`User with ID ${userId} not found`);
+  }
+
   const ratings = await prisma.quizSetRating.findMany({
     where: { userId },
   });
@@ -114,21 +174,48 @@ const getUserRatingsById = async (userId: string) => {
 
 // ban a user by ID service
 const bannedUserById = async (userId: string) => {
-  const bannedUser = await prisma.user.update({
+  const existingUser = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!existingUser) {
+    throw createError.NotFound(`User with ID ${userId} not found`);
+  }
+  if (existingUser.role === "ADMIN") {
+    throw createError.Forbidden("Can' update an admin");
+  }
+  if (existingUser.status === "INACTIVE") {
+    throw createError.Forbidden("User is already inactive.");
+  }
+
+  const user = await prisma.user.update({
     where: { id: userId },
     data: {
       status: USER_STATUS.INACTIVE,
     },
   });
-  if (!bannedUser) {
-    throw createError.NotFound(`User with ID ${userId} not found`);
-  }
-  const { password, createdAt, updatedAt, ...userWithoutPassword } = bannedUser;
+
+  const { password, createdAt, updatedAt, ...userWithoutPassword } = user;
   return userWithoutPassword;
 };
 
 // unban a user by ID service
 const unbannedUserById = async (userId: string) => {
+  const existingUser = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!existingUser) {
+    throw createError.NotFound(`User with ID ${userId} not found`);
+  }
+
+  if (existingUser.status === "ACTIVE") {
+    throw createError.Forbidden("User is already active.");
+  }
+  if (existingUser.role === "ADMIN") {
+    throw createError.Forbidden("Can' update an admin");
+  }
+
   const unbannedUser = await prisma.user.update({
     where: { id: userId },
     data: {
@@ -138,6 +225,7 @@ const unbannedUserById = async (userId: string) => {
   if (!unbannedUser) {
     throw createError.NotFound(`User with ID ${userId} not found`);
   }
+
   const { password, createdAt, updatedAt, ...userWithoutPassword } =
     unbannedUser;
   return userWithoutPassword;

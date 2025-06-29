@@ -1,12 +1,14 @@
 import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import createError from "http-errors";
 import { StatusCodes } from "http-status-codes";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import secret from "../app/secret";
 import prisma from "../config/prisma";
+import { sendEmail } from "../mail/password-reset-mail";
 import AppError from "../utils/app-errors";
-import { generateTokens } from "../utils/jwt"; // JWT generation utilityules/./index.d
+import { generateTokens } from "../utils/jwt";
 
 /**
  * @description                      Registers a new user in the system.
@@ -120,9 +122,139 @@ const logout = async (userId: string) => {
   });
 };
 
+// forget password
+const forgotPassword = async ({
+  email,
+  protocol,
+  host,
+}: {
+  email: string;
+  protocol: string;
+  host: string;
+}) => {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (!user) {
+    throw createError.NotFound("User not found");
+  }
+
+  // Generate a reset token
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  const resetTokenExpiry = new Date(Date.now() + 10 * 60 * 1000); // Token valid for 10 minutes
+  const passwordHash = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  await prisma.user.update({
+    where: { email },
+    data: {
+      passwordResetExpires: resetTokenExpiry,
+      passwordResetToken: passwordHash,
+    },
+  });
+
+  // Send reset link via email
+  const resetURL = `${protocol}://${host}/api/v1/auth/reset-password/${resetToken}`;
+
+  console.log("Reset URL:", resetURL);
+
+  const message = `You are receiving this email because you (or someone else) has requested the reset of a password.\n\n
+  Please make a PUT request to: ${resetURL}\n\n
+  If you did not request this, please ignore this email.\n`;
+
+  try {
+    await sendEmail({
+      to: email,
+      subject: "Password Reset Request",
+      text: message,
+      resetLink: resetURL,
+    });
+  } catch (error) {
+    throw createError.InternalServerError("Error sending email");
+  }
+
+  return {
+    message: "Password reset link sent to your email",
+  };
+};
+
+/**
+ * @description Resets the user's password using a reset token.
+ * @param {string} token - Reset token from the user's email.
+ * @param {string} newPassword - New password to set.
+ * @returns Object Success message
+ */
+
+const resetPassword = async (token: string, newPassword: string) => {
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+  const user = await prisma.user.findFirst({
+    where: { passwordResetToken: hashedToken },
+    // where: { passwordResetToken: hashedToken, passwordResetExpires: { gte: new Date() } },
+  });
+
+  if (
+    !user ||
+    !user?.passwordResetExpires ||
+    user.passwordResetExpires.getTime() < Date.now()
+  ) {
+    throw createError.Unauthorized("Invalid or expired reset token");
+  }
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      password: bcrypt.hashSync(newPassword, 10),
+      passwordResetExpires: null,
+      passwordResetToken: null,
+    },
+  });
+
+  return {
+    message: "Password has been reset successfully",
+  };
+};
+
+// change password
+const changePassword = async (
+  userId: string,
+  oldPassword: string,
+  newPassword: string
+) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    throw createError.NotFound("User not found");
+  }
+
+  const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password);
+  if (!isOldPasswordValid) {
+    throw createError.Unauthorized("Old password is incorrect");
+  }
+
+  const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { password: hashedNewPassword },
+  });
+
+  return {
+    message: "Password changed successfully",
+  };
+};
+
 export default {
   register,
   login,
   refreshToken,
   logout,
+  forgotPassword,
+  resetPassword,
+  changePassword,
 };

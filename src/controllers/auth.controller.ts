@@ -105,10 +105,50 @@ const getMe = asyncHandler(async (req: RequestWithUser, res: Response) => {
   });
 });
 
+// forget password
+const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
+  const { email } = req.body;
+  await authService.forgotPassword({
+    email,
+    protocol: req.protocol,
+    host: req.get("host")!,
+  });
+  successResponse(res, {
+    statusCode: 200,
+    message: "Password reset link sent to your email",
+  });
+});
+
+// reset password
+const resetPassword = asyncHandler(async (req: Request, res: Response) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  await authService.resetPassword(token, password);
+  successResponse(res, {
+    statusCode: 200,
+    message: "Password reset successfully",
+  });
+});
+
+// change password
+const changePassword = asyncHandler(
+  async (req: RequestWithUser, res: Response) => {
+    const { oldPassword, newPassword } = req.body;
+    await authService.changePassword(req.user?.id!, oldPassword, newPassword);
+    successResponse(res, {
+      statusCode: 200,
+      message: "Password changed successfully",
+    });
+  }
+);
+
 export default {
   register,
   login,
   refreshToken,
   logout,
   getMe,
+  forgotPassword,
+  resetPassword,
+  changePassword,
 };

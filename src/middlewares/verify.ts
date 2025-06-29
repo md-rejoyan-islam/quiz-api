@@ -26,7 +26,9 @@ const isLoggedIn = asyncHandler(
     const user = await prisma.user.findUnique({ where: { id: decoded.id } });
 
     if (!user) {
-      throw createError.Unauthorized("User not found or no longer exists!");
+      throw createError.Unauthorized(
+        "Login User not found or no longer exists!"
+      );
     }
 
     const { password, createdAt, updatedAt, ...userWithOutPassword } = user;

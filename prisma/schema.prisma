@@ -29,20 +29,22 @@ enum USER_STATUS {
 }
 
 model User {
-  id           String          @id @default(uuid())
-  fullName     String          @map("full_name")
-  email        String          @unique
-  bio          String?
-  password     String
-  photo        String?
-  status       USER_STATUS     @default(ACTIVE) @map("status")
-  role         ROLE            @default(USER) @map("role")
-  refreshToken String?         @unique @map("refresh_token")
-  quizzes      QuizSet[]
-  attempts     Attempt[]
-  createdAt    DateTime        @default(now()) @map("created_at")
-  updatedAt    DateTime        @default(now()) @map("updated_at")
-  givenRatings QuizSetRating[]
+  id                   String          @id @default(uuid())
+  fullName             String          @map("full_name")
+  email                String          @unique
+  bio                  String?
+  password             String
+  photo                String?
+  status               USER_STATUS     @default(ACTIVE) @map("status")
+  role                 ROLE            @default(USER) @map("role")
+  refreshToken         String?         @unique @map("refresh_token")
+  quizzes              QuizSet[]
+  attempts             Attempt[]
+  createdAt            DateTime        @default(now()) @map("created_at")
+  updatedAt            DateTime        @default(now()) @map("updated_at")
+  givenRatings         QuizSetRating[]
+  passwordResetToken   String?         @map("password_reset_token")
+  passwordResetExpires DateTime?       @map("password_reset_expires")
 
   @@map("users")
 }

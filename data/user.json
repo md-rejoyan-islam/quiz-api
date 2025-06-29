@@ -2,7 +2,7 @@
   {
     "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
     "fullName": "Alice Johnson",
-    "email": "alice.j@example.com",
+    "email": "admin@gmail.com",
     "bio": "Lover of coffee and code. Exploring the world one line at a time.",
     "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
     "photo": null,
@@ -12,7 +12,7 @@
   {
     "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
     "fullName": "Bob Smith",
-    "email": "bob.smith@example.com",
+    "email": "user@gmail.com",
     "bio": "Frontend developer with a passion for beautiful and intuitive user interfaces.",
     "password": "$2b$10$vo6okkpAOveTATnWh/G5d.KpEsSPOjnzgWq9ty/V.8vfx0kLntb8e",
     "photo": null,

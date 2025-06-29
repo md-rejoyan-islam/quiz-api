@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import quizService from "../services/quiz.service";
 import { successResponse } from "../utils/response-handler";
-import { RequestWithUser } from "../utils/types";
+import { PAGINATION_QUERY, RequestWithUser } from "../utils/types";
 
 /**
  * @method POST
@@ -35,17 +35,30 @@ const createQuizSet = asyncHandler(
  * @param {Response} res - Response object to send the response.
  * @returns {Array of Object} List of published quizzes.
  */
-const getAllQuizzSets = asyncHandler(async (req: Request, res: Response) => {
-  const result = await quizService.getAllQuizSet();
+const getAllQuizzSets = asyncHandler(
+  async (req: Request<{}, {}, {}, PAGINATION_QUERY>, res: Response) => {
+    const page: number = +(req.query.page || "1");
+    const limit: number = +(req.query.limit || "10");
 
-  successResponse(res, {
-    statusCode: 200,
-    message: "Quizzes fetched successfully",
-    payload: {
-      data: result,
-    },
-  });
-});
+    const skip = (page - 1) * limit;
+
+    const { pagination, quizSets, links } = await quizService.getAllQuizSet({
+      page,
+      limit,
+      skip,
+    });
+
+    successResponse(res, {
+      statusCode: 200,
+      message: "Quizzes fetched successfully",
+      payload: {
+        pagination,
+        links,
+        data: quizSets,
+      },
+    });
+  }
+);
 
 /**
  * @method GET
@@ -148,9 +161,9 @@ const attemptQuizSetById = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
     const attempt = await quizService.attemptQuizSetById(
       req.user?.id!,
-      req.params.quizId,
+      req.params.id,
       req.body.time,
-      req.body.answers
+      req.body.submittedAnswers
     );
     successResponse(res, {
       statusCode: 201,
@@ -198,9 +211,7 @@ const rateQuizSetById = asyncHandler(
 
 const getQuizAttemptsByQuizId = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const attempts = await quizService.getQuizAttemptsByQuizId(
-      req.params.quizId
-    );
+    const attempts = await quizService.getQuizAttemptsByQuizId(req.params.id);
     successResponse(res, {
       statusCode: 200,
       message: "Quiz attempts fetched successfully",

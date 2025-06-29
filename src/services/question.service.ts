@@ -4,6 +4,16 @@ import prisma from "../config/prisma";
 
 // get questions by quiz set ID
 const getQuestionsByQuizSetId = async (quizSetId: string) => {
+  // Check if quizSetId is valid
+  const quizSet = await prisma.quizSet.findUnique({
+    where: {
+      id: quizSetId,
+    },
+  });
+  if (!quizSet) {
+    throw createError.NotFound("Quiz set not found with ID: " + quizSetId);
+  }
+
   const questions = await prisma.question.findMany({
     where: {
       quizSetId,
@@ -14,7 +24,11 @@ const getQuestionsByQuizSetId = async (quizSetId: string) => {
       "No questions found for the quiz set with ID: " + quizSetId
     );
   }
-  return questions;
+  return questions.map((question) => ({
+    ...question,
+    options: JSON.parse(question.options),
+    answerIndices: JSON.parse(question.answerIndices),
+  }));
 };
 
 // create a new question for a quiz set
@@ -59,6 +73,16 @@ const createBulkQuestions = async (
     "question" | "options" | "explanation" | "answerIndices" | "mark" | "time"
   >[]
 ) => {
+  // Check if quizSetId is valid
+  const quizSet = await prisma.quizSet.findUnique({
+    where: {
+      id: quizSetId,
+    },
+  });
+  if (!quizSet) {
+    throw createError.NotFound("Quiz set not found with ID: " + quizSetId);
+  }
+
   const createdQuestions = await prisma.question.createMany({
     data: questions.map((question) => ({
       ...question,
@@ -85,7 +109,11 @@ const getQuestionById = async (questionId: string) => {
   if (!question) {
     throw createError.NotFound("Question not found with ID: " + questionId);
   }
-  return question;
+  return {
+    ...question,
+    options: JSON.parse(question.options),
+    answerIndices: JSON.parse(question.answerIndices),
+  };
 };
 
 // update question by ID

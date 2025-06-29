@@ -17,7 +17,7 @@ import { RequestWithUser } from "../utils/types";
 const getQuestionsByQuizSetId = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
     const questions = await questionService.getQuestionsByQuizSetId(
-      req.params.quizId
+      req.params.id
     );
 
     successResponse(res, {
@@ -69,12 +69,9 @@ const createQuestion = asyncHandler(
  */
 const createBulkQuestions = asyncHandler(
   async (req: RequestWithUser, res: Response) => {
-    const { quizId } = req.params;
+    const { id } = req.params;
 
-    const questions = await questionService.createBulkQuestions(
-      quizId,
-      req.body
-    );
+    const questions = await questionService.createBulkQuestions(id, req.body);
     successResponse(res, {
       statusCode: 201,
       message: "Questions created successfully",

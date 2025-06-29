@@ -20,3 +20,16 @@ export enum QuizLabel {
   HARD = "hard",
   MEDIUM = "medium",
 }
+
+export interface PAGINATION {
+  page: number;
+  limit: number;
+  totalPages: number;
+  totalItems: number;
+}
+
+export interface PAGINATION_QUERY {
+  page?: number;
+  limit?: number;
+  skip?: number;
+}

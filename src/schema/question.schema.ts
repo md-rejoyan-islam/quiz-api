@@ -26,8 +26,8 @@ export const QuestionSchema = z.object({
         message: "Each answer index must be an integer",
       }),
       {
-        message: "Each answer index must be a number",
-        invalid_type_error: "Each answer index must be a number",
+        message: "Answer indices must be an array of numbers",
+        invalid_type_error: "Answer indices must be an array of numbers",
       }
     )
     .min(1, "Each answer index must be at least 1"),
